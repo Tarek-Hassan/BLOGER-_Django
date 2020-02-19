@@ -1,11 +1,14 @@
 {% include 'admin/base1.html'%}
-{% block main%}
-{% load crispy_forms_tags %}
+{% block title %}
 <h1>register</h1>
-<form method="POST" class="form-group">
+{% endblock %}
+{% block main %}
+{% load crispy_forms_tags %}
+
+<form method="POST" class="form-group col-9">
     {% csrf_token%}
     {{form|crispy}}
-   
+
     <button type="submit" class="btn btn-success">register</button>
 </form>
 {%endblock%}

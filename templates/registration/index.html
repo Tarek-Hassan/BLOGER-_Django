@@ -1,4 +1,7 @@
 {% include 'admin/base1.html'%}
+{% block title%}
+<h1>home page</h1>
+{%endblock%}
 {% block main%}
 <h1>is_authenticated => {{user.is_authenticated}}</h1>
 <h1>id => {{user.id}}</h1>
