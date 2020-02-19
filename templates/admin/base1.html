@@ -1,5 +1,11 @@
 {% include 'blogviews/header.html'%}
-
+{% block auth %}
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'logout' %}">logout</a>
+    {% else %}
+        <p><a href="{% url 'login' %}">login</a>/<a href="{% url 'signup' %}">SignUp</a></p>
+    {% endif %}
+{% endblock %}
 {% block main%}
 {%endblock%}
 {% include 'blogviews/footer.html'%}

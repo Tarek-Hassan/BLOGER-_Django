@@ -1,0 +1,11 @@
+{% include 'admin/base1.html'%}
+{% block main%}
+{% load crispy_forms_tags %}
+<h1>register</h1>
+<form method="POST" class="form-group">
+    {% csrf_token%}
+    {{form|crispy}}
+   
+    <button type="submit" class="btn btn-success">register</button>
+</form>
+{%endblock%}
