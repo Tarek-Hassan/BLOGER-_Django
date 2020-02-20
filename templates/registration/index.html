@@ -1,7 +1,7 @@
 {% include 'admin/base1.html'%}
-{% block title%}
-<h1>home page</h1>
-{%endblock%}
+{% block title %}
+<h1>homepage</h1>
+{% endblock %}
 {% block main%}
 <h1>is_authenticated => {{user.is_authenticated}}</h1>
 <h1>id => {{user.id}}</h1>
@@ -14,3 +14,4 @@
 <h1>is_superuser => {{user.is_superuser}}</h1>
 <h1>date_joined => {{user.date_joined}}</h1>
 {%endblock%}
+<hr>
