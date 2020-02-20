@@ -30,6 +30,7 @@ class Comment(models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['created_on']
