@@ -14,8 +14,15 @@ def home(request):
 def post_list(request):
     template_name = 'blogviews/allPosts.html'
     posts = Post.objects.all()
-    media = MEDIA_ROOT #ADD MEDIA_ROOT in settings.py
+    # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
 
-    context = {'post_list': posts, 'media':media}
+    # media = MEDIA_ROOT
+    # for post in posts:
+    #     # post.image = post.image.decode('utf-8')
+    #     post.image = os.path.join(MEDIA_ROOT, b64decode(post.image))
+
+    context = {'post_list': posts}
+
+    # context = {'post_list': posts, 'media':base_path}
 
     return render(request, template_name, context)

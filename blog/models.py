@@ -16,6 +16,8 @@ class Post(models.Model): # Category foreign key is to be added
     likes = models.IntegerField()
     dislikes = models.IntegerField()
     status = models.IntegerField(choices=STATUS, default=1)
+    # image = models.ImageField(upload_to='img/', null=True)
+    image = models.ImageField(upload_to='images/', null=True)
 
     class Meta:
         ordering = ['-created_on']
