@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.views import generic
-from blog.models import Post, Reply
+from blog.models import Post, Reply, User, Subscribe
 from .forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 # from Bloger.settings import MEDIA_ROOT
 
 # Create your views here.
-def home(request):
-    return render(request,'blogviews/home.html')
+def home(request, num):
+    user = User.objects.get(id = num)
+    subs = Subscribe.objects.all()
+    context = { 'user' : user,
+                'subs': subs }
+    return render(request,'blogviews/home.html',context)
 
 # class PostList(generic.ListView):
 #     queryset = Post.objects.filter(status=1).order_by('-created_on')
