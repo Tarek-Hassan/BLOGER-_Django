@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from blog.models import Post
+from blog.models import Post, Reply
 from .forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 # from Bloger.settings import MEDIA_ROOT
@@ -33,6 +33,7 @@ def post_detail(request, slug):
     template_name = 'blogviews/post_detail.html'
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
+    replies = Reply.objects.all()
     new_comment = None
     # Comment posted
     if request.method == 'POST':
@@ -51,4 +52,5 @@ def post_detail(request, slug):
     return render(request, template_name, {'post': post,
                                            'comments': comments,
                                            'new_comment': new_comment,
-                                           'comment_form': comment_form})
+                                           'comment_form': comment_form,
+                                           'replies': replies})

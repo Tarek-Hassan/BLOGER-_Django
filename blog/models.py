@@ -37,3 +37,16 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.name)
+
+class Reply(models.Model):
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
+
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return 'Reply {} by {}'.format(self.body, self.name)

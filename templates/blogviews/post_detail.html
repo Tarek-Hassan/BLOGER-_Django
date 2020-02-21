@@ -26,6 +26,22 @@
           </p>
           {{ comment.body | linebreaks }}
         </div>
+
+        {% for reply in replies %}
+          {% if reply.comment_id == comment.id%}
+
+          <div class="replies ml-4" style="padding: 10px;">
+            <p class="font-weight-bold">
+              {{ reply.name }}
+              <span class=" text-muted font-weight-normal">
+                {{ reply.created_on }}
+              </span>
+            </p>
+            {{ reply.body | linebreaks }}
+          </div>
+          {% endif %}
+        {% endfor %}
+
         {% endfor %}
       </div>
 
