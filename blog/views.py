@@ -1,31 +1,21 @@
 from django.shortcuts import render
 from django.views import generic
-from blog.models import Post, Reply
-from .forms import CommentForm
+from blog.models import Post, Reply, Comment
+from .forms import CommentForm, ReplyForm
 from django.shortcuts import render, get_object_or_404
-# from Bloger.settings import MEDIA_ROOT
+from django.http import HttpResponseRedirect
+# from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def home(request):
     return render(request,'blogviews/home.html')
 
-# class PostList(generic.ListView):
-#     queryset = Post.objects.filter(status=1).order_by('-created_on')
-#     template_name = 'blogviews/allPosts.html'
-
 def post_list(request):
     template_name = 'blogviews/allPosts.html'
     posts = Post.objects.all()
-    # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
-
-    # media = MEDIA_ROOT
-    # for post in posts:
-    #     # post.image = post.image.decode('utf-8')
-    #     post.image = os.path.join(MEDIA_ROOT, b64decode(post.image))
 
     context = {'post_list': posts}
-
-    # context = {'post_list': posts, 'media':base_path}
 
     return render(request, template_name, context)
 
@@ -34,7 +24,9 @@ def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
     replies = Reply.objects.all()
+    reply_form = ReplyForm()
     new_comment = None
+
     # Comment posted
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
@@ -44,6 +36,7 @@ def post_detail(request, slug):
             new_comment = comment_form.save(commit=False)
             # Assign the current post to the comment
             new_comment.post = post
+            new_comment.name = request.user
             # Save the comment to the database
             new_comment.save()
     else:
@@ -53,4 +46,29 @@ def post_detail(request, slug):
                                            'comments': comments,
                                            'new_comment': new_comment,
                                            'comment_form': comment_form,
-                                           'replies': replies})
+                                           'replies': replies,
+                                           'reply_form': reply_form})
+
+# @login_required
+def comment_reply(request, commentId, slug):
+    comment = get_object_or_404(Comment, id=commentId)
+    print(comment)
+    url = '/blog/'+ slug
+
+    if request.method == 'POST':
+        print (request.GET)
+        reply_form = ReplyForm(data=request.POST)
+        print (reply_form)
+        if reply_form.is_valid():
+
+            # Create Comment object but don't save to database yet
+            reply = reply_form.save(commit=False)
+            # Assign the current post to the comment
+            reply.comment = comment
+            reply.name = request.user
+            # Save the comment to the database
+            reply.save()
+    else:
+        reply_form = ReplyForm()
+
+    return HttpResponseRedirect(url)

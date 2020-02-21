@@ -27,7 +27,7 @@ class Post(models.Model): # Category foreign key is to be added
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
-    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
@@ -41,7 +41,7 @@ class Comment(models.Model):
 class Reply(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
+    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replies')
 
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
 
