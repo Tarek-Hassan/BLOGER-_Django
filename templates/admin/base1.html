@@ -1,15 +1,18 @@
 {% include 'blogviews/header.html'%}
 {% block auth %}
-    <div class="alert alert-dark" role="alert">
-        {% if user.is_authenticated %}
-            <p><a href="{% url 'logout' %}">logout</a>
-                {% if user.is_staff %}
-                     <p><a href="/admin/">admin</a>
-                {% endif %}
-        {% else %}
-            <p><a href="{% url 'login' %}">login</a>/<a href="{% url 'signup' %}">SignUp</a></p>
-        {% endif %}
-    </div>
+        <div class="alert alert-dark" role="alert">
+<!-- @tarek is_authenticated to check if user is login or not  -->
+            {% if user.is_authenticated %}
+                <p><a href="{% url 'logout' %}">logout</a>
+<!-- @tarek is_authenticated to check if user is admin or not  -->
+                    {% if user.is_staff %}
+                        <p><a href="/admin/">admin</a>
+                    {% endif %}
+            {% else %}
+                <p><a href="{% url 'login' %}">login</a>/<a href="{% url 'signup' %}">SignUp</a></p>
+            {% endif %}
+        </div>
+
 {% endblock %}
 <div class="alert alert-success" role="alert">
 {% block title %}
