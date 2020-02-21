@@ -1,0 +1,18 @@
+{% include 'admin/base1.html'%}
+{% block title %}
+<h1>homepage</h1>
+{% endblock %}
+{% block main%}
+<h1>is_authenticated => {{user.is_authenticated}}</h1>
+<h1>id => {{user.id}}</h1>
+<h1>username => {{user.username}}</h1>
+<h1>first_name => {{user.first_name}}</h1>
+<h1>last_name => {{user.last_name}}</h1>
+<h1>email => {{user.email}}</h1>
+<h1>is_active => {{user.is_active}}</h1>
+<h1>is_staff => {{user.is_staff}}</h1>
+<h1>is_superuser => {{user.is_superuser}}</h1>
+<h1>date_joined => {{user.date_joined}}</h1>
+<h1>status => {{user.status}}</h1>
+{%endblock%}
+<hr>

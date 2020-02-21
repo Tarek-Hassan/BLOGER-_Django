@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-    <head>
-        <title>Django Central</title>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-        <meta name="google" content="notranslate" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-            crossorigin="anonymous" />
-    </head>
-    <body>
+{% include 'blogviews/header.html'%}
+<body>
     <style>
             body {
             font-family: "Roboto", sans-serif;
@@ -32,10 +22,30 @@
             padding-top: 10px;
         }
     </style>
-        {% include 'blogviews/header.html'%}
+        {% block auth %}
+            <div class="alert alert-dark" role="alert">
+    <!-- @tarek is_authenticated to check if user is login or not  -->
+                {% if user.is_authenticated %}
+                    <p><a href="{% url 'logout' %}">logout</a>
+    <!-- @tarek is_authenticated to check if user is admin or not  -->
+                        {% if user.is_staff %}
+                            <p><a href="/admin/">admin</a>
+                        {% endif %}
+                {% else %}
+                    <p><a href="{% url 'login' %}">login</a>/<a href="{% url 'signup' %}">SignUp</a></p>
+                {% endif %}
+            </div>
+
+        {% endblock %}
+        <div class="alert alert-success" role="alert">
+        {% block title %}
+
+        {% endblock %}
+        </div>
 
         {% block main%}
         {%endblock main%}
         {% include 'blogviews/footer.html'%}
-    </body>
+</body>
 </html>
+

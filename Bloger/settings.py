@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog'
+    'crispy_forms',
+    'blog',
+    'loginRegister',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,6 @@ USE_TZ = True
 STATIC_URL =os.path.join(BASE_DIR, 'static/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+LOGIN_REDIRECT_URL = "/loginRegister" #redirect after login
+LOGOUT_REDIRECT_URL = "/loginRegister/login" #redirect after logout
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
