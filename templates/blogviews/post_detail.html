@@ -25,8 +25,9 @@
             </span>
           </p>
           <p>{{ comment.body | linebreaks }}</p>
+          {% if user.is_authenticated%}
           <button class="btn-primary btn" id="reply{{ comment.id }}">Reply</button>
-
+          {% endif%}
           <form method="post" action = "{% url 'comment_reply' post.slug comment.id %}" style="margin-top: 1.3em; display: none;" id="form-reply{{ comment.id }}">
             {{ reply_form.as_p }}
             {% csrf_token %}
@@ -55,6 +56,7 @@
 
     </div>
     <div class="col-md-8 card mb-4  mt-3 ">
+      {% if user.is_authenticated%}
       <div class="card-body">
         <h3>Leave a comment</h3>
         <form method="post" style="margin-top: 1.3em;">
@@ -64,7 +66,10 @@
         </form>
       </div>
     </div>
+    {% else %}
+    <p>You must log in to comment <a href="{% url 'login' %}">Login</a></p>
   </div>
+  {% endif %}
 </div>
 
 <script>

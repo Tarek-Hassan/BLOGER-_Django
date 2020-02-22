@@ -4,7 +4,7 @@ from blog.models import Post, Reply, Comment
 from .forms import CommentForm, ReplyForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
