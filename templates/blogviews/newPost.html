@@ -1,0 +1,16 @@
+{% extends 'admin/base1.html'%}
+{% block title%}
+<h1>Create New Post</h1>
+{%endblock%}
+{% block main%}
+
+<div class="card">
+    <div class="card-body">
+<form method="POST" class="form-group col-9" enctype="multipart/form-data">
+    {{form.as_p}}
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Add Post</button>
+</form>
+</div>
+</div>
+{%endblock%}

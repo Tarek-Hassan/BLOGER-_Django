@@ -32,6 +32,10 @@
     </div>
 </header>
 
+{% if user.is_authenticated%}
+<a href="/blog/newPost">Create a Post</a>
+{% endif %}
+
 <div class="container">
     <div class="row">
         <!-- Blog Entries Column -->
