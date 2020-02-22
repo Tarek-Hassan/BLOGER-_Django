@@ -50,3 +50,15 @@ class Reply(models.Model):
 
     def __str__(self):
         return 'Reply {} by {}'.format(self.body, self.name)
+
+class Category(models.Model):
+	category_name = models.CharField(max_length = 200)
+	category_creator = models.ForeignKey(User, on_delete=models.CASCADE)	
+	def __str__(self):
+		return self.category_name
+
+class Subscribe(models.Model):
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subscriber_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)

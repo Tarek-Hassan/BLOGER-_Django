@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from blog.models import Post, Reply, Comment
+from blog.models import Post, Reply, Comment, User, Subscribe
 from .forms import CommentForm, ReplyForm, PostForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -9,8 +9,12 @@ from django.utils.text import slugify
 
 
 # Create your views here.
-def home(request):
-    return render(request,'blogviews/home.html')
+def home(request, num):
+    user = User.objects.get(id = num)
+    subs = Subscribe.objects.all()
+    context = { 'user' : user,
+                'subs': subs }
+    return render(request,'blogviews/home.html',context)
 
 def post_list(request):
     template_name = 'blogviews/allPosts.html'
