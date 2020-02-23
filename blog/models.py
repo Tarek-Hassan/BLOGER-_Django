@@ -7,23 +7,17 @@ STATUS = (
     (1, "Publish")
 )
 
-class Category(models.Model):
-	name = models.CharField(max_length = 200)
-	creator = models.ForeignKey(User, on_delete=models.CASCADE)	
-	def __str__(self):
-		return self.name
-
 class Post(models.Model): # Category foreign key is to be added
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(default=0)
-    dislikes = models.IntegerField(default=0)
+    likes = models.IntegerField()
+    dislikes = models.IntegerField()
     status = models.IntegerField(choices=STATUS, default=1)
+    # image = models.ImageField(upload_to='img/', null=True)
     image = models.ImageField(upload_to='images/', null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='blog_posts', null=True)
 
     class Meta:
         ordering = ['-created_on']
@@ -33,7 +27,7 @@ class Post(models.Model): # Category foreign key is to be added
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
-    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
@@ -47,8 +41,7 @@ class Comment(models.Model):
 class Reply(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replies')
-
+    name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
 
     class Meta:
@@ -56,6 +49,19 @@ class Reply(models.Model):
 
     def __str__(self):
         return 'Reply {} by {}'.format(self.body, self.name)
+
+class Category(models.Model):
+    category_name = models.CharField(max_length = 200)
+    category_creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['created_on']
+        verbose_name_plural = "categories" 	
+        
+    def __str__(self):
+        return self.category_name
+
 
 class Subscribe(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
