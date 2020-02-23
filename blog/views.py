@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from blog.models import Post, Reply, Comment, User, Subscribe
+from blog.models import Post, Reply, Comment, User, Subscribe, Category
 from .forms import CommentForm, ReplyForm, PostForm, CategoryForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -20,8 +20,9 @@ def home(request, num):
 def post_list(request):
     template_name = 'blogviews/allPosts.html'
     posts = Post.objects.all()
+    categories = Category.objects.all()
 
-    context = {'post_list': posts}
+    context = {'post_list': posts, 'categories': categories}
 
     return render(request, template_name, context)
 
@@ -116,3 +117,13 @@ def addCategory(request):
         form=CategoryForm()
 
     return render(request,'blogviews/newCategory.html',{'form':form})
+
+def category_posts(request, category_id):
+    template_name = 'blogviews/category_posts.html'
+    posts = Post.objects.filter(category_id=category_id)
+
+    categories = Category.objects.all()
+
+    context = {'post_list': posts, 'categories': categories}
+
+    return render(request, template_name, context)
