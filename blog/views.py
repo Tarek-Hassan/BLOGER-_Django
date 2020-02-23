@@ -1,13 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
-from blog.models import Post, Reply, Comment, User, Subscribe, Category
-from .forms import CommentForm, ReplyForm, PostForm, CategoryForm
+from blog.models import Post, Reply, User, Subscribe
+from .forms import CommentForm
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
-from django.utils.text import slugify
-from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext as _
+# from Bloger.settings import MEDIA_ROOT
 
 # Create your views here.
 def home(request, num):
@@ -17,12 +13,25 @@ def home(request, num):
                 'subs': subs }
     return render(request,'blogviews/home.html',context)
 
+def subscribe(request):
+    pass
+# class PostList(generic.ListView):
+#     queryset = Post.objects.filter(status=1).order_by('-created_on')
+#     template_name = 'blogviews/allPosts.html'
+
 def post_list(request):
     template_name = 'blogviews/allPosts.html'
     posts = Post.objects.all()
-    categories = Category.objects.all()
+    # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
 
-    context = {'post_list': posts, 'categories': categories}
+    # media = MEDIA_ROOT
+    # for post in posts:
+    #     # post.image = post.image.decode('utf-8')
+    #     post.image = os.path.join(MEDIA_ROOT, b64decode(post.image))
+
+    context = {'post_list': posts}
+
+    # context = {'post_list': posts, 'media':base_path}
 
     return render(request, template_name, context)
 
@@ -57,8 +66,7 @@ def post_detail(request, slug):
                                            'comments': comments,
                                            'new_comment': new_comment,
                                            'comment_form': comment_form,
-                                           'replies': replies,
-                                           'reply_form': reply_form})
+                                           'replies': replies})
 
 def comment_reply(request, commentId, slug):
     comment = get_object_or_404(Comment, id=commentId)
