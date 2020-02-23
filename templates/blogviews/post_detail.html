@@ -1,12 +1,17 @@
 {% extends 'admin/base1.html' %} {% block main %}
 
+{% if user.is_authenticated%}
+<a href="/blog/newPost">Create a Post</a>
+{% endif %}
+
 <div class="container">
   <div class="row">
     <div class="col-md-8 card mb-4  mt-3 left  top">
       <div class="card-body">
         <h1>{{ post.title }}</h1>
-        <!-- <img src="{{post.image.url}}" height="200" width="500"> -->
+        <img src="{{post.image.url}}" height="200" width="500">
         <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
+        <p class="card-text text-muted h6">{{ post.category }}</p>
         <p class="card-text ">{{ post.content | safe }}</p>
       </div>
     </div>
@@ -24,7 +29,16 @@
               {{ comment.created_on }}
             </span>
           </p>
-          {{ comment.body | linebreaks }}
+          <p>{{ comment.body | linebreaks }}</p>
+          {% if user.is_authenticated%}
+          <button class="btn-primary btn" id="reply{{ comment.id }}">Reply</button>
+          {% endif%}
+          <form method="post" action = "{% url 'comment_reply' post.slug comment.id %}" style="margin-top: 1.3em; display: none;" id="form-reply{{ comment.id }}">
+            {{ reply_form.as_p }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary  btn-lg" name="replySubmit">Submit</button>
+          </form>
+
         </div>
 
         {% for reply in replies %}
@@ -47,15 +61,30 @@
 
     </div>
     <div class="col-md-8 card mb-4  mt-3 ">
+      {% if user.is_authenticated%}
       <div class="card-body">
         <h3>Leave a comment</h3>
         <form method="post" style="margin-top: 1.3em;">
           {{ comment_form.as_p }}
           {% csrf_token %}
-          <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+          <button type="submit" class="btn btn-primary  btn-lg" name="commentSubmit">Submit</button>
         </form>
       </div>
     </div>
+    {% else %}
+    <p>You must log in to comment <a href="{% url 'login' %}">Login</a></p>
   </div>
+  {% endif %}
 </div>
+
+<script>
+  const replyBtns = document.querySelectorAll('[id ^= "reply"]');
+
+  replyBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const replyForm = document.querySelector(`[id = "form-${btn.getAttribute('id')}"]`);
+      replyForm.style.display = 'block';
+    });
+  });
+</script>
 {% endblock main %}
