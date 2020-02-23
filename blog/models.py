@@ -7,6 +7,12 @@ STATUS = (
     (1, "Publish")
 )
 
+class Category(models.Model):
+	name = models.CharField(max_length = 200)
+	creator = models.ForeignKey(User, on_delete=models.CASCADE)	
+	def __str__(self):
+		return self.name
+
 class Post(models.Model): # Category foreign key is to be added
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -16,8 +22,8 @@ class Post(models.Model): # Category foreign key is to be added
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
     status = models.IntegerField(choices=STATUS, default=1)
-    # image = models.ImageField(upload_to='img/', null=True)
     image = models.ImageField(upload_to='images/', null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='blog_posts', null=True)
 
     class Meta:
         ordering = ['-created_on']
@@ -50,12 +56,6 @@ class Reply(models.Model):
 
     def __str__(self):
         return 'Reply {} by {}'.format(self.body, self.name)
-
-class Category(models.Model):
-	category_name = models.CharField(max_length = 200)
-	category_creator = models.ForeignKey(User, on_delete=models.CASCADE)	
-	def __str__(self):
-		return self.category_name
 
 class Subscribe(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)

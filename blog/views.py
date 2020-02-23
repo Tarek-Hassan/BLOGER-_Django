@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.views import generic
 from blog.models import Post, Reply, Comment, User, Subscribe
-from .forms import CommentForm, ReplyForm, PostForm
+from .forms import CommentForm, ReplyForm, PostForm, CategoryForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
-
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 
 # Create your views here.
 def home(request, num):
@@ -46,6 +47,8 @@ def post_detail(request, slug):
             # Save the comment to the database
             new_comment.save()
             return HttpResponseRedirect(url)
+        else:
+            raise ValidationError(_('Invalid value'), code='invalid')
     else:
         comment_form = CommentForm()
 
@@ -74,6 +77,8 @@ def comment_reply(request, commentId, slug):
             reply.name = request.user
             # Save the reply to the database
             reply.save()
+        else:
+            raise ValidationError(_('Invalid value'), code='invalid')
     else:
         reply_form = ReplyForm()
 
@@ -89,7 +94,25 @@ def addPost(request):
             post.slug = slugify(post.title)
             post.save()
             return HttpResponseRedirect('/blog/allPosts')
+        else:
+            raise ValidationError(_('Invalid value'), code='invalid')
     else:
         form=PostForm()
 
     return render(request,'blogviews/newPost.html',{'form':form})
+
+def addCategory(request):
+    if(request.method=='POST'):
+        form = CategoryForm(request.POST)
+
+        if(form.is_valid()):
+            category = form.save(commit=False)
+            category.creator = request.user
+            category.save()
+            return HttpResponseRedirect('/blog/newPost')
+        else:
+            raise ValidationError(_('Invalid value'), code='invalid')
+    else:
+        form=CategoryForm()
+
+    return render(request,'blogviews/newCategory.html',{'form':form})

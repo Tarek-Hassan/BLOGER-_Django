@@ -1,4 +1,4 @@
-from .models import Comment, Reply, Post
+from .models import Comment, Reply, Post, Category
 from django import forms
 
 
@@ -17,4 +17,9 @@ class ReplyForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model=Post
-        fields=('title','content','image')
+        fields=('title','content','category','image')
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model= Category
+        fields= ('name',)

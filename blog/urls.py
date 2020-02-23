@@ -7,4 +7,5 @@ urlpatterns=[
     path('newPost', views.addPost),
     path('<slug>/', views.post_detail, name='post_detail'),
     path('<slug>/<commentId>/', views.comment_reply, name="comment_reply"),
+    path('newCategory', views.addCategory)
 ]

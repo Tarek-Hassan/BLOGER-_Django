@@ -3,7 +3,7 @@ from blog.models import Post, Comment, Reply, Category, Subscribe
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'author', 'status', 'created_on', 'image')
+    list_display = ('title', 'slug', 'author', 'status', 'created_on', 'image', 'category')
     list_filter = ("status",)
     search_fields = ['title', 'content']
     prepopulated_fields = {'slug': ('title',)}
@@ -19,8 +19,8 @@ class ReplyAdmin(admin.ModelAdmin):
     search_fields = ('name', 'body')
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('category_name', 'category_creator')
-    search_fields = ['category_name']
+    list_display = ('name', 'creator')
+    search_fields = ['name']
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
