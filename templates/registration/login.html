@@ -8,7 +8,8 @@
     <div class="card-body">
 <form method="POST" class="form-group col-9">
     {% csrf_token %}
-    {{form.as_p}}
+    {{form as_p}}
+
     <button type="submit" class="btn btn-primary">login</button>
 </form>
 </div>

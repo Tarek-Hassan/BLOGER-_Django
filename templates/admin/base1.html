@@ -21,9 +21,6 @@
             box-shadow: 0 16px 48px #E3E7EB;
             padding-top: 10px;
         }
-        .card{
-            box-shadow: 0 16px 48px #E3E7EB;
-        }
     </style>
         {% block auth %}
             <div class="alert alert-dark" role="alert">
@@ -43,15 +40,10 @@
         <div class="alert alert-success" role="alert">
         {% block title %}
 
-        {% endblock title%}
+        {% endblock %}
         </div>
 
         {% block main%}
-
-        {% block sidebar %} 
-
-        {% endblock sidebar%}
-
         {%endblock main%}
         {% include 'blogviews/footer.html'%}
 </body>

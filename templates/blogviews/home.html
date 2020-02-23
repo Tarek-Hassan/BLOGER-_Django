@@ -4,4 +4,24 @@
 
 {% block main%}
 <h1>home page</h1>
+<h3>{{user.id}}</h3>
+<h2>{{user.username}}</h2>
+<hr>
+<hr>
+
+{% for sub in subs %}
+    <h2>{{sub.subscriber_id}}</h2>
+    <h2>{{sub.category_id}}</h2>
+    
+    {% if user == sub.subscriber_id %}
+        <p> Subcribed </p>
+    {% else %}
+        <a href= "{% url 'subscribe' %}">subcribe</a>
+    {% endif %}
+    <hr>
+
+{% endfor %}
+
+<h1>test</h1>
 {%endblock%}
+
