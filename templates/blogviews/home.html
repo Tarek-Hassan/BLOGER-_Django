@@ -7,10 +7,9 @@
 <hr>
 <hr>
 
-
+<h1>Categories</h1>
 {% for cat in cats %}
 <h2><a href="{% url 'category_posts' cat.id %}">{{cat.category_name}}</a></h2>
-    <h2>{{cat.category_name}}</h2>
     
         {% if cat.id in checks %}
             <a href= "{% url 'unsubscribe' category_id=cat.id %}">subcribed</a>
@@ -18,14 +17,24 @@
             <a href= "{% url 'subscribe' category_id=cat.id %}">subcribe</a>
         {% endif %}
 
-    <hr>
+        <hr>
 {% endfor %}
-
+{% for tag in tags %}
+<h1>Posts</h1>
+{% endfor %}
     <ul>
         {% for post in posts %}
-            <a href="{% url 'post_detail' post.slug  %}"><li>{{post.title}}</li></a>
+        <div style="border: 5px solid black; padding: 40px;">
+            <a href="{% url 'post_detail' post.0.slug  %}">
+                <img src="{{post.0.image.url}}" style="float:right; width:150px; height:100px;">
+                <li>{{post.0.title}}</li>
+            </a>
+            <P>{{post.1}}</P>
+        </div>
         {% endfor %}
     </ul>
+<h1><a href="{% url 'next'  %}">Next</a></h1>
+<h1><a href="{% url 'previous'  %}">Previuos</a></h1>
 
 <h1>test</h1>
 {%endblock%}

@@ -23,7 +23,6 @@ def home(request):
 def subscribe(request, category_id):
     try:
         cat = Category.objects.get(id = category_id)
-        print("s")
         Subscribe.objects.create(subscriber_id = request.user, category_id = cat)
     finally:
         return HttpResponseRedirect('/blog/home')
@@ -33,7 +32,6 @@ def unsubscribe(request,category_id):
     try:
         cat = Category.objects.get(id = category_id)
         sub = Subscribe.objects.get(subscriber_id = request.user, category_id = cat)
-        print("uns")
         sub.delete()
     finally:
         return HttpResponseRedirect('/blog/home')    
