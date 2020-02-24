@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post, Comment, Reply, Category, Subscribe
+from blog.models import Post, Comment, Reply, Category, Subscribe, Likes, Dislikes
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
@@ -23,8 +23,16 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('created_on',)
     search_fields = ['category_name']
 
+class LikesAdmin(admin.ModelAdmin):
+    list_display = ('liker', 'post')
+
+class DislikesAdmin(admin.ModelAdmin):
+    list_display = ('disliker', 'post')
+
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Reply, ReplyAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Likes, LikesAdmin)
+admin.site.register(Dislikes, DislikesAdmin)
 admin.site.register(Subscribe)
