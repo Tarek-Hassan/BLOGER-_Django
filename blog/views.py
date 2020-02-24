@@ -1,24 +1,42 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import generic
-from blog.models import Post, Reply, User, Subscribe, Category
+from blog.models import Post, Reply, User, Subscribe, Category, Tag
 from .forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 # from Bloger.settings import MEDIA_ROOT
-
+n = 2
 # Create your views here.
 def home(request):
     # user = User.objects.get(id = num)
     cats = Category.objects.all()
-    posts = Post.objects.all()[0:5]
-    subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
-    print(posts)
-    # print(cats)
+    posts = Post.objects.all()[n-2:n]
+    subs = Subscribe.objects.filter(subscriber_id = 2).values_list('category_id', flat=True)
+    # tags = Tag.objects.all().values_list(flat=True)
+    # print(tags[0])
+    # print(posts)
+    # adjustTags(tags)
+    contents = ShortIntro(posts)
+    posts = merge(posts, contents)
+    # print(posts)
     checks = Check(cats, subs)
     context = { 'cats' : cats,
                 'checks' : checks,
-                'posts' : posts }
+                'posts' : posts, 
+                # 'tags' : tags,
+                 }
+
     return render(request,'blogviews/home.html',context)
+
+def next(request):
+    global n
+    n += 2
+    return HttpResponseRedirect('/blog/home')
+
+def previous(request):
+    global n
+    n -= 2
+    return HttpResponseRedirect('/blog/home')
 
 def subscribe(request, category_id):
     try:
@@ -34,7 +52,13 @@ def unsubscribe(request,category_id):
         sub = Subscribe.objects.get(subscriber_id = request.user, category_id = cat)
         sub.delete()
     finally:
-        return HttpResponseRedirect('/blog/home')    
+        return HttpResponseRedirect('/blog/home')
+
+# def search(request):
+#     posts = Post.objects.filter(attribute = value).values_list(flat=True)
+#     print(posts)
+#     return HttpResponseRedirect('/blog/home')
+
 
 # class PostList(generic.ListView):
 #     queryset = Post.objects.filter(status=1).order_by('-created_on')
@@ -173,3 +197,27 @@ def Check(cats, subs):
         Checks.append(check)
     # print(Checks)
     return Checks
+
+#Forming a short Intro from post
+def ShortIntro(posts):
+    words_list = []
+    for post in posts:
+        words = ""
+        for word in (post.content).split()[:20]:
+            words += word
+            words += " "
+        words += ".."
+        words_list.append(words)
+    return (words_list)
+
+def merge(list1, list2): 
+    merged_list = [(list1[i], list2[i]) for i in range(0, len(list1))] 
+    return merged_list
+
+# def adjustTags(tags):
+#     tgs = []
+#     for tag in tags:
+#         if tag[1] != None : 
+#             tgs.append(tag) 
+#     print(tgs)
+#     return tgs
