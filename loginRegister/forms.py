@@ -11,11 +11,6 @@ class RegisterForm(UserCreationForm):
         fields=('username','first_name','last_name','email','password1','password2', )
 
 class AuthFormCheckStatus(AuthenticationForm):
-    print("***inclass")
-    
     def confirm_login_allowed(self,user):
-        print("****user.is_actqwive++",user.is_staff)
-        print("****user.is_actqwive++",user.is_active)
-        if not user.is_active and not user.is_staff:
-            print("*****active check")
-            raise forms.ValidationError("YourAckjhesdjvmdfvmfdncount",code='inactive',)
+        if not user.is_active:
+            raise forms.ValidationError("your account is blocked contact the admin",code='inactive',)
