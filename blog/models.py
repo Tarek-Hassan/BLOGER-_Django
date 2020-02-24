@@ -69,3 +69,14 @@ class Reply(models.Model):
 
     def __str__(self):
         return 'Reply {} by {}'.format(self.body, self.name)
+
+class Tag(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    tag1 = models.SlugField(max_length=30, null=True, blank=True)
+    tag2 = models.SlugField(max_length=30, null=True, blank=True)
+    tag3 = models.SlugField(max_length=30, null=True, blank=True)
+    tag4 = models.SlugField(max_length=30, null=True, blank=True)
+    tag5 = models.SlugField(max_length=30, null=True, blank=True)
+
+    def __str__(self):
+        return "'{}' ,'{}' ,'{}' ,'{}'".format(self.tag1, self.tag2, self.tag3, self.tag4)
