@@ -13,8 +13,6 @@ def home(request, num):
                 'subs': subs }
     return render(request,'blogviews/home.html',context)
 
-def subscribe(request):
-    pass
 # class PostList(generic.ListView):
 #     queryset = Post.objects.filter(status=1).order_by('-created_on')
 #     template_name = 'blogviews/allPosts.html'
