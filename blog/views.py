@@ -10,12 +10,14 @@ from django.shortcuts import render, get_object_or_404
 def home(request):
     # user = User.objects.get(id = num)
     cats = Category.objects.all()
+    posts = Post.objects.all()[0:5]
     subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
-    # print(subs)
+    print(posts)
     # print(cats)
     checks = Check(cats, subs)
     context = { 'cats' : cats,
-                'checks' : checks }
+                'checks' : checks,
+                'posts' : posts }
     return render(request,'blogviews/home.html',context)
 
 def subscribe(request, category_id):
