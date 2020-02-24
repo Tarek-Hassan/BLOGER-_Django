@@ -3,7 +3,7 @@ from blog.models import Post, Comment, Reply, Category, Subscribe
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'author', 'status', 'created_on', 'image')
+    list_display = ('title', 'slug', 'author', 'status', 'created_on', 'image', 'category_id')
     list_filter = ("status",)
     search_fields = ['title', 'content']
     prepopulated_fields = {'slug': ('title',)}
