@@ -18,6 +18,12 @@ class PostForm(forms.ModelForm):
     class Meta:
         model=Post
         fields=('title','content','category','image')
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'required': True, 
+                'placeholder': 'Write your content ...'
+            }),
+        }
 
 class CategoryForm(forms.ModelForm):
     class Meta:

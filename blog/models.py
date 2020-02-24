@@ -62,3 +62,11 @@ class Subscribe(models.Model):
     subscriber_id = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
+
+class Likes(models.Model):
+    liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='post_likes')
+
+class Dislikes(models.Model):
+    disliker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dislikes')
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='post_dislikes')

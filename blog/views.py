@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
-from blog.models import Post, Reply, Comment, User, Subscribe, Category
+from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes
 from .forms import CommentForm, ReplyForm, PostForm, CategoryForm
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
@@ -31,6 +31,9 @@ def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
     replies = Reply.objects.all()
+    if not request.user.is_anonymous:
+        likes = Likes.objects.filter(post=post, liker=request.user)
+        dislikes = Dislikes.objects.filter(post=post, disliker=request.user)
     reply_form = ReplyForm()
     new_comment = None
     url = '/blog/'+ slug
@@ -53,12 +56,22 @@ def post_detail(request, slug):
     else:
         comment_form = CommentForm()
 
-    return render(request, template_name, {'post': post,
-                                           'comments': comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form,
-                                           'replies': replies,
-                                           'reply_form': reply_form})
+    if not request.user.is_anonymous:
+        return render(request, template_name, {'post': post,
+                                                'comments': comments,
+                                                'new_comment': new_comment,
+                                                'comment_form': comment_form,
+                                                'replies': replies,
+                                                'reply_form': reply_form,
+                                                'likes': likes,
+                                                'dislikes': dislikes})
+    else:
+        return render(request, template_name, {'post': post,
+                                                'comments': comments,
+                                                'new_comment': new_comment,
+                                                'comment_form': comment_form,
+                                                'replies': replies,
+                                                'reply_form': reply_form})
 
 def comment_reply(request, commentId, slug):
     comment = get_object_or_404(Comment, id=commentId)
@@ -127,3 +140,37 @@ def category_posts(request, category_id):
     context = {'post_list': posts, 'categories': categories}
 
     return render(request, template_name, context)
+
+def increment_likes(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    post.likes = post.likes + 1
+    like = Likes(liker=request.user, post=post)
+    dislike = Dislikes.objects.filter(disliker=request.user, post=post)
+
+    if dislike:
+        dislike.delete()
+        post.dislikes -= 1
+
+    post.save()
+    like.save()
+    url = '/blog/'+ slug
+    return HttpResponseRedirect(url)
+
+def increment_dislikes(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    post.dislikes = post.dislikes + 1
+    dislike = Dislikes(disliker=request.user, post=post)
+    like = Likes.objects.filter(liker=request.user, post=post)
+
+    if like:
+        like.delete()
+        post.likes -= 1
+
+    post.save()
+    dislike.save()
+    if(post.dislikes == 10):
+        post.delete()
+        return HttpResponseRedirect('/blog/allPosts')
+    
+    url = '/blog/'+ slug
+    return HttpResponseRedirect(url)

@@ -13,6 +13,22 @@
         <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
         <p class="card-text text-muted h6">{{ post.category }}</p>
         <p class="card-text ">{{ post.content | safe }}</p>
+        <p class="text-muted">{{ post.likes }} likes | {{ post.dislikes }} dislikes</p>
+        
+        {% if user.is_authenticated%}
+        <!-- Logged in user liked this post -->
+          {% if likes %} 
+            <button disabled>Like</button>
+            <button><a href="{% url 'increment_dislikes' post.slug %}" style="text-decoration: none; color: black">Dislike</a></button>
+          {% elif dislikes %}
+            <button><a href="{% url 'increment_likes' post.slug %}" style="text-decoration: none; color: black">Like</a></button>
+            <button disabled>Dislike</button>
+          {% else %}
+            <button><a href="{% url 'increment_likes' post.slug %}" style="text-decoration: none; color: black">Like</a></button>
+            <button><a href="{% url 'increment_dislikes' post.slug %}" style="text-decoration: none; color: black">Dislike</a></ button>
+          {% endif %}
+        {% endif %}
+         
       </div>
     </div>
 
