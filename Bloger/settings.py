@@ -76,10 +76,18 @@ WSGI_APPLICATION = 'Bloger.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test',
+        'USER': 'root',
+        'PASSWORD':'root',
     }
 }
 
@@ -121,9 +129,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL =os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR, 'static/'),
+]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-LOGIN_REDIRECT_URL = "blog/allPosts" #redirect after login
+LOGIN_REDIRECT_URL = "/blog/allPosts" #redirect after login
 LOGOUT_REDIRECT_URL = "/loginRegister/login" #redirect after logout
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
