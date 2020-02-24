@@ -1,4 +1,4 @@
-from .models import Comment
+from .models import *
 from django import forms
 
 
@@ -17,7 +17,7 @@ class ReplyForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model=Post
-        fields=('title','content','category','image')
+        fields=('title','content','category_id','image')
         widgets = {
             'content': forms.Textarea(attrs={
                 'required': True, 
@@ -28,4 +28,4 @@ class PostForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model= Category
-        fields= ('name',)
+        fields= ('category_name',)

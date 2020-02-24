@@ -21,10 +21,10 @@ class Category(models.Model):
 class Subscribe(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     subscriber_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    def __str__(self):
-        return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
     class Meta:
         unique_together = ["category_id", "subscriber_id"]
+    def __str__(self):
+        return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
 
 class Post(models.Model): 
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -70,11 +70,11 @@ class Reply(models.Model):
     def __str__(self):
         return 'Reply {} by {}'.format(self.body, self.name)
 
-class Subscribe(models.Model):
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
-    subscriber_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    def __str__(self):
-        return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
+# class Subscribe(models.Model):
+#     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+#     subscriber_id = models.ForeignKey(User, on_delete=models.CASCADE)
+#     def __str__(self):
+#         return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
 
 class Likes(models.Model):
     liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
@@ -83,3 +83,9 @@ class Likes(models.Model):
 class Dislikes(models.Model):
     disliker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dislikes')
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='post_dislikes')
+
+#model for forbidden words
+class undesiredWord (models.Model):
+    word=models.CharField(max_length=200)
+    def __str__(self):
+        return '{}'.format(self.word)
