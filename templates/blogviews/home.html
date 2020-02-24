@@ -19,8 +19,13 @@
         {% endif %}
 
     <hr>
-
 {% endfor %}
+
+    <ul>
+        {% for post in posts %}
+            <a href="{% url 'post_detail' post.slug  %}"><li>{{post.title}}</li></a>
+        {% endfor %}
+    </ul>
 
 <h1>test</h1>
 {%endblock%}
