@@ -7,14 +7,17 @@
 <hr>
 <hr>
 
-{% for sub in subs %}
-    <h2>{{sub.category_id}}</h2>
+
+{% for cat in cats %}
+<h2><a href="{% url 'category_posts' cat.id %}">{{cat.category_name}}</a></h2>
+    <h2>{{cat.category_name}}</h2>
     
-    {% if user == sub.subscriber_id %}
-        <p> Subcribed </p>
-    {% else %}
-        <a href= "{% url 'subscribe' %}">subcribe</a>
-    {% endif %}
+        {% if cat.id in checks %}
+            <a href= "{% url 'unsubscribe' category_id=cat.id %}">subcribed</a>
+        {% else %}
+            <a href= "{% url 'subscribe' category_id=cat.id %}">subcribe</a>
+        {% endif %}
+
     <hr>
 
 {% endfor %}
