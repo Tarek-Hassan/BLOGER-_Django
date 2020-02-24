@@ -75,9 +75,9 @@ def post_list(request,slug):
     categories = Category.objects.all()
     tags = Tag.objects.all()
 
-    # for tag in tags:
-    if slug in tags.post:
-        posts.append(tag.post)
+    for tag in tags:
+        if slug in tags:
+            posts.append(tag.post)
     print(posts)
     # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
 
