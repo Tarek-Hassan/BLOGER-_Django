@@ -79,4 +79,4 @@ class Tag(models.Model):
     tag5 = models.SlugField(max_length=30, null=True, blank=True)
 
     def __str__(self):
-        return "'{}' ,'{}' ,'{}' ,'{}'".format(self.tag1, self.tag2, self.tag3, self.tag4)
+        return "{} ,{} ,{} ,{}".format(self.tag1, self.tag2, self.tag3, self.tag4)

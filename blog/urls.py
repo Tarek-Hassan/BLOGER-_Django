@@ -10,7 +10,7 @@ urlpatterns=[
     # path('search', views.search, name ='search'),
     path('cat/<category_id>', views.category_posts, name='category_posts'),
     # path('allPosts', views.PostList.as_view()),
-    path('allPosts', views.post_list, name='allPosts'),
+    path('allPosts/<slug>', views.post_list, name='allPosts'),
     # path('index', views.post_list),
     path('<slug:slug>/', views.post_detail, name='post_detail'),
 ]

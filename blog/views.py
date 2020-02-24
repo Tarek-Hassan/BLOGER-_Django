@@ -11,9 +11,10 @@ def home(request):
     # user = User.objects.get(id = num)
     cats = Category.objects.all()
     posts = Post.objects.all()[n-2:n]
-    subs = Subscribe.objects.filter(subscriber_id = 2).values_list('category_id', flat=True)
-    # tags = Tag.objects.all().values_list(flat=True)
+    subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
+    tags = Tag.objects.all()
     # print(tags[0])
+    # print(type(tags[0]))
     # print(posts)
     # adjustTags(tags)
     contents = ShortIntro(posts)
@@ -23,19 +24,23 @@ def home(request):
     context = { 'cats' : cats,
                 'checks' : checks,
                 'posts' : posts, 
-                # 'tags' : tags,
+                'tags' : tags,
                  }
 
     return render(request,'blogviews/home.html',context)
 
 def next(request):
     global n
-    n += 2
+    counter = (Post.objects.all()).count()
+    if n < counter:
+        n += 2
     return HttpResponseRedirect('/blog/home')
 
 def previous(request):
     global n
-    n -= 2
+    counter = (Post.objects.all()).count()
+    if n >= counter:
+        n -= 2
     return HttpResponseRedirect('/blog/home')
 
 def subscribe(request, category_id):
@@ -64,11 +69,16 @@ def unsubscribe(request,category_id):
 #     queryset = Post.objects.filter(status=1).order_by('-created_on')
 #     template_name = 'blogviews/allPosts.html'
 
-def post_list(request):
+def post_list(request,slug):
     template_name = 'blogviews/allPosts.html'
-    posts = Post.objects.all()
+    posts = []
     categories = Category.objects.all()
+    tags = Tag.objects.all()
 
+    # for tag in tags:
+    if slug in tags.post:
+        posts.append(tag.post)
+    print(posts)
     # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
 
     # media = MEDIA_ROOT
@@ -206,7 +216,7 @@ def ShortIntro(posts):
         for word in (post.content).split()[:20]:
             words += word
             words += " "
-        words += ".."
+        words += "..."
         words_list.append(words)
     return (words_list)
 
