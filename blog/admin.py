@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post, Comment, Reply, Category, Subscribe
+from blog.models import Post, Comment, Reply, Category, Subscribe,Tag
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
@@ -23,8 +23,12 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('created_on',)
     search_fields = ['category_name']
 
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('tag1', 'tag2', 'tag3', 'tag4', 'tag5')
+
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Reply, ReplyAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Subscribe)
+admin.site.register(Tag, TagAdmin)
