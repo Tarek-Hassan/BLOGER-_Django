@@ -1,0 +1,18 @@
+<!-- Sidebar Widgets Column -->
+<div class="col-md-12 float-right ">
+    <div class="card my-4">
+            <h5 class="card-header bg-primary text-white">Categories</h5>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for category in categories%}
+                <a href="{% url 'category_posts' category.id %}" style="text-decoration: none; color: black; margin: px;" class="my-1">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{category.category_name}}
+                        <span class="badge badge-danger badge-pill">{{category.blog_posts.count}}</span>
+                    </li>
+                </a>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

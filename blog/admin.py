@@ -1,9 +1,9 @@
 from django.contrib import admin
-from blog.models import Post, Comment, Reply
+from blog.models import Post, Comment, Reply, Category, Subscribe
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'author', 'status', 'created_on', 'image')
+    list_display = ('title', 'slug', 'author', 'status', 'created_on', 'image', 'category_id')
     list_filter = ("status",)
     search_fields = ['title', 'content']
     prepopulated_fields = {'slug': ('title',)}
@@ -18,7 +18,13 @@ class ReplyAdmin(admin.ModelAdmin):
     list_filter = ('created_on',)
     search_fields = ('name', 'body')
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('category_name', 'category_creator', 'created_on',)
+    list_filter = ('created_on',)
+    search_fields = ['category_name']
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Reply, ReplyAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Subscribe)

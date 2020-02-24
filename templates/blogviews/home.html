@@ -1,7 +1,27 @@
-
 {% extends 'admin/base1.html'%}
 
 
 {% block main%}
 <h1>home page</h1>
+<h2>{{user.username}}</h2>
+<hr>
+<hr>
+
+
+{% for cat in cats %}
+<h2><a href="{% url 'category_posts' cat.id %}">{{cat.category_name}}</a></h2>
+    <h2>{{cat.category_name}}</h2>
+    
+        {% if cat.id in checks %}
+            <a href= "{% url 'unsubscribe' category_id=cat.id %}">subcribed</a>
+        {% else %}
+            <a href= "{% url 'subscribe' category_id=cat.id %}">subcribe</a>
+        {% endif %}
+
+    <hr>
+
+{% endfor %}
+
+<h1>test</h1>
 {%endblock%}
+
