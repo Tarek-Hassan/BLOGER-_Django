@@ -128,6 +128,15 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-LOGIN_REDIRECT_URL = "/blog/allPosts" #redirect after login
+LOGIN_REDIRECT_URL = "blog/allPosts" #redirect after login
 LOGOUT_REDIRECT_URL = "/loginRegister/login" #redirect after logout
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# EMAIL_BACKEND = ‘django.core.mail.backends.smtp.EmailBackend’
+# EMAIL_HOST = ‘smtp.gmail.com’
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'your_account@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your account’s password'
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
