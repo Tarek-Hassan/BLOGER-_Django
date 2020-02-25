@@ -16,7 +16,7 @@ class AuthFormCheckStatus(AuthenticationForm):
             "Please enter a correct %(username)s and password. Note that both "
             "fields may be case-sensitive."
         ),
-        'inactive':("This account is inactivvfffdfe."),
+        'inactive':("This account is block."),
     }
     
     def clean(self):
