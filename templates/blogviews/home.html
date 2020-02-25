@@ -2,15 +2,16 @@
 
 
 {% block main%}
+
 <h1>home page</h1>
+
 <h2>{{user.username}}</h2>
 <hr>
 <hr>
 
-
+<h1>Categories</h1>
 {% for cat in cats %}
 <h2><a href="{% url 'category_posts' cat.id %}">{{cat.category_name}}</a></h2>
-    <h2>{{cat.category_name}}</h2>
     
         {% if cat.id in checks %}
             <a href= "{% url 'unsubscribe' category_id=cat.id %}">subcribed</a>
@@ -18,9 +19,35 @@
             <a href= "{% url 'subscribe' category_id=cat.id %}">subcribe</a>
         {% endif %}
 
-    <hr>
-
+        <hr>
 {% endfor %}
+
+<h1>Posts</h1>
+    <ul>
+        {% for post in posts %}
+        <div style="border: 5px solid black; padding: 40px; opacity: .8; ">
+            <a href="{% url 'post_detail' post.0.slug  %}">
+                <img src="{{post.0.image.url}}" style="float:right; width:150px; height:100px;">
+                <li>{{post.0.title}}</li>
+                <li>{{post.0.created_on}}</li>
+            </a>
+            {% for tag in tags %}
+            <h2>{{tag.post}}</h2>
+            {% if post.0 == tag.post %}
+            {% if tag.tag1 %} <a href="{% url 'allPosts' tag.tag1  %}" style="display: inline;">{{tag.tag1}}</a>{% endif %}
+            {% if tag.tag2 %} <a href="{% url 'allPosts' tag.tag2  %}" style="display: inline;">{{tag.tag2}}</a>{% endif %}
+            {% if tag.tag3 %} <a href="{% url 'allPosts' tag.tag3  %}" style="display: inline;">{{tag.tag3}}</a>{% endif %}
+            {% if tag.tag4 %} <a href="{% url 'allPosts' tag.tag4  %}" style="display: inline;">{{tag.tag4}}</a>{% endif %}
+            {% if tag.tag5 %} <a href="{% url 'allPosts' tag.tag5  %}" style="display: inline;">{{tag.tag5}}</a>{% endif %}
+            <br>
+            {% endif %}
+            {% endfor %}
+            <P style="display: inline;">{{post.1}}</P>
+        </div>
+        {% endfor %}
+    </ul>
+<h1><a href="{% url 'next'  %}">Next</a></h1>
+<h1><a href="{% url 'previous'  %}">Previuos</a></h1>
 
 <h1>test</h1>
 {%endblock%}

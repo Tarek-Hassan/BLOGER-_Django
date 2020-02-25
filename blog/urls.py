@@ -2,8 +2,13 @@ from django.urls import path
 from blog import views
 
 urlpatterns=[
-    path('home/<num>', views.home),
-    path('allPosts/<category_id>', views.category_posts, name='category_posts'), 
+    path('home/', views.home, name='home'),
+    path('sub/<category_id>', views.subscribe, name ='subscribe'),
+    path('unsub/<category_id>', views.unsubscribe, name ='unsubscribe'),
+    path('next', views.next, name ='next'),
+    path('previous', views.previous, name ='previous'),
+    path('cat/<category_id>', views.category_posts, name='category_posts'),
+    # path('allPosts/<category_id>', views.category_posts, name='category_posts'), 
     path('allPosts', views.post_list),
     path('newPost', views.addPost),
     path('newCategory', views.addCategory),

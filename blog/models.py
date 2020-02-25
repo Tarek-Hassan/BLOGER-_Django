@@ -27,14 +27,14 @@ class Subscribe(models.Model):
         return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
 
 class Post(models.Model): 
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='blog_posts')
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField()
-    dislikes = models.IntegerField()
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
     status = models.IntegerField(choices=STATUS, default=1)
     # image = models.ImageField(upload_to='img/', null=True)
     image = models.ImageField(upload_to='images/', null=True)
@@ -70,12 +70,6 @@ class Reply(models.Model):
     def __str__(self):
         return 'Reply {} by {}'.format(self.body, self.name)
 
-# class Subscribe(models.Model):
-#     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
-#     subscriber_id = models.ForeignKey(User, on_delete=models.CASCADE)
-#     def __str__(self):
-#         return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
-
 class Likes(models.Model):
     liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='post_likes')
@@ -89,3 +83,15 @@ class undesiredWord (models.Model):
     word=models.CharField(max_length=200)
     def __str__(self):
         return '{}'.format(self.word)
+
+        
+class Tag(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    tag1 = models.SlugField(max_length=30, null=True, blank=True)
+    tag2 = models.SlugField(max_length=30, null=True, blank=True)
+    tag3 = models.SlugField(max_length=30, null=True, blank=True)
+    tag4 = models.SlugField(max_length=30, null=True, blank=True)
+    tag5 = models.SlugField(max_length=30, null=True, blank=True)
+
+    def __str__(self):
+        return "{} ,{} ,{} ,{}".format(self.tag1, self.tag2, self.tag3, self.tag4)

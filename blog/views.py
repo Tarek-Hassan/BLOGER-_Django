@@ -1,27 +1,54 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import generic
-from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes
+from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes, Tag
 from .forms import CommentForm, ReplyForm, PostForm, CategoryForm
 from django.shortcuts import render, get_object_or_404
+from django.utils.text import slugify
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 # from Bloger.settings import MEDIA_ROOT
-
+n = 2
 # Create your views here.
 def home(request):
     # user = User.objects.get(id = num)
     cats = Category.objects.all()
+    posts = Post.objects.all()[n-2:n]
     subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
-    # print(subs)
-    # print(cats)
+    tags = Tag.objects.all()
+    # print(tags[0])
+    # print(type(tags[0]))
+    # print(posts)
+    # adjustTags(tags)
+    contents = ShortIntro(posts)
+    posts = merge(posts, contents)
+    # print(posts)
     checks = Check(cats, subs)
     context = { 'cats' : cats,
-                'checks' : checks }
+                'checks' : checks,
+                'posts' : posts, 
+                'tags' : tags,
+                 }
+
     return render(request,'blogviews/home.html',context)
+
+def next(request):
+    global n
+    counter = (Post.objects.all()).count()
+    if n < counter:
+        n += 2
+    return HttpResponseRedirect('/blog/home')
+
+def previous(request):
+    global n
+    counter = (Post.objects.all()).count()
+    if n >= counter:
+        n -= 2
+    return HttpResponseRedirect('/blog/home')
 
 def subscribe(request, category_id):
     try:
         cat = Category.objects.get(id = category_id)
-        print("s")
         Subscribe.objects.create(subscriber_id = request.user, category_id = cat)
     finally:
         return HttpResponseRedirect('/blog/home')
@@ -31,20 +58,38 @@ def unsubscribe(request,category_id):
     try:
         cat = Category.objects.get(id = category_id)
         sub = Subscribe.objects.get(subscriber_id = request.user, category_id = cat)
-        print("uns")
         sub.delete()
     finally:
-        return HttpResponseRedirect('/blog/home')    
+        return HttpResponseRedirect('/blog/home')
+
+# def search(request):
+#     posts = Post.objects.filter(attribute = value).values_list(flat=True)
+#     print(posts)
+#     return HttpResponseRedirect('/blog/home')
+
 
 # class PostList(generic.ListView):
 #     queryset = Post.objects.filter(status=1).order_by('-created_on')
 #     template_name = 'blogviews/allPosts.html'
 
 def post_list(request):
+    # template_name = 'blogviews/allPosts.html'
+    # posts = []
+    # categories = Category.objects.all()
+    # tags = Tag.objects.all()
     template_name = 'blogviews/allPosts.html'
     posts = Post.objects.all()
     categories = Category.objects.all()
 
+    context = {'post_list': posts, 'categories': categories}
+
+    return render(request, template_name, context)
+
+
+    # for tag in tags:
+    #     if slug in tags:
+    #         posts.append(tag.post)
+    # print(posts)
     # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
 
     # media = MEDIA_ROOT
@@ -52,11 +97,11 @@ def post_list(request):
     #     # post.image = post.image.decode('utf-8')
     #     post.image = os.path.join(MEDIA_ROOT, b64decode(post.image))
 
-    context = {'post_list': posts, 'categories': categories}
+    # context = {'post_list': posts, 'categories': categories}
 
     # context = {'post_list': posts, 'media':base_path}
 
-    return render(request, template_name, context)
+    # return render(request, template_name, context)
 
 def post_detail(request, slug):
     template_name = 'blogviews/post_detail.html'
@@ -153,7 +198,7 @@ def addCategory(request):
 
         if(form.is_valid()):
             category = form.save(commit=False)
-            category.creator = request.user
+            category.category_creator = request.user
             category.save()
             return HttpResponseRedirect('/blog/newPost')
         else:
@@ -165,13 +210,61 @@ def addCategory(request):
 
 def category_posts(request, category_id):
     template_name = 'blogviews/category_posts.html'
-    posts = Post.objects.filter(category_id=category_id)
 
-    categories = Category.objects.all()
+    # posts = Post.objects.filter(category_id=category_id)
 
-    context = {'post_list': posts, 'categories': categories}
+    # categories = Category.objects.all()
 
-    return render(request, template_name, context)
+    # context = {'post_list': posts, 'categories': categories}
+
+    # return render(request, template_name, context)
+
+    try:
+        categories = Category.objects.all()
+        posts = Post.objects.filter(category_id=category_id)
+        context = {'post_list': posts, 'categories': categories}
+    except:
+        context = {'categories': categories}
+    finally:
+        return render(request, template_name, context)
+
+### ________ Helping Logic __________ ###
+#check subscribe and unsubscribe
+def Check(cats, subs):
+    Checks = []
+    for cat in cats:
+        # print(cat)
+        if cat.id in subs:
+            check = cat.id
+        else:
+            check = -1
+        Checks.append(check)
+    # print(Checks)
+    return Checks
+
+#Forming a short Intro from post
+def ShortIntro(posts):
+    words_list = []
+    for post in posts:
+        words = ""
+        for word in (post.content).split()[:20]:
+            words += word
+            words += " "
+        words += "..."
+        words_list.append(words)
+    return (words_list)
+
+def merge(list1, list2): 
+    merged_list = [(list1[i], list2[i]) for i in range(0, len(list1))] 
+    return merged_list
+
+# def adjustTags(tags):
+#     tgs = []
+#     for tag in tags:
+#         if tag[1] != None : 
+#             tgs.append(tag) 
+#     print(tgs)
+#     return tgs
 
 def increment_likes(request, slug):
     post = get_object_or_404(Post, slug=slug)

@@ -30,6 +30,8 @@
     <!-- @tarek is_authenticated to check if user is login or not  -->
                 {% if user.is_authenticated %}
                     <p><a href="{% url 'logout' %}">logout</a>
+                    <p><a href="/blog/home">Home</a></p>
+
     <!-- @tarek is_authenticated to check if user is admin or not  -->
                         {% if user.is_staff %}
                             <p><a href="/admin/">admin</a>
