@@ -17,7 +17,7 @@ class ReplyForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model=Post
-        fields=('title','content','category_id','image')
+        fields=('title','content','category','image')
         widgets = {
             'content': forms.Textarea(attrs={
                 'required': True, 

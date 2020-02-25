@@ -176,6 +176,7 @@ def comment_reply(request, commentId, slug):
     return HttpResponseRedirect(url)
 
 def addPost(request):
+    print("dsxcsxz")
     if(request.method=='POST'):
         form = PostForm(request.POST,request.FILES)
 
