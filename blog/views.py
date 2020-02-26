@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.db.models import Q
+import math  
 from django.http import HttpResponseRedirect
 from django.views import generic
 from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes, Tag
-from .forms import CommentForm, ReplyForm, PostForm, CategoryForm, SearchForm
+from .forms import CommentForm, ReplyForm, PostForm, CategoryForm, SearchForm, TagForm
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
@@ -11,7 +11,7 @@ from django.utils.translation import ugettext as _
 # from Bloger.settings import MEDIA_ROOT
 n = 3
 # Create your views here.
-def search(request):
+def search(request, slug):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         # d = request.POST
@@ -25,9 +25,7 @@ def search(request):
         # check whether it's valid:
         if form.is_valid():
             attribute = (request.POST)["option"]
-            print(attribute)
             value = (request.POST)["textfield"]
-
             if attribute == "title":
                 posts = Post.objects.filter(title=value)
 
@@ -36,57 +34,77 @@ def search(request):
                 posts = Post.objects.filter(author=user)
 
             elif attribute == "tags":
-                tags = Tag.objects.filter(tag = value)
-                for tag in tags: 
-                    posts = []
-                    posts = Post.objects.filter(id = tag.id)
+                psts = Post.objects.all()
+                posts = checkTags(psts, value)
+                # for post in psts:
+                #     lst = post.tags.all()
+                #     for lt in lst:
+                #         if str(value) == str(lt):
+                #             pot = Post.objects.get(id = post.id)
+                #             posts.append(pot)
+                            
 
             elif attribute == "category":
-                cats = Category.objects.filter(category_name=value)
-                for cat in cats:
-                    posts = []
-                    posts = Post.objects.filter(category_id=cat)
+                cat = Category.objects.get(category_name=value)
+                posts = Post.objects.filter(category_id=cat)
+                
             else:
-                posts=post.objects.all()
-
-            contents = ShortIntro(posts)
-            posts = merge(posts, contents)
-
-            return render(request, 'blogviews/search.html', {'posts': posts})
+                posts=Post.objects.all()
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = SearchForm()
-    return render(request, 'blogviews/search.html', {'form': form})
+        psts = Post.objects.all()
+        posts = checkTags(psts, slug)
+
+    contents = ShortIntro(posts)
+    posts = merge(posts, contents)
+
+    return render(request, 'blogviews/search.html', {'posts': posts})
 
 def home(request):
     cats = Category.objects.all()
     posts = Post.objects.all()[n-3:n]
     subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
-
+    counter = countPgs()
     contents = ShortIntro(posts)
     posts = merge(posts, contents)
     checks = Check(cats, subs)
     context = { 'cats' : cats,
                 'checks' : checks,
                 'posts' : posts,
+                'count' : counter,
                  }
 
     return render(request,'blogviews/home.html',context)
 
-def next(request):
+def page(request, slug):
     global n
     counter = (Post.objects.all()).count()
-    if n < counter:
-        n += 3
+    if slug == 'next':
+        if n < counter:
+            n += 3
+    elif slug == 'previous':
+        if n >= counter:
+            n -= 3
+    elif int(slug) > 0:
+        n=3
+        if n>= counter or n<counter: 
+            n*=int(slug)
     return HttpResponseRedirect('/blog/home')
 
-def previous(request):
-    global n
-    counter = (Post.objects.all()).count()
-    if n >= counter:
-        n -= 3
-    return HttpResponseRedirect('/blog/home')
+# def next(request):
+#     global n
+#     counter = (Post.objects.all()).count()
+#     if n < counter:
+#         n += 3
+#     return HttpResponseRedirect('/blog/home')
+
+# def previous(request):
+#     global n
+#     counter = (Post.objects.all()).count()
+#     if n >= counter:
+#         n -= 3
+#     return HttpResponseRedirect('/blog/home')
 
 def subscribe(request, category_id):
     try:
@@ -212,6 +230,7 @@ def comment_reply(request, commentId, slug):
 def addPost(request):
     if(request.method=='POST'):
         form = PostForm(request.POST,request.FILES)
+        print(form)
 
         if(form.is_valid()):
             post = form.save(commit=False)
@@ -325,3 +344,39 @@ def increment_dislikes(request, slug):
     
     url = '/blog/'+ slug
     return HttpResponseRedirect(url)
+
+def checkTags(psts, val):
+    posts = []
+    for post in psts:
+        lst = post.tags.all()
+        for lt in lst:
+            if str(val) == str(lt):
+                pot = Post.objects.get(id = post.id)
+                posts.append(pot)
+    return posts   
+
+def addTag(request):
+    if(request.method=='POST'):
+        form = TagForm(request.POST)
+
+        if(form.is_valid()):
+            Tag = form.save(commit=False)
+            Tag.save()
+            return HttpResponseRedirect('/blog/newPost')
+        else:
+            raise ValidationError(_('Invalid value'), code='invalid')
+    else:
+        form=TagForm()
+
+    return render(request,'blogviews/newTag.html',{'form':form})
+
+def countPgs():
+    counter = math.ceil((Post.objects.all()).count()/3)
+    print(counter)
+    lst = []
+    i = 0
+    while(counter>i):
+        i+=1
+        lt = i
+        lst.append(lt)
+    return (lst)
