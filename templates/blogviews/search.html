@@ -28,7 +28,7 @@
             <span><b>likes:</b> {{post.0.likes}}   ||</span>
             <span> <b>tags:</b> </span>
             {% for tag in post.0.tags.all %}
-                <a><span> {{tag}}</span></a><span>,</span>
+                <a href="{% url 'search' tag %}"><span> {{tag}}</span></a><span>,</span>
             {% endfor %}
             <br>
             <P style="display: inline;">{{post.1}}</P>
