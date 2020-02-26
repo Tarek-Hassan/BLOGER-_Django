@@ -1,0 +1,21 @@
+<h1>Search Page</h1>
+
+{% for post in posts %}
+        <hr>
+        <div style="border: 5px solid black; padding: 40px; opacity: .8; ">
+            <a href="{% url 'post_detail' post.0.slug  %}">
+                <img src="{{post.0.image.url}}" style="float:right; width:150px; height:100px;">
+                <li>{{post.0.title}}</li>
+                <li>{{post.0.created_on}}</li>
+            </a>
+            <span><b>likes:</b> {{post.0.likes}}   ||</span>
+            <span> <b>tags:</b> </span>
+            {% for tag in post.0.tags.all %}
+                <a><span> {{tag}}</span></a><span>,</span>
+            {% endfor %}
+            <br>
+            <P style="display: inline;">{{post.1}}</P>
+        </div>
+{% endfor %}
+        <hr>
+        <h2>No posts</h2>

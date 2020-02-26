@@ -29,3 +29,9 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model= Category
         fields= ('category_name',)
+
+class SearchForm(forms.Form):
+    Attribute = forms.CharField(required=False)
+    Value = forms.CharField(required=False)
+
+

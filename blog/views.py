@@ -1,33 +1,75 @@
 from django.shortcuts import render
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.views import generic
 from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes, Tag
-from .forms import CommentForm, ReplyForm, PostForm, CategoryForm
+from .forms import CommentForm, ReplyForm, PostForm, CategoryForm, SearchForm
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 # from Bloger.settings import MEDIA_ROOT
-n = 2
+n = 3
 # Create your views here.
+def search(request):
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        # d = request.POST
+        print((request.POST)["textfield"])
+        # d1 = dict(d.items()[2:])
+        # d2 = dict(d.items()[:1])
+        # print(d)
+        # print(d2)
+        form = SearchForm(request.POST)
+        # print(form)
+        # check whether it's valid:
+        if form.is_valid():
+            attribute = (request.POST)["option"]
+            print(attribute)
+            value = (request.POST)["textfield"]
+
+            if attribute == "title":
+                posts = Post.objects.filter(title=value)
+
+            elif attribute == "author":
+                user = User.objects.get(username=value)
+                posts = Post.objects.filter(author=user)
+
+            elif attribute == "tags":
+                tags = Tag.objects.filter(tag = value)
+                for tag in tags: 
+                    posts = []
+                    posts = Post.objects.filter(id = tag.id)
+
+            elif attribute == "category":
+                cats = Category.objects.filter(category_name=value)
+                for cat in cats:
+                    posts = []
+                    posts = Post.objects.filter(category_id=cat)
+            else:
+                posts=post.objects.all()
+
+            contents = ShortIntro(posts)
+            posts = merge(posts, contents)
+
+            return render(request, 'blogviews/search.html', {'posts': posts})
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = SearchForm()
+    return render(request, 'blogviews/search.html', {'form': form})
+
 def home(request):
-    # user = User.objects.get(id = num)
     cats = Category.objects.all()
-    posts = Post.objects.all()[n-2:n]
+    posts = Post.objects.all()[n-3:n]
     subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
-    tags = Tag.objects.all()
-    # print(tags[0])
-    # print(type(tags[0]))
-    # print(posts)
-    # adjustTags(tags)
+
     contents = ShortIntro(posts)
     posts = merge(posts, contents)
-    # print(posts)
     checks = Check(cats, subs)
     context = { 'cats' : cats,
                 'checks' : checks,
-                'posts' : posts, 
-                'tags' : tags,
+                'posts' : posts,
                  }
 
     return render(request,'blogviews/home.html',context)
@@ -36,14 +78,14 @@ def next(request):
     global n
     counter = (Post.objects.all()).count()
     if n < counter:
-        n += 2
+        n += 3
     return HttpResponseRedirect('/blog/home')
 
 def previous(request):
     global n
     counter = (Post.objects.all()).count()
     if n >= counter:
-        n -= 2
+        n -= 3
     return HttpResponseRedirect('/blog/home')
 
 def subscribe(request, category_id):
@@ -73,10 +115,6 @@ def unsubscribe(request,category_id):
 #     template_name = 'blogviews/allPosts.html'
 
 def post_list(request):
-    # template_name = 'blogviews/allPosts.html'
-    # posts = []
-    # categories = Category.objects.all()
-    # tags = Tag.objects.all()
     template_name = 'blogviews/allPosts.html'
     posts = Post.objects.all()
     categories = Category.objects.all()
@@ -85,10 +123,6 @@ def post_list(request):
 
     return render(request, template_name, context)
 
-
-    # for tag in tags:
-    #     if slug in tags:
-    #         posts.append(tag.post)
     # print(posts)
     # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
 
@@ -257,14 +291,6 @@ def ShortIntro(posts):
 def merge(list1, list2): 
     merged_list = [(list1[i], list2[i]) for i in range(0, len(list1))] 
     return merged_list
-
-# def adjustTags(tags):
-#     tgs = []
-#     for tag in tags:
-#         if tag[1] != None : 
-#             tgs.append(tag) 
-#     print(tgs)
-#     return tgs
 
 def increment_likes(request, slug):
     post = get_object_or_404(Post, slug=slug)

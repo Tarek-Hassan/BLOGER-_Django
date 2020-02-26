@@ -8,6 +8,20 @@
 <h2>{{user.username}}</h2>
 <hr>
 <hr>
+<form method="POST" action = "{% url 'search' %}">
+    <input type="text" name="textfield"/>
+    <select name="option">
+        <option value = "all">All</option>
+        <option value = "title">Title</option>
+        <option value = "author">Author</option>
+        <option value = "category">Category</option>
+        <option value = "tags">Tag</option>
+    </select>
+    {% csrf_token %}
+    <button type="submit">Submit</button>
+</form>
+<hr>
+<hr>
 
 <h1>Categories</h1>
 {% for cat in cats %}
@@ -31,17 +45,12 @@
                 <li>{{post.0.title}}</li>
                 <li>{{post.0.created_on}}</li>
             </a>
-            {% for tag in tags %}
-            <h2>{{tag.post}}</h2>
-            {% if post.0 == tag.post %}
-            {% if tag.tag1 %} <a href="{% url 'allPosts' tag.tag1  %}" style="display: inline;">{{tag.tag1}}</a>{% endif %}
-            {% if tag.tag2 %} <a href="{% url 'allPosts' tag.tag2  %}" style="display: inline;">{{tag.tag2}}</a>{% endif %}
-            {% if tag.tag3 %} <a href="{% url 'allPosts' tag.tag3  %}" style="display: inline;">{{tag.tag3}}</a>{% endif %}
-            {% if tag.tag4 %} <a href="{% url 'allPosts' tag.tag4  %}" style="display: inline;">{{tag.tag4}}</a>{% endif %}
-            {% if tag.tag5 %} <a href="{% url 'allPosts' tag.tag5  %}" style="display: inline;">{{tag.tag5}}</a>{% endif %}
-            <br>
-            {% endif %}
+            <span><b>likes:</b> {{post.0.likes}}   ||</span>
+            <span> <b>tags:</b> </span>
+            {% for tag in post.0.tags.all %}
+                <a><span> {{tag}}</span></a><span>,</span>
             {% endfor %}
+            <br>
             <P style="display: inline;">{{post.1}}</P>
         </div>
         {% endfor %}

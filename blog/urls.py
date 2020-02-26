@@ -15,5 +15,6 @@ urlpatterns=[
     path('<slug>/', views.post_detail, name='post_detail'),
     path('<slug>/<commentId>/', views.comment_reply, name="comment_reply"),
     path('<slug>/like', views.increment_likes, name="increment_likes"),
-    path('<slug>/dislike', views.increment_dislikes, name="increment_dislikes"),  
+    path('<slug>/dislike', views.increment_dislikes, name="increment_dislikes"),
+    path('search', views.search,name='search'),
 ]
