@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post, Comment, Reply, Category, Subscribe, Likes, Dislikes, Tag
+from blog.models import Post, Comment, Reply, Category, Subscribe, Likes, Dislikes, Tag,undesiredWord
 
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
@@ -31,6 +31,8 @@ class LikesAdmin(admin.ModelAdmin):
 
 class DislikesAdmin(admin.ModelAdmin):
     list_display = ('disliker', 'post')
+class undesiredWordAdmin(admin.ModelAdmin):
+    list_display = ('word',)
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
@@ -40,3 +42,4 @@ admin.site.register(Likes, LikesAdmin)
 admin.site.register(Dislikes, DislikesAdmin)
 admin.site.register(Subscribe)
 admin.site.register(Tag, TagAdmin)
+admin.site.register(undesiredWord, undesiredWordAdmin)

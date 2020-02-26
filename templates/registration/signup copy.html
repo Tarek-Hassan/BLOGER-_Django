@@ -1,0 +1,13 @@
+{% include 'admin/base1.html'%}
+{% block title %}
+<h1>register</h1>
+{% endblock %}
+{% block main %}
+
+<form method="POST" class="form-group col-9">
+    {% csrf_token%}
+    {{form.as_p}}
+
+    <button type="submit" class="btn btn-success">register</button>
+</form>
+{%endblock%}

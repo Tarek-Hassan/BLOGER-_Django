@@ -1,13 +1,43 @@
-{% include 'admin/base1.html'%}
-{% block title %}
-<h1>register</h1>
-{% endblock %}
-{% block main %}
 
-<form method="POST" class="form-group col-9">
-    {% csrf_token%}
-    {{form.as_p}}
+{% include 'blogviews/header.html'%}
+<body>
+    <div class="login-wrap">
+        <div class="login-html">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" ><label for="tab-1" class="tab"><a href="{% url 'login'%}">Sign In</a></label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">Sign Up</label>
+            <div class="login-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="sign-up-htm">
+                        <div class="group">
+                            <label for="id_username" class="label">Username</label>
+                            <input id="id_username" required name="username" type="text" class="input">
+                            
+                            <label for="id_first_name" class="label">First name</label>
+                            <input id="id_first_name" name="first_name" type="text" class="input">
+                            
+                            <label for="id_last_name" class="label">Last name</label>
+                            <input id="id_last_name" name="last_name" type="text" class="input">
 
-    <button type="submit" class="btn btn-success">register</button>
-</form>
-{%endblock%}
+                            <label for="id_email" class="label">Email Address</label>
+                            <input id="id_email"  required name="email" type="email" class="input">
+
+                            <label for="id_password1" class="label">Password</label>
+                            <input id="id_password1"  name="password1" type="password" autocomplete="new-password" required class="input" data-type="password">
+                            
+                            <label for="id_password2" class="label">Repeat Password</label>
+                            <input id="id_password2" name="password2" autocomplete="new-password" required type="password" class="input" data-type="password">
+                        </div>
+                        <div class="group">
+                            <input type="submit" class="button" value="Sign Up">
+                        </div>
+                        <div class="hr"></div>
+                        <div class="foot-lnk">
+                            <label for="tab-1"><a href="{% url 'login'%}">Already Member?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+	{% include 'blogviews/footer.html'%}

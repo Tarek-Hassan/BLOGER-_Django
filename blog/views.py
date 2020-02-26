@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import generic
-from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes, Tag
+from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes,Tag,undesiredWord
 from .forms import CommentForm, ReplyForm, PostForm, CategoryForm
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
@@ -78,7 +78,7 @@ def post_list(request):
     # categories = Category.objects.all()
     # tags = Tag.objects.all()
     template_name = 'blogviews/allPosts.html'
-    posts = Post.objects.all()
+    posts=filterPost()#caal to filterWordsFunction
     categories = Category.objects.all()
 
     context = {'post_list': posts, 'categories': categories}
@@ -102,12 +102,41 @@ def post_list(request):
     # context = {'post_list': posts, 'media':base_path}
 
     # return render(request, template_name, context)
+# 
+# admin.site.register(undesiredWord, undesiredWordAdmin)
+
+def filterPost():# this function to fillter all posts
+    posts = Post.objects.all()
+    forbWords=undesiredWord.objects.values_list('word',flat=True)
+    for x in posts:
+        for word in forbWords:
+            if(word in x.title.lower()):
+                x.title=x.title.lower()
+                x.title=x.title.replace(word,'*'*len(word))
+            if(word in x.content.lower()):
+                x.content=x.content.lower()
+                x.content=x.content.replace(word,'*'*len(word))
+    return posts
 
 def post_detail(request, slug):
     template_name = 'blogviews/post_detail.html'
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
     replies = Reply.objects.all()
+#start filterComment&&replies
+    forbWords=undesiredWord.objects.values_list('word',flat=True)
+    for x in comments:
+        for word in forbWords:
+            if(word in x.body.lower()):
+                x.body=x.body.lower()
+                x.body=x.body.replace(word,'*'*len(word))
+#endfilterComment
+    for x in replies:
+        for word in forbWords:
+            if(word in x.body.lower()):
+                x.body=x.body.lower()
+                x.body=x.body.replace(word,'*'*len(word))
+#endfilterreplies
     if not request.user.is_anonymous:
         likes = Likes.objects.filter(post=post, liker=request.user)
         dislikes = Dislikes.objects.filter(post=post, disliker=request.user)
@@ -132,7 +161,7 @@ def post_detail(request, slug):
             raise ValidationError(_('Invalid value'), code='invalid')
     else:
         comment_form = CommentForm()
-
+   
     if not request.user.is_anonymous:
         return render(request, template_name, {'post': post,
                                                 'comments': comments,
@@ -176,10 +205,8 @@ def comment_reply(request, commentId, slug):
     return HttpResponseRedirect(url)
 
 def addPost(request):
-    print("dsxcsxz")
     if(request.method=='POST'):
         form = PostForm(request.POST,request.FILES)
-
         if(form.is_valid()):
             post = form.save(commit=False)
             post.author = request.user
