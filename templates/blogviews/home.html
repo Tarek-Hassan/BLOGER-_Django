@@ -8,7 +8,7 @@
 <h2>{{user.username}}</h2>
 <hr>
 <hr>
-<form method="POST" action = "{% url 'search' %}">
+<form method="POST" action = "{% url 'search' user.username %}">
     <input type="text" name="textfield"/>
     <select name="option">
         <option value = "all">All</option>
@@ -35,7 +35,8 @@
 
         <hr>
 {% endfor %}
-
+<h3><a href="/blog/newCategory" style="color: green; text-decoration: none; font-weight: bold; font-size: 40px;">+ add Category</a></h3>
+<br>
 <h1>Posts</h1>
     <ul>
         {% for post in posts %}
@@ -48,15 +49,21 @@
             <span><b>likes:</b> {{post.0.likes}}   ||</span>
             <span> <b>tags:</b> </span>
             {% for tag in post.0.tags.all %}
-                <a><span> {{tag}}</span></a><span>,</span>
+                <a href="{% url 'search' tag %}"><span> {{tag}}</span></a><span>,</span>
             {% endfor %}
             <br>
             <P style="display: inline;">{{post.1}}</P>
         </div>
         {% endfor %}
     </ul>
-<h1><a href="{% url 'next'  %}">Next</a></h1>
-<h1><a href="{% url 'previous'  %}">Previuos</a></h1>
+<h3><a href="/blog/newCategory" style="color: green; text-decoration: none; font-weight: bold; font-size: 40px;">+ Create Post</a></h3>
+<hr>
+
+<a href="{% url 'page' "previous" %}"><button>Previuos</button></a></h1>
+{% for c in count %}
+<a href="{% url 'page' c %}"><button>{{c}}</button></a></h1>
+{% endfor %}
+<a href="{% url 'page' "next" %}"><button>Next</button></a>
 
 <h1>test</h1>
 {%endblock%}
