@@ -13,7 +13,7 @@ class RegisterForm(UserCreationForm):
 class AuthFormCheckStatus(AuthenticationForm):
     error_messages = {
         'invalid_login':(
-            "Please enter a correct %(username)s and password. Note that both "
+            "Please enter a correct username and password. Note that both "
             "fields may be case-sensitive."
         ),
         'inactive':("This account is block."),
