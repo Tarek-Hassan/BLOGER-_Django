@@ -16,7 +16,7 @@
                     {% csrf_token %}
                     <div class="sign-up-htm">
                         <div class="group">
-                            <label for="id_username" class="label">Username</label>
+                            <label for="id_username" class="label">Username *</label>
                             <input id="id_username" required name="username" type="text" class="input">
                             
                             <label for="id_first_name" class="label">First name</label>
@@ -25,13 +25,13 @@
                             <label for="id_last_name" class="label">Last name</label>
                             <input id="id_last_name" name="last_name" type="text" class="input">
 
-                            <label for="id_email" class="label">Email Address</label>
+                            <label for="id_email" class="label">Email Address *</label>
                             <input id="id_email"  required name="email" type="email" class="input">
 
-                            <label for="id_password1" class="label">Password</label>
+                            <label for="id_password1" class="label">Password *</label>
                             <input id="id_password1"  name="password1" type="password" autocomplete="new-password" required class="input" data-type="password">
                             
-                            <label for="id_password2" class="label">Repeat Password</label>
+                            <label for="id_password2" class="label">Repeat Password *</label>
                             <input id="id_password2" name="password2" autocomplete="new-password" required type="password" class="input" data-type="password">
                         </div>
                         <div class="group">
