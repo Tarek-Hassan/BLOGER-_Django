@@ -102,8 +102,7 @@ def post_list(request):
     # context = {'post_list': posts, 'media':base_path}
 
     # return render(request, template_name, context)
-# 
-# admin.site.register(undesiredWord, undesiredWordAdmin)
+
 
 def filterPost():# this function to fillter all posts
     posts = Post.objects.all()
@@ -123,8 +122,17 @@ def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
     replies = Reply.objects.all()
-#start filterComment&&replies
+#start filterComment&&replies&&postdetails
+    #values_list('word') -> this to covert the result to tupe 
+    #values_list('word', flat=True) -> afetr add(flat=True) it conver to string  
     forbWords=undesiredWord.objects.values_list('word',flat=True)
+    for word in forbWords:
+        if(word in post.title.lower()):
+            post.title=post.title.lower()
+            post.title=post.title.replace(word,'*'*len(word))
+        if(word in post.content.lower()):
+            post.content=post.content.lower()
+            post.content=post.content.replace(word,'*'*len(word))
     for x in comments:
         for word in forbWords:
             if(word in x.body.lower()):
