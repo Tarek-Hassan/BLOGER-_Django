@@ -9,9 +9,10 @@
 <hr>
 <hr>
 <form method="POST" action = "{% url 'search' user.username %}">
-    <input type="text" name="textfield"/>
-    <select name="option">
+    <input type="text" name="textfield" placeholder="search"/>
+    <select class="btn btn-secondary dropdown-toggle" name="option">
         <option value = "all">All</option>
+        <option value = "content">Content</option>
         <option value = "title">Title</option>
         <option value = "author">Author</option>
         <option value = "category">Category</option>
@@ -35,7 +36,7 @@
 
         <hr>
 {% endfor %}
-<h3><a href="/blog/newCategory" style="color: green; text-decoration: none; font-weight: bold; font-size: 40px;">+ add Category</a></h3>
+<h3><a href="/blog/newCategory" style="color: green; text-decoration: none; font-weight: bold; font-size: 32px;">+ add Category</a></h3>
 <br>
 <h1>Posts</h1>
     <ul>
@@ -56,7 +57,7 @@
         </div>
         {% endfor %}
     </ul>
-<h3><a href="/blog/newCategory" style="color: green; text-decoration: none; font-weight: bold; font-size: 40px;">+ Create Post</a></h3>
+<h3><a href="/blog/newPost" style="color: green; text-decoration: none; font-weight: bold; font-size: 32px;">+ Create Post</a></h3>
 <hr>
 
 <a href="{% url 'page' "previous" %}"><button>Previuos</button></a></h1>

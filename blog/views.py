@@ -47,7 +47,10 @@ def search(request, slug):
             elif attribute == "category":
                 cat = Category.objects.get(category_name=value)
                 posts = Post.objects.filter(category_id=cat)
-                
+
+            elif attribute == "content":
+                    posts = searchContent(value)
+                    
             else:
                 posts=Post.objects.all()
 
@@ -380,3 +383,12 @@ def countPgs():
         lt = i
         lst.append(lt)
     return (lst)
+
+def searchContent(value):
+    posts = Post.objects.all()
+    psts = []
+    for post in posts:
+        if value in post.content: 
+            psts.append(post)
+    return psts
+            

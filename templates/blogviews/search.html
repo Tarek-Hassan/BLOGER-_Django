@@ -1,5 +1,21 @@
-<h1>Search Page</h1>
+{% extends 'admin/base1.html'%}
 
+
+{% block main%}
+<h1>Search Page</h1>
+<form method="POST" action = "{% url 'search' user.username %}">
+    <input type="text" name="textfield" placeholder="search"/>    
+    <select class="btn btn-secondary dropdown-toggle" name="option">
+        <option value = "all">All</option>
+        <option value = "content">Content</option>
+        <option value = "title">Title</option>
+        <option value = "author">Author</option>
+        <option value = "category">Category</option>
+        <option value = "tags">Tag</option>
+    </select>
+    {% csrf_token %}
+    <button type="submit">Submit</button>
+</form>
 {% if posts %}
 {% for post in posts %}
         <hr>
@@ -22,3 +38,4 @@
         <hr>
         <h2>No posts</h2>
 {% endif %}
+{% endblock %}
