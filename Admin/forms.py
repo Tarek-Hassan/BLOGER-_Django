@@ -10,11 +10,11 @@ class UserForm(UserCreationForm):
         model = User
         fields = ('id','username','first_name','last_name','email','date_joined',)
 
-# class PostForm(forms.ModelForm):
-#     class Meta:
-#         model = Post
-#         fields = ('title','slug','content','image','category',)
-#
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title','slug','content','image','category',)
+
 # class CommentForm(forms.ModelForm):
 #     class Meta:
 #         model = Comment
