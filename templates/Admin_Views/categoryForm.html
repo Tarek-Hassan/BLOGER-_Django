@@ -1,0 +1,12 @@
+{% extends 'Admin_Views/layouts/base.html' %}
+
+
+{% block main%}
+    <h1>Category Form</h1>
+    <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" >Save</button>
+
+    </form>
+{%endblock%}

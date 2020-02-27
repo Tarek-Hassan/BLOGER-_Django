@@ -117,17 +117,18 @@ def deletePost(request, slug):
 #     context = {'all_categories': all_categories}
 #     return render(request, 'Admin_Views/categoriesTable.html', context)
 #
-# def addcategory(request):
-#     form = categoryForm()
-#     if request.method == "POST":
-#         form = categoryForm(request.POST)
-#         if form.is_valid():
-#             category = form.save(commit=False)
-#             category.category_creator = request.user
-#             category.save()
-#             return HttpResponseRedirect('/admin/categories')
-#     return render(request, 'Admin_Views/categoryForm.html', {'form': form})
-#
+
+def addcategory(request):
+    form = categoryForm()
+    if request.method == "POST":
+        form = categoryForm(request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.category_creator = request.user
+            category.save()
+            return HttpResponseRedirect('/admin/categories')
+    return render(request, 'Admin_Views/categoryForm.html', {'form': form})
+
 # def editcategory(request, num):
 #     ct = get_object_or_404(Category,id=num)
 #     if request.method == "POST":

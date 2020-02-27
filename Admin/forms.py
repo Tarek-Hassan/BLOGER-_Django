@@ -20,10 +20,10 @@ class PostForm(forms.ModelForm):
 #         model = Comment
 #         fields = ('name', 'body')
 #
-# class categoryForm(forms.ModelForm):
-#     class Meta:
-#         model = Category
-#         fields = ('category_name',)
+class categoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('category_name',)
 
 
 

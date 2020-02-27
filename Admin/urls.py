@@ -12,14 +12,15 @@ urlpatterns = [
     path('admin_user/<num>', views.addstaff),
     path('block_user/<num>', views.blockUser),
     path('delete_user/<num>', views.deleteUser),
+
     path('posts', views.showposts),
     path('show_post/<slug>', views.showPost),
     path('add_post', views.addPost),
     path('edit_post/<slug>', views.editPost),
     path('delete_post/<slug>', views.deletePost),
-    #
+
     # path('categories', views.showcategory),
-    # path('add_category', views.addcategory),
+    path('add_category', views.addcategory),
     # path('edit_category/<num>', views.editcategory),
     # path('delete_category/<num>', views.deletecategory),
     #
