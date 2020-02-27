@@ -9,7 +9,7 @@ from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 # from Bloger.settings import MEDIA_ROOT
-n = 3
+n = 5
 # Create your views here.
 def search(request, slug):
     if request.method == 'POST':
@@ -74,12 +74,12 @@ def page(request, slug):
     counter = (Post.objects.all()).count()
     if slug == 'next':
         if n < counter:
-            n += 3
+            n += 5
     elif slug == 'previous':
         if n >= counter:
-            n -= 3
+            n -= 5
     elif int(slug) > 0:
-        n=3
+        n=5
         if n>= counter or n<counter: 
             n*=int(slug)
     return HttpResponseRedirect('/blog/home')
