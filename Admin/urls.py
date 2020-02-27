@@ -16,7 +16,7 @@ urlpatterns = [
     path('show_post/<slug>', views.showPost),
     path('add_post', views.addPost),
     path('edit_post/<slug>', views.editPost),
-    # path('delete_post/<slug>', views.deletePost),
+    path('delete_post/<slug>', views.deletePost),
     #
     # path('categories', views.showcategory),
     # path('add_category', views.addcategory),

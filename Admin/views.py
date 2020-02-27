@@ -106,12 +106,12 @@ def editPost(request, slug):
     return render(request, 'Admin_Views/postForm.html', {'form': form})
 
 
-# def deletePost(request, slug):
-#     po =get_object_or_404(Post, slug=slug)
-#     po.delete()
-#     return HttpResponseRedirect('/admin/posts')
-#
-#
+def deletePost(request, slug):
+    po =get_object_or_404(Post, slug=slug)
+    po.delete()
+    return HttpResponseRedirect('/admin/posts')
+
+
 # def showcategory(request):
 #     all_categories = Category.objects.all()
 #     context = {'all_categories': all_categories}
