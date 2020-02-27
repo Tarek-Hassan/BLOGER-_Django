@@ -94,18 +94,18 @@ def addPost(request):
     return render(request, 'Admin_Views/postForm.html', {'form': form})
 
 
-# def editPost(request, slug):
-#     po = get_object_or_404(Post, slug=slug)
-#     if request.method == "POST":
-#         form = PostForm(request.POST, instance=po)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/admin/posts')
-#     else:
-#         form = PostForm(instance=po)
-#     return render(request, 'Admin_Views/postForm.html', {'form': form})
-#
-#
+def editPost(request, slug):
+    po = get_object_or_404(Post, slug=slug)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=po)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/admin/posts')
+    else:
+        form = PostForm(instance=po)
+    return render(request, 'Admin_Views/postForm.html', {'form': form})
+
+
 # def deletePost(request, slug):
 #     po =get_object_or_404(Post, slug=slug)
 #     po.delete()
