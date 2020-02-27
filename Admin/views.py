@@ -63,11 +63,11 @@ def editUser(request, num):
 #     us.save()
 #     return HttpResponseRedirect('/admin/users')
 #
-# def deleteUser(request, num):
-#     us = get_object_or_404(User,id=num)
-#     us.delete()
-#     return HttpResponseRedirect('/admin/users')
-#
+def deleteUser(request, num):
+    us = get_object_or_404(User,id=num)
+    us.delete()
+    return HttpResponseRedirect('/admin/users')
+
 # def showposts(request):
 #     all_posts = Post.objects.all()
 #     context = {'all_posts': all_posts}

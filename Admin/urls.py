@@ -11,7 +11,7 @@ urlpatterns = [
     path('edit_user/<num>', views.editUser),
     # path('admin_user/<num>', views.addstaff),
     # path('block_user/<num>', views.blockUser),
-    # path('delete_user/<num>', views.deleteUser),
+    path('delete_user/<num>', views.deleteUser),
     #
     # path('posts', views.showposts),
     # path('show_post/<slug>', views.showPost),
