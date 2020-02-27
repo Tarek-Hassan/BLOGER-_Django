@@ -1,0 +1,44 @@
+{% extends 'Admin_Views/layouts/base.html' %}
+{% block main%}
+<div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Categories Table</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+						   <th>ID</th>
+							<th>name</th>
+							<th>creator</th>
+							<th>created_on</th>
+							<th align="center">Edit</th>
+							<th align="center">Delete</th>
+
+                      </thead>
+                      <tbody>
+                    {% for ct in all_categories  %}
+						<tr>
+							<td>{{ct.id}}</td>
+							<td>{{ct.category_name}}</td>
+							<td>{{ct.category_creator}}</td>
+							<td>{{ct.created_on}}</td>
+							<td><a href="/admin/edit_category/{{ct.id}}">edit</a></td>
+							<td><a href="/admin/delete_category/{{ct.id}}">delete</a></td>
+						</tr>
+						{% endfor%}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+<a href="/admin/add_category" class="reply">new category</a>
+<br>
+
+{%endblock%}

@@ -1,0 +1,54 @@
+{% extends 'Admin_Views/layouts/base.html' %}
+{% block main%}
+<div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Posts Table</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                       <th>ID</th>
+	<th>Title</th>
+    <th>Author</th>
+	<th>created_on</th>
+	<th>likes</th>
+	<th>dislikes</th>
+    <th>status</th>
+	<th>image</th>
+	<th>category</th>
+    <th align="center">actions</th>
+                      </thead>
+                      <tbody>
+                       {% for po in all_posts  %}
+							<tr>
+								<td>{{po.id}}</td>
+								<td>{{po.title}}</td>
+								<td>{{po.author}}</td>
+								<td>{{po.created_on}}</td>
+								<td>{{po.likes}}</td>
+								<td>{{po.dislikes}}</td>
+								<td>{{po.status}}</td>
+								<td>{{po.image}}</td>
+								<td>{{po.category}}</td>
+								<td><a href="/admin/show_post/{{po.slug}}">View Details</a></td>
+								<td><a href="/admin/edit_post/{{po.slug}}">edit</a></td>
+								<td><a href="/admin/delete_post/{{po.slug}}">delete</a></td>
+							</tr>
+							{% endfor%}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+<a href="/admin/add_post" class="reply">new post</a>
+<br>
+{%endblock%}
+

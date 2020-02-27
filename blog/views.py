@@ -86,24 +86,6 @@ def post_list(request):
     return render(request, template_name, context)
 
 
-    # for tag in tags:
-    #     if slug in tags:
-    #         posts.append(tag.post)
-    # print(posts)
-    # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
-
-    # media = MEDIA_ROOT
-    # for post in posts:
-    #     # post.image = post.image.decode('utf-8')
-    #     post.image = os.path.join(MEDIA_ROOT, b64decode(post.image))
-
-    # context = {'post_list': posts, 'categories': categories}
-
-    # context = {'post_list': posts, 'media':base_path}
-
-    # return render(request, template_name, context)
-
-
 def filterPost():# this function to fillter all posts
     posts = Post.objects.all()
     forbWords=undesiredWord.objects.values_list('word',flat=True)
@@ -122,6 +104,7 @@ def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
     replies = Reply.objects.all()
+    categories = Category.objects.all()
 #start filterComment&&replies&&postdetails
     #values_list('word') -> this to covert the result to tupe 
     #values_list('word', flat=True) -> afetr add(flat=True) it conver to string  
@@ -177,6 +160,7 @@ def post_detail(request, slug):
                                                 'comment_form': comment_form,
                                                 'replies': replies,
                                                 'reply_form': reply_form,
+                                                'categories': categories,
                                                 'likes': likes,
                                                 'dislikes': dislikes})
     else:
@@ -184,6 +168,7 @@ def post_detail(request, slug):
                                                 'comments': comments,
                                                 'new_comment': new_comment,
                                                 'comment_form': comment_form,
+                                                'categories': categories,
                                                 'replies': replies,
                                                 'reply_form': reply_form})
 
@@ -258,7 +243,8 @@ def category_posts(request, category_id):
     try:
         categories = Category.objects.all()
         posts = Post.objects.filter(category_id=category_id)
-        context = {'post_list': posts, 'categories': categories}
+        category = Category.objects.get(id=category_id)
+        context = {'post_list': posts, 'categories': categories, 'category': category}
     except:
         context = {'categories': categories}
     finally:

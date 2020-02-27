@@ -1,4 +1,4 @@
-<!-- Sidebar Widgets Column -->
+<!-- Sidebar Widgets Column
 <div class="col-md-12 float-right ">
     <div class="card my-4">
             <h5 class="card-header bg-primary text-white">Categories</h5>
@@ -15,4 +15,24 @@
             </ul>
         </div>
     </div>
-</div>
+</div> -->
+
+<!-- category widget -->
+<div class="aside-widget">
+    <div class="section-title">
+      <h2 class="title">Categories</h2>
+    </div>
+    <div class="category-widget">
+      <ul>
+        {% for category in categories%}
+        <li>
+            <a href="{% url 'category_posts' category.id %}" style="text-decoration: none; color: black; margin: px;" class="my-1">
+                {{category.category_name}}
+                <span>{{category.blog_posts.count}}</span>
+            </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <!-- /category widget -->

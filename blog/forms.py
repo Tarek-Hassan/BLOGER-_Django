@@ -24,9 +24,20 @@ class PostForm(forms.ModelForm):
                 'placeholder': 'Write your content ...',
                 'class':'summernote',
             }),
+            'title': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'category': forms.Select(attrs={
+                'class': 'form-control'
+            }),
         }
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model= Category
         fields= ('category_name',)
+        widgets = {
+            'category_name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+        }
