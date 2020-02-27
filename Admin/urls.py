@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^$', views.home),
     # path('users', views.showusers),
     # path('show_user/<num>', views.showUser),
-    # path('add_user', views.addUser),
+     path('add_user', views.addUser),
     # path('edit_user/<num>', views.editUser),
     # path('admin_user/<num>', views.addstaff),
     # path('block_user/<num>', views.blockUser),

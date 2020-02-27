@@ -28,14 +28,14 @@ def home(request):
 #     return render(request, 'Admin_Views/userDetails.html', context)
 
 
-# def addUser(request):
-#     form = UserForm()
-#     if request.method == "POST":
-#         form = UserForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/admin/users')
-#     return render(request, 'Admin_Views/userForm.html', {'form': form})
+def addUser(request):
+    form = UserForm()
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/admin/users')
+    return render(request, 'Admin_Views/userForm.html', {'form': form})
 
 
 # def editUser(request, num):
