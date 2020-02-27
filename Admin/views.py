@@ -143,7 +143,7 @@ def editcategory(request, num):
     return render(request, 'Admin_Views/categoryForm.html', {'form': form})
 
 
-# def deletecategory(request, num):
-#     ct = get_object_or_404(Category,id=num)
-#     ct.delete()
-#     return HttpResponseRedirect('/admin/categories')
+def deletecategory(request, num):
+    ct = get_object_or_404(Category,id=num)
+    ct.delete()
+    return HttpResponseRedirect('/admin/categories')
