@@ -163,18 +163,18 @@ def addword(request):
             return HttpResponseRedirect('/admin/words')
     return render(request, 'Admin_Views/wordForm.html', {'form': form})
 
-# def editword(request, num):
-#     ct = get_object_or_404(undesiredWord,id=num)
-#     if request.method == "POST":
-#         form = WordForm(request.POST, instance=ct)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/admin/words')
-#     else:
-#         form = WordForm(instance=ct)
-#     return render(request, 'Admin_Views/wordForm.html', {'form': form})
-#
-#
+def editword(request, num):
+    ct = get_object_or_404(undesiredWord,id=num)
+    if request.method == "POST":
+        form = WordForm(request.POST, instance=ct)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/admin/words')
+    else:
+        form = WordForm(instance=ct)
+    return render(request, 'Admin_Views/wordForm.html', {'form': form})
+
+
 # def deleteword(request, num):
 #     wd = get_object_or_404(undesiredWord,id=num)
 #     wd.delete()
