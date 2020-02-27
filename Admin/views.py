@@ -68,12 +68,12 @@ def deleteUser(request, num):
     us.delete()
     return HttpResponseRedirect('/admin/users')
 
-# def showposts(request):
-#     all_posts = Post.objects.all()
-#     context = {'all_posts': all_posts}
-#     return render(request, 'Admin_Views/postsTable.html', context)
-#
-#
+def showposts(request):
+    all_posts = Post.objects.all()
+    context = {'all_posts': all_posts}
+    return render(request, 'Admin_Views/postsTable.html', context)
+
+
 # def showPost(request, slug):
 #     post = get_object_or_404(Post, slug=slug)
 #     comments = post.comments.filter(active=True)
