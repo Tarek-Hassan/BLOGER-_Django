@@ -45,8 +45,9 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+
 class Comment(models.Model):
-    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     name = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
@@ -57,6 +58,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.name)
+
 
 class Reply(models.Model):
     body = models.TextField()

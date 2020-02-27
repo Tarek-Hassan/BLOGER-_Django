@@ -1,0 +1,32 @@
+{% extends 'Admin_Views/layouts/base.html' %}
+{% block main %}
+
+<div>
+        <h1>{{ post.title }}</h1>
+        <img src="{{post.image.url}}" height="300" width="500">
+        <p >{{ post.author }} | {{ post.created_on }} | {{post.category}}</p>
+        <div>{{ post.content}}</div>
+        <p>likes:{{post.likes}} |dis likes:{{post.dislikes}}</p>
+        <p>comments:{{ comments.count }}</p>
+
+</div>
+    <div>
+        {% for co in comments %}
+          <p> writeby:{{co.name }}</p>
+          <p>at: {{ co.created_on }}</p>
+          <div>{{ co.body }}</div>
+    </div>
+    <div>
+        {% for rep in replies %}
+          {% if rep.comment_id == comment.id%}
+      <p> writeby: {{ reply.name }}</p>
+      <p>at: {{ reply.created_on }}</p>
+      <div> {{ reply.body}}</div>
+          </div>
+          {% endif %}
+        {% endfor %}
+
+        {% endfor %}
+
+
+{% endblock main %}
