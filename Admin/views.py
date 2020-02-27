@@ -16,12 +16,12 @@ from django.core.exceptions import ValidationError
 def home(request):
     return render(request, 'Admin_Views/home.html')
 
-# def showusers(request):
-#     all_users = User.objects.all()
-#     context = {'all_users': all_users}
-#     return render(request, 'Admin_Views/usersTable.html', context)
-#
-#
+def showusers(request):
+    all_users = User.objects.all()
+    context = {'all_users': all_users}
+    return render(request, 'Admin_Views/usersTable.html', context)
+
+
 # def showUser(request, num):
 #     us = get_object_or_404(User,id=num)
 #     context = {'us': us}

@@ -5,7 +5,7 @@ app_name='Admin'
 
 urlpatterns = [
     url(r'^$', views.home),
-    # path('users', views.showusers),
+    path('users', views.showusers),
     # path('show_user/<num>', views.showUser),
      path('add_user', views.addUser),
     # path('edit_user/<num>', views.editUser),
