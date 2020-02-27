@@ -22,10 +22,10 @@ def showusers(request):
     return render(request, 'Admin_Views/usersTable.html', context)
 
 
-# def showUser(request, num):
-#     us = get_object_or_404(User,id=num)
-#     context = {'us': us}
-#     return render(request, 'Admin_Views/userDetails.html', context)
+def showUser(request, num):
+    us = get_object_or_404(User,id=num)
+    context = {'us': us}
+    return render(request, 'Admin_Views/userDetails.html', context)
 
 
 def addUser(request):

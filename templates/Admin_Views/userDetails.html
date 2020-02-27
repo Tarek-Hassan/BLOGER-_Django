@@ -1,0 +1,16 @@
+{% extends 'Admin_Views/layouts/base.html' %}
+{% block main%}
+<h1>User {{us.id}} Data</h1>
+<ul>
+        <li>ID :{{us.id}}</li>
+		<li>user name :{{us.username}}</li>
+		<li>first name :{{us.first_name}}</li>
+		<li>last name :{{us.last_name}}</li>
+		<li>email :{{us.email}}</li>
+        <li>password :{{us.password}}</li>
+        <li>is_superuser :{{us.is_superuser}}</li>
+        <li>is_staff :{{us.is_staff}}</li>
+        <li>is_active :{{us.is_active}}</li>
+        <li>date_joined :{{us.date_joined}}</li>
+</ul>
+{%endblock%}
