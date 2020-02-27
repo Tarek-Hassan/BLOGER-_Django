@@ -89,6 +89,14 @@ class Dislikes(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_dislikes')
 
 
+# model for forbidden words
+class undesiredWord(models.Model):
+    word = models.CharField(max_length=200)
+
+    def __str__(self):
+        return '{}'.format(self.word)
+
+
 class Tag(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     tag1 = models.SlugField(max_length=30, null=True, blank=True)
