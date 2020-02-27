@@ -98,19 +98,19 @@ def deleteUser(request, num):
 #                                            'comment_form': comment_form,
 #                                            'replies': replies})
 #
-# def addPost(request):
-#
-#     form = PostForm()
-#     if request.method == "POST":
-#         form = PostForm(request.POST,request.FILES)
-#         if form.is_valid():
-#             newform = form.save(commit=False)
-#             newform.author = request.user
-#             newform.save()
-#             return HttpResponseRedirect('/admin/posts')
-#     return render(request, 'Admin_Views/postForm.html', {'form': form})
-#
-#
+def addPost(request):
+
+    form = PostForm()
+    if request.method == "POST":
+        form = PostForm(request.POST,request.FILES)
+        if form.is_valid():
+            newform = form.save(commit=False)
+            newform.author = request.user
+            newform.save()
+            return HttpResponseRedirect('/admin/posts')
+    return render(request, 'Admin_Views/postForm.html', {'form': form})
+
+
 # def editPost(request, slug):
 #     po = get_object_or_404(Post, slug=slug)
 #     if request.method == "POST":
