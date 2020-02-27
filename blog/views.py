@@ -2,7 +2,7 @@ from django.shortcuts import render
 import math  
 from django.http import HttpResponseRedirect
 from django.views import generic
-from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes, Tag
+from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes, Tag,undesiredWord
 from .forms import CommentForm, ReplyForm, PostForm, CategoryForm, SearchForm, TagForm
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
@@ -13,16 +13,9 @@ n = 3
 # Create your views here.
 def search(request, slug):
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        # d = request.POST
         print((request.POST)["textfield"])
-        # d1 = dict(d.items()[2:])
-        # d2 = dict(d.items()[:1])
-        # print(d)
-        # print(d2)
         form = SearchForm(request.POST)
-        # print(form)
-        # check whether it's valid:
+
         if form.is_valid():
             attribute = (request.POST)["option"]
             value = (request.POST)["textfield"]
@@ -36,14 +29,7 @@ def search(request, slug):
             elif attribute == "tags":
                 psts = Post.objects.all()
                 posts = checkTags(psts, value)
-                # for post in psts:
-                #     lst = post.tags.all()
-                #     for lt in lst:
-                #         if str(value) == str(lt):
-                #             pot = Post.objects.get(id = post.id)
-                #             posts.append(pot)
                             
-
             elif attribute == "category":
                 cat = Category.objects.get(category_name=value)
                 posts = Post.objects.filter(category_id=cat)
@@ -54,7 +40,7 @@ def search(request, slug):
             else:
                 posts=Post.objects.all()
 
-    # if a GET (or any other method) we'll create a blank form
+    # if a GET (or any other method) we'll create a blank form        
     else:
         psts = Post.objects.all()
         posts = checkTags(psts, slug)
@@ -67,14 +53,17 @@ def search(request, slug):
 def home(request):
     cats = Category.objects.all()
     posts = Post.objects.all()[n-3:n]
-    subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
+    if not request.user.is_anonymous:
+        subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
+    else:
+        subs = []
     counter = countPgs()
     contents = ShortIntro(posts)
     posts = merge(posts, contents)
     checks = Check(cats, subs)
-    context = { 'cats' : cats,
+    context = { 'categories' : cats,
                 'checks' : checks,
-                'posts' : posts,
+                'post_list' : posts,
                 'count' : counter,
                  }
 
@@ -137,32 +126,56 @@ def unsubscribe(request,category_id):
 
 def post_list(request):
     template_name = 'blogviews/allPosts.html'
-    posts = Post.objects.all()
+    posts=filterPost()#caal to filterWordsFunction
     categories = Category.objects.all()
 
     context = {'post_list': posts, 'categories': categories}
 
     return render(request, template_name, context)
 
-    # print(posts)
-    # base_path = MEDIA_ROOT#ADD MEDIA_ROOT in settings.py
 
-    # media = MEDIA_ROOT
-    # for post in posts:
-    #     # post.image = post.image.decode('utf-8')
-    #     post.image = os.path.join(MEDIA_ROOT, b64decode(post.image))
-
-    # context = {'post_list': posts, 'categories': categories}
-
-    # context = {'post_list': posts, 'media':base_path}
-
-    # return render(request, template_name, context)
+def filterPost():# this function to fillter all posts
+    posts = Post.objects.all()
+    forbWords=undesiredWord.objects.values_list('word',flat=True)
+    for x in posts:
+        for word in forbWords:
+            if(word in x.title.lower()):
+                x.title=x.title.lower()
+                x.title=x.title.replace(word,'*'*len(word))
+            if(word in x.content.lower()):
+                x.content=x.content.lower()
+                x.content=x.content.replace(word,'*'*len(word))
+    return posts
 
 def post_detail(request, slug):
     template_name = 'blogviews/post_detail.html'
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
     replies = Reply.objects.all()
+    categories = Category.objects.all()
+#start filterComment&&replies&&postdetails
+    #values_list('word') -> this to covert the result to tupe 
+    #values_list('word', flat=True) -> afetr add(flat=True) it conver to string  
+    forbWords=undesiredWord.objects.values_list('word',flat=True)
+    for word in forbWords:
+        if(word in post.title.lower()):
+            post.title=post.title.lower()
+            post.title=post.title.replace(word,'*'*len(word))
+        if(word in post.content.lower()):
+            post.content=post.content.lower()
+            post.content=post.content.replace(word,'*'*len(word))
+    for x in comments:
+        for word in forbWords:
+            if(word in x.body.lower()):
+                x.body=x.body.lower()
+                x.body=x.body.replace(word,'*'*len(word))
+#endfilterComment
+    for x in replies:
+        for word in forbWords:
+            if(word in x.body.lower()):
+                x.body=x.body.lower()
+                x.body=x.body.replace(word,'*'*len(word))
+#endfilterreplies
     if not request.user.is_anonymous:
         likes = Likes.objects.filter(post=post, liker=request.user)
         dislikes = Dislikes.objects.filter(post=post, disliker=request.user)
@@ -187,7 +200,7 @@ def post_detail(request, slug):
             raise ValidationError(_('Invalid value'), code='invalid')
     else:
         comment_form = CommentForm()
-
+   
     if not request.user.is_anonymous:
         return render(request, template_name, {'post': post,
                                                 'comments': comments,
@@ -195,6 +208,7 @@ def post_detail(request, slug):
                                                 'comment_form': comment_form,
                                                 'replies': replies,
                                                 'reply_form': reply_form,
+                                                'categories': categories,
                                                 'likes': likes,
                                                 'dislikes': dislikes})
     else:
@@ -202,6 +216,7 @@ def post_detail(request, slug):
                                                 'comments': comments,
                                                 'new_comment': new_comment,
                                                 'comment_form': comment_form,
+                                                'categories': categories,
                                                 'replies': replies,
                                                 'reply_form': reply_form})
 
@@ -239,9 +254,9 @@ def addPost(request):
             post = form.save(commit=False)
             post.author = request.user
             post.slug = slugify(post.title)
-            post.tags.add(post.id)
+            # post.tags.add(post.id)
             # post.tags =  tags.set(post.id)
-            print(post.tags)
+            # print(post.tags)
             post.save()
             return HttpResponseRedirect('/blog/allPosts')
         else:
@@ -281,7 +296,8 @@ def category_posts(request, category_id):
     try:
         categories = Category.objects.all()
         posts = Post.objects.filter(category_id=category_id)
-        context = {'post_list': posts, 'categories': categories}
+        category = Category.objects.get(id=category_id)
+        context = {'post_list': posts, 'categories': categories, 'category': category}
     except:
         context = {'categories': categories}
     finally:
