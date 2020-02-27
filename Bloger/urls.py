@@ -22,7 +22,7 @@ from loginRegister import views
 from loginRegister import forms
 
 urlpatterns = [
-    path('admin/', include('Admin.urls')),
+    path('@dmin/', include('Admin.urls')),
     path('blog/', include('blog.urls')),
     path('', authView.LoginView.as_view(authentication_form=forms.AuthFormCheckStatus), name='login'),
     path('logout/', authView.LogoutView.as_view(), name='logout'),

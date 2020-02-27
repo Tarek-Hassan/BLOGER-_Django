@@ -33,9 +33,9 @@
 								<td>{{po.status}}</td>
 								<td>{{po.image}}</td>
 								<td>{{po.category}}</td>
-								<td><a href="/admin/show_post/{{po.slug}}">View Details</a></td>
-								<td><a href="/admin/edit_post/{{po.slug}}">edit</a></td>
-								<td><a href="/admin/delete_post/{{po.slug}}">delete</a></td>
+								<td><a href="/@dmin/show_post/{{po.slug}}">View Details</a></td>
+								<td><a href="/@dmin/edit_post/{{po.slug}}">edit</a></td>
+								<td><a href="/@dmin/delete_post/{{po.slug}}">delete</a></td>
 							</tr>
 							{% endfor%}
 
@@ -48,7 +48,7 @@
 
         </div>
 
-<a href="/admin/add_post" class="reply">new post</a>
+<a href="/@dmin/add_post" class="reply">new post</a>
 <br>
 {%endblock%}
 

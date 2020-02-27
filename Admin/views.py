@@ -35,7 +35,7 @@ def addUser(request):
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/admin/users')
+            return HttpResponseRedirect('/@dmin/users')
     return render(request, 'Admin_Views/userForm.html', {'form': form})
 
 
@@ -45,7 +45,7 @@ def editUser(request, num):
         form = UserForm(request.POST, instance=us)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/admin/users')
+            return HttpResponseRedirect('/@dmin/users')
     else:
         form = UserForm(instance=us)
     return render(request, 'Admin_Views/userForm.html', {'form': form})
@@ -56,18 +56,18 @@ def addstaff(request, num):
     if(us.is_active==False):
         us.is_active=True
     us.save()
-    return HttpResponseRedirect('/admin/users')
+    return HttpResponseRedirect('/@dmin/users')
 
 def blockUser(request, num):
     us = get_object_or_404(User,id=num)
     us.is_active=not us.is_active
     us.save()
-    return HttpResponseRedirect('/admin/users')
+    return HttpResponseRedirect('/@dmin/users')
 
 def deleteUser(request, num):
     us = get_object_or_404(User,id=num)
     us.delete()
-    return HttpResponseRedirect('/admin/users')
+    return HttpResponseRedirect('/@dmin/users')
 
 def showposts(request):
     all_posts = Post.objects.all()
@@ -91,7 +91,7 @@ def addPost(request):
             newform = form.save(commit=False)
             newform.author = request.user
             newform.save()
-            return HttpResponseRedirect('/admin/posts')
+            return HttpResponseRedirect('/@dmin/posts')
     return render(request, 'Admin_Views/postForm.html', {'form': form})
 
 
@@ -101,7 +101,7 @@ def editPost(request, slug):
         form = PostForm(request.POST, instance=po)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/admin/posts')
+            return HttpResponseRedirect('/@dmin/posts')
     else:
         form = PostForm(instance=po)
     return render(request, 'Admin_Views/postForm.html', {'form': form})
@@ -110,7 +110,7 @@ def editPost(request, slug):
 def deletePost(request, slug):
     po =get_object_or_404(Post, slug=slug)
     po.delete()
-    return HttpResponseRedirect('/admin/posts')
+    return HttpResponseRedirect('/@dmin/posts')
 
 
 def showcategory(request):
@@ -127,7 +127,7 @@ def addcategory(request):
             category = form.save(commit=False)
             category.category_creator = request.user
             category.save()
-            return HttpResponseRedirect('/admin/categories')
+            return HttpResponseRedirect('/@dmin/categories')
     return render(request, 'Admin_Views/categoryForm.html', {'form': form})
 
 def editcategory(request, num):
@@ -138,7 +138,7 @@ def editcategory(request, num):
             category = form.save(commit=False)
             category.category_creator = request.user
             category.save()
-            return HttpResponseRedirect('/admin/categories')
+            return HttpResponseRedirect('/@dmin/categories')
     else:
         form = categoryForm(instance=ct)
     return render(request, 'Admin_Views/categoryForm.html', {'form': form})
@@ -147,7 +147,7 @@ def editcategory(request, num):
 def deletecategory(request, num):
     ct = get_object_or_404(Category,id=num)
     ct.delete()
-    return HttpResponseRedirect('/admin/categories')
+    return HttpResponseRedirect('/@dmin/categories')
 
 def showwords(request):
     all_words = undesiredWord.objects.all()
@@ -161,7 +161,7 @@ def addword(request):
         form = WordForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/admin/words')
+            return HttpResponseRedirect('/@dmin/words')
     return render(request, 'Admin_Views/wordForm.html', {'form': form})
 
 def editword(request, num):
@@ -170,7 +170,7 @@ def editword(request, num):
         form = WordForm(request.POST, instance=ct)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/admin/words')
+            return HttpResponseRedirect('/@dmin/words')
     else:
         form = WordForm(instance=ct)
     return render(request, 'Admin_Views/wordForm.html', {'form': form})
@@ -179,4 +179,4 @@ def editword(request, num):
 def deleteword(request, num):
     wd = get_object_or_404(undesiredWord,id=num)
     wd.delete()
-    return HttpResponseRedirect('/admin/words')
+    return HttpResponseRedirect('/@dmin/words')
