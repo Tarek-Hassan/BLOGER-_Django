@@ -37,6 +37,9 @@ class TagForm(forms.ModelForm):
     class Meta:
         model= Tag
         fields= ('tag',)
+        widgets = {
+            'tag' : forms.TextInput(),
+        }
 
 class CategoryForm(forms.ModelForm):
     class Meta:

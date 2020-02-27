@@ -28,10 +28,7 @@ class Subscribe(models.Model):
         return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
 
 class Tag(models.Model):
-    tag = models.SlugField(max_length=30, null=True, blank=True)
-
-    class Meta:
-        unique_together = ["tag"]
+    tag = models.CharField(max_length=30)
 
     def __str__(self):
         return self.tag

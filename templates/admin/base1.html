@@ -44,18 +44,7 @@
                     </li>
                 {% endif %}
               </ul>
-              <form method="POST" action = "{% url 'search' "?" %}" class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <select class="btn btn-secondary dropdown-toggle" name="option">
-                  <option value = "content">Content</option>
-                  <option value = "title">Title</option>
-                  <option value = "author">Author</option>
-                  <option value = "category">Category</option>
-                  <option value = "tags">Tag</option>
-              </select>
-              {% csrf_token %}
-              <button class="reply" type="submit">Search</button>
-              </form>
+
             </div>
           </nav>
 
