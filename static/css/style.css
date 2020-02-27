@@ -1279,6 +1279,10 @@ textarea.input {
   border-bottom: 1px solid #e8eaed;
 }
 
+.category-widget ul li:hover {
+  color: #ee4266;
+}
+
 .category-widget ul li a {
   display: block;
   text-transform: uppercase;

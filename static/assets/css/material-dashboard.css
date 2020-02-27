@@ -14609,6 +14609,10 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   box-shadow: none;
 }
 
+/* .link {
+  outline: 1px solid #323335;
+} */
+
 .sidebar .nav li.active>[data-toggle="collapse"] i {
   color: #a9afbb;
 }

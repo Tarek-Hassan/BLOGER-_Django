@@ -14,7 +14,11 @@ def home(request):
     # user = User.objects.get(id = num)
     cats = Category.objects.all()
     posts = Post.objects.all()[n-2:n]
-    subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
+
+    if not request.user.is_anonymous:
+        subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
+    else:
+        subs = []
     tags = Tag.objects.all()
     # print(tags[0])
     # print(type(tags[0]))
@@ -24,11 +28,13 @@ def home(request):
     posts = merge(posts, contents)
     # print(posts)
     checks = Check(cats, subs)
+
+    # if not request.user.is_anonymous:
     context = { 'cats' : cats,
                 'checks' : checks,
                 'posts' : posts, 
                 'tags' : tags,
-                 }
+                }
 
     return render(request,'blogviews/home.html',context)
 

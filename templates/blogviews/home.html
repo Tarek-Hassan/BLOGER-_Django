@@ -4,8 +4,9 @@
 {% block main%}
 
 <h1>home page</h1>
-
+{% if user.is_authenticated %}
 <h2>{{user.username}}</h2>
+{% endif %}
 <hr>
 <hr>
 
@@ -13,10 +14,12 @@
 {% for cat in cats %}
 <h2><a href="{% url 'category_posts' cat.id %}">{{cat.category_name}}</a></h2>
     
-        {% if cat.id in checks %}
-            <a href= "{% url 'unsubscribe' category_id=cat.id %}">subcribed</a>
-        {% else %}
-            <a href= "{% url 'subscribe' category_id=cat.id %}">subcribe</a>
+        {% if user.is_authenticated%}
+            {% if cat.id in checks %}
+                <a href= "{% url 'unsubscribe' category_id=cat.id %}">Unsubscribe</a>
+            {% else %}
+                <a href= "{% url 'subscribe' category_id=cat.id %}">Subscribe</a>
+            {% endif %}
         {% endif %}
 
         <hr>
