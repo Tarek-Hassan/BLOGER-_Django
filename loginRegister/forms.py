@@ -36,11 +36,11 @@ class AuthFormCheckStatus(AuthenticationForm):
                 raise self.get_invalid_login_error()
         return self.cleaned_data
 
-    #!anther way to check if block or not (status column)
+    # !anther way to check if block or not (status column)
     # def confirm_login_allowed(self,user):
     #     if not user.profile.status:
     #         raise forms.ValidationError("your account is blocked contact the admin",code='inactive',)
-            # print("notNione")
+    #         print("notNione")
 
-        # if user is not None and  user.is_active:
-        # if not user.is_staff:
+    #     if user is not None and  user.is_active:
+    #     if not user.is_staff:
