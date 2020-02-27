@@ -26,7 +26,7 @@ urlpatterns = [
 
     path('words', views.showwords),
     path('add_word', views.addword),
-     path('edit_word/<num>', views.editword),
-    # path('delete_word/<num>', views.deleteword),
+    path('edit_word/<num>', views.editword),
+    path('delete_word/<num>', views.deleteword),
 
 ]

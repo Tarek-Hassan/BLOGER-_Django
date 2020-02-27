@@ -175,7 +175,7 @@ def editword(request, num):
     return render(request, 'Admin_Views/wordForm.html', {'form': form})
 
 
-# def deleteword(request, num):
-#     wd = get_object_or_404(undesiredWord,id=num)
-#     wd.delete()
-#     return HttpResponseRedirect('/admin/words')
+def deleteword(request, num):
+    wd = get_object_or_404(undesiredWord,id=num)
+    wd.delete()
+    return HttpResponseRedirect('/admin/words')
