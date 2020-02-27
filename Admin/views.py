@@ -112,11 +112,11 @@ def deletePost(request, slug):
     return HttpResponseRedirect('/admin/posts')
 
 
-# def showcategory(request):
-#     all_categories = Category.objects.all()
-#     context = {'all_categories': all_categories}
-#     return render(request, 'Admin_Views/categoriesTable.html', context)
-#
+def showcategory(request):
+    all_categories = Category.objects.all()
+    context = {'all_categories': all_categories}
+    return render(request, 'Admin_Views/categoriesTable.html', context)
+
 
 def addcategory(request):
     form = categoryForm()

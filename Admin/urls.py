@@ -19,7 +19,7 @@ urlpatterns = [
     path('edit_post/<slug>', views.editPost),
     path('delete_post/<slug>', views.deletePost),
 
-    # path('categories', views.showcategory),
+    path('categories', views.showcategory),
     path('add_category', views.addcategory),
     # path('edit_category/<num>', views.editcategory),
     # path('delete_category/<num>', views.deletecategory),
