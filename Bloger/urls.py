@@ -28,6 +28,7 @@ urlpatterns = [
     path('logout/', authView.LogoutView.as_view(), name='logout'),
     path('signup/', views.signup, name='signup'),
     path('loginRegister/', include('loginRegister.urls')),
+    path('summernote/', include('django_summernote.urls')),#summernote
 ]
 
 if settings.DEBUG:

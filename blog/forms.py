@@ -22,7 +22,7 @@ class PostForm(forms.ModelForm):
             'content': forms.Textarea(attrs={
                 'required': True, 
                 'placeholder': 'Write your content ...',
-                'class': 'form-control'
+                'class':'summernote',
             }),
             'title': forms.TextInput(attrs={
                 'class': 'form-control'

@@ -1,20 +1,6 @@
 {% include 'blogviews/header.html'%}
 <body>
     {% block auth %}
-        <!-- <div class="alert alert-dark" role="alert"> -->
-<!-- @tarek is_authenticated to check if user is login or not  -->
-            <!-- {% if user.is_authenticated %}
-                <p><a href="{% url 'logout' %}">logout</a>
-                <p><a href="/blog/home">Home</a></p> -->
-
-<!-- @tarek is_authenticated to check if user is admin or not  -->
-                <!-- {% if user.is_staff %}
-                    <p><a href="/admin/">admin</a>
-                {% endif %}
-            {% else %}
-                <p><a href="{% url 'login' %}">login</a>/<a href="{% url 'signup' %}">SignUp</a></p>
-            {% endif %}
-        </div> -->
 
         <nav class="navbar navbar-expand-lg navbar-dark" id="menu">
             <a class="navbar-brand" href="/blog/home">Bloggy</a>
