@@ -24,5 +24,9 @@ urlpatterns = [
     path('edit_category/<num>', views.editcategory),
     path('delete_category/<num>', views.deletecategory),
 
+    path('words', views.showwords),
+    # path('add_word', views.addword),
+    # path('edit_word/<num>', views.editword),
+    # path('delete_word/<num>', views.deleteword),
 
 ]
