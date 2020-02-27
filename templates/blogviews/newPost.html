@@ -23,7 +23,11 @@
             <td><label>Image</label></td>
             <td>{{form.image}}</td>
         </tr>
-
+        <tr>
+            <td><label>Tags</label></td>
+            <td>{{form.tags}}
+            <a href="/blog/newTag" style="color: green; text-decoration: none; font-weight: bold; font-size: 20px;">+</a></td>
+        </tr>
         {% csrf_token %}
         <tr>
             <td><button type="submit" class="reply">Add Post</button></td>

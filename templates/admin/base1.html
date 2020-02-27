@@ -30,22 +30,17 @@
                     </li>
                 {% endif %}
               </ul>
-              <form class="form-inline my-2 my-lg-0">
+              <form method="POST" action = "{% url 'search' '?' %}" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <ul>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle reply" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Filter
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </li>
-                </ul>
-                <button class="reply" type="submit">Search</button>
+                <select class="btn btn-secondary dropdown-toggle" name="option">
+                  <option value = "content">Content</option>
+                  <option value = "title">Title</option>
+                  <option value = "author">Author</option>
+                  <option value = "category">Category</option>
+                  <option value = "tags">Tag</option>
+              </select>
+              {% csrf_token %}
+              <button class="reply" type="submit">Search</button>
               </form>
             </div>
           </nav>

@@ -6,6 +6,7 @@ STATUS = (
     (0, "Draft"),
     (1, "Publish")
 )
+
 class Category(models.Model):
     category_name = models.CharField(max_length = 200)
     category_creator = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -26,6 +27,15 @@ class Subscribe(models.Model):
     def __str__(self):
         return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
 
+class Tag(models.Model):
+    tag = models.SlugField(max_length=30, null=True, blank=True)
+
+    class Meta:
+        unique_together = ["tag"]
+
+    def __str__(self):
+        return self.tag
+        
 class Post(models.Model): 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='blog_posts')
     title = models.CharField(max_length=200, unique=True)
@@ -36,11 +46,15 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
     status = models.IntegerField(choices=STATUS, default=1)
+    tags =  models.ManyToManyField(Tag, related_name='tags')
     # image = models.ImageField(upload_to='img/', null=True)
     image = models.ImageField(upload_to='images/', null=True)
-
+    
     class Meta:
         ordering = ['-created_on']
+        
+    def get_tags(self):
+        return " ".join([t.tag for t in self.tags.all()])
 
     def __str__(self):
         return self.title
@@ -85,15 +99,3 @@ class undesiredWord (models.Model):
     word=models.CharField(max_length=200)
     def __str__(self):
         return '{}'.format(self.word)
-
-        
-class Tag(models.Model):
-    post = models.ForeignKey(Post,on_delete=models.CASCADE)
-    tag1 = models.SlugField(max_length=30, null=True, blank=True)
-    tag2 = models.SlugField(max_length=30, null=True, blank=True)
-    tag3 = models.SlugField(max_length=30, null=True, blank=True)
-    tag4 = models.SlugField(max_length=30, null=True, blank=True)
-    tag5 = models.SlugField(max_length=30, null=True, blank=True)
-
-    def __str__(self):
-        return "{} ,{} ,{} ,{}".format(self.tag1, self.tag2, self.tag3, self.tag4)

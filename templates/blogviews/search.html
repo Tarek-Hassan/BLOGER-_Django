@@ -1,0 +1,41 @@
+{% extends 'admin/base1.html'%}
+
+
+{% block main%}
+<h1>Search Page</h1>
+<form method="POST" action = "{% url 'search' user.username %}">
+    <input type="text" name="textfield" placeholder="search"/>    
+    <select class="btn btn-secondary dropdown-toggle" name="option">
+        <option value = "all">All</option>
+        <option value = "content">Content</option>
+        <option value = "title">Title</option>
+        <option value = "author">Author</option>
+        <option value = "category">Category</option>
+        <option value = "tags">Tag</option>
+    </select>
+    {% csrf_token %}
+    <button type="submit">Submit</button>
+</form>
+{% if posts %}
+{% for post in posts %}
+        <hr>
+        <div style="border: 5px solid black; padding: 40px; opacity: .8; ">
+            <a href="{% url 'post_detail' post.0.slug  %}">
+                <img src="{{post.0.image.url}}" style="float:right; width:150px; height:100px;">
+                <li>{{post.0.title}}</li>
+                <li>{{post.0.created_on}}</li>
+            </a>
+            <span><b>likes:</b> {{post.0.likes}}   ||</span>
+            <span> <b>tags:</b> </span>
+            {% for tag in post.0.tags.all %}
+                <a href="{% url 'search' tag %}"><span> {{tag}}</span></a><span>,</span>
+            {% endfor %}
+            <br>
+            <P style="display: inline;">{{post.1}}</P>
+        </div>
+{% endfor %}
+{% else %}
+        <hr>
+        <h2>No posts</h2>
+{% endif %}
+{% endblock %}

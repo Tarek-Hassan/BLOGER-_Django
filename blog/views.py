@@ -1,63 +1,109 @@
 from django.shortcuts import render
+import math  
 from django.http import HttpResponseRedirect
 from django.views import generic
-from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes,Tag,undesiredWord
-from .forms import CommentForm, ReplyForm, PostForm, CategoryForm
+from blog.models import Post, Reply, Comment, User, Subscribe, Category, Likes, Dislikes, Tag,undesiredWord
+from .forms import CommentForm, ReplyForm, PostForm, CategoryForm, SearchForm, TagForm
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
+from django.contrib.admin.views.decorators import staff_member_required
 # from Bloger.settings import MEDIA_ROOT
-n = 2
+n = 5
 # Create your views here.
-def home(request):
-    # user = User.objects.get(id = num)
-    cats = Category.objects.all()
-    posts = Post.objects.all()[n-2:n]
+def search(request, slug):
+    if request.method == 'POST':
+        print((request.POST)["textfield"])
+        form = SearchForm(request.POST)
 
+        if form.is_valid():
+            attribute = (request.POST)["option"]
+            value = (request.POST)["textfield"]
+            if attribute == "title":
+                posts = Post.objects.filter(title=value)
+
+            elif attribute == "author":
+                user = User.objects.get(username=value)
+                posts = Post.objects.filter(author=user)
+
+            elif attribute == "tags":
+                psts = Post.objects.all()
+                posts = checkTags(psts, value)
+                            
+            elif attribute == "category":
+                cat = Category.objects.get(category_name=value)
+                posts = Post.objects.filter(category_id=cat)
+
+            elif attribute == "content":
+                    posts = searchContent(value)
+
+    # if a GET (or any other method) we'll create a blank form        
+    else:
+        psts = Post.objects.all()
+        posts = checkTags(psts, slug)
+
+    contents = ShortIntro(posts)
+    posts = merge(posts, contents)
+
+    return render(request, 'blogviews/search.html', {'posts': posts})
+
+@staff_member_required
+def home(request):
+    cats = Category.objects.all()
+    posts = Post.objects.all()[n-3:n]
     if not request.user.is_anonymous:
         subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
     else:
         subs = []
-    tags = Tag.objects.all()
-    # print(tags[0])
-    # print(type(tags[0]))
-    # print(posts)
-    # adjustTags(tags)
+
+    counter = countPgs()
     contents = ShortIntro(posts)
     posts = merge(posts, contents)
-    # print(posts)
     checks = Check(cats, subs)
-
-    # if not request.user.is_anonymous:
-    context = { 'cats' : cats,
+    context = { 'categories' : cats,
                 'checks' : checks,
-                'posts' : posts, 
-                'tags' : tags,
-                }
+                'post_list' : posts,
+                'count' : counter,
+                 }
 
     return render(request,'blogviews/home.html',context)
 
-def next(request):
+def page(request, slug):
     global n
     counter = (Post.objects.all()).count()
-    if n < counter:
-        n += 2
+    if slug == 'next':
+        if n < counter:
+            n += 5
+    elif slug == 'previous':
+        if n >= counter:
+            n -= 5
+    elif int(slug) > 0:
+        n=5
+        if n>= counter or n<counter: 
+            n*=int(slug)
     return HttpResponseRedirect('/blog/home')
 
-def previous(request):
-    global n
-    counter = (Post.objects.all()).count()
-    if n >= counter:
-        n -= 2
-    return HttpResponseRedirect('/blog/home')
+# def next(request):
+#     global n
+#     counter = (Post.objects.all()).count()
+#     if n < counter:
+#         n += 3
+#     return HttpResponseRedirect('/blog/home')
+
+# def previous(request):
+#     global n
+#     counter = (Post.objects.all()).count()
+#     if n >= counter:
+#         n -= 3
+#     return HttpResponseRedirect('/blog/home')
 
 def subscribe(request, category_id):
     try:
         cat = Category.objects.get(id = category_id)
         Subscribe.objects.create(subscriber_id = request.user, category_id = cat)
     finally:
-        return HttpResponseRedirect('/blog/home')
+        return HttpResponseRedirect('/blog/')
 
 
 def unsubscribe(request,category_id):
@@ -66,7 +112,7 @@ def unsubscribe(request,category_id):
         sub = Subscribe.objects.get(subscriber_id = request.user, category_id = cat)
         sub.delete()
     finally:
-        return HttpResponseRedirect('/blog/home')
+        return HttpResponseRedirect('/blog/')
 
 # def search(request):
 #     posts = Post.objects.filter(attribute = value).values_list(flat=True)
@@ -79,10 +125,6 @@ def unsubscribe(request,category_id):
 #     template_name = 'blogviews/allPosts.html'
 
 def post_list(request):
-    # template_name = 'blogviews/allPosts.html'
-    # posts = []
-    # categories = Category.objects.all()
-    # tags = Tag.objects.all()
     template_name = 'blogviews/allPosts.html'
     posts=filterPost()#caal to filterWordsFunction
     categories = Category.objects.all()
@@ -206,10 +248,15 @@ def comment_reply(request, commentId, slug):
 def addPost(request):
     if(request.method=='POST'):
         form = PostForm(request.POST,request.FILES)
+        # print(form)
+
         if(form.is_valid()):
             post = form.save(commit=False)
             post.author = request.user
             post.slug = slugify(post.title)
+            # post.tags.add(post.id)
+            # post.tags =  tags.set(post.id)
+            # print(post.tags)
             post.save()
             return HttpResponseRedirect('/blog/allPosts')
         else:
@@ -286,14 +333,6 @@ def merge(list1, list2):
     merged_list = [(list1[i], list2[i]) for i in range(0, len(list1))] 
     return merged_list
 
-# def adjustTags(tags):
-#     tgs = []
-#     for tag in tags:
-#         if tag[1] != None : 
-#             tgs.append(tag) 
-#     print(tgs)
-#     return tgs
-
 def increment_likes(request, slug):
     post = get_object_or_404(Post, slug=slug)
     post.likes = post.likes + 1
@@ -327,3 +366,48 @@ def increment_dislikes(request, slug):
     
     url = '/blog/'+ slug
     return HttpResponseRedirect(url)
+
+def checkTags(psts, val):
+    posts = []
+    for post in psts:
+        lst = post.tags.all()
+        for lt in lst:
+            if str(val) == str(lt):
+                pot = Post.objects.get(id = post.id)
+                posts.append(pot)
+    return posts   
+
+def addTag(request):
+    if(request.method=='POST'):
+        form = TagForm(request.POST)
+
+        if(form.is_valid()):
+            Tag = form.save(commit=False)
+            Tag.save()
+            return HttpResponseRedirect('/blog/newPost')
+        else:
+            raise ValidationError(_('Invalid value'), code='invalid')
+    else:
+        form=TagForm()
+
+    return render(request,'blogviews/newTag.html',{'form':form})
+
+def countPgs():
+    counter = math.ceil((Post.objects.all()).count()/3)
+    print(counter)
+    lst = []
+    i = 0
+    while(counter>i):
+        i+=1
+        lt = i
+        lst.append(lt)
+    return (lst)
+
+def searchContent(value):
+    posts = Post.objects.all()
+    psts = []
+    for post in posts:
+        if value in post.content: 
+            psts.append(post)
+    return psts
+            
