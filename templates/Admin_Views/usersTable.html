@@ -1,0 +1,85 @@
+{% extends 'Admin_Views/layouts/base.html' %}
+{% block main%}
+<div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Users Table</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                   <th>ID</th>
+    <th>username</th>
+	<th>First Name</th>
+	<th>Last Name</th>
+	<th>email</th>
+	<!--<th>password</th>-->
+<!--    <th>is_superuser</th>-->
+	<th>is_staff</th>
+    <th>is_active</th>
+    <th>date_joined</th>
+    <th>Details</th>
+    <th>Edit</th>
+    <th>Delete</th>
+    <th>Prompte</th>
+    <th>Block</th>
+
+                      </thead>
+                      <tbody>
+                      {% for us in all_users  %}
+        {% if us.is_staff == True %}
+            <tr style="background-color: #e91e63; color: white; font-weight: bold;">
+                <td>{{us.id}}</td>
+                <td>{{us.username}}</td>
+                <td>{{us.first_name}}</td>
+                <td>{{us.last_name}}</td>
+                <td>{{us.email}}</td>
+              <!--    <td>{{us.password}}</td>-->
+<!--                <td>{{us.is_superuser}}</td>-->
+                <td>{{us.is_staff}}</td>
+                <td>{{us.is_active}}</td>
+                <td>{{us.date_joined}}</td>
+                <td><a href="/admin/show_user/{{us.id}}" class="reply">Details</a></td>
+                <td><a href="/admin/edit_user/{{us.id}}" class="reply">Edit</a></td>
+                <td><a href="/admin/delete_user/{{us.id}}" class="reply">Delete</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>{{us.id}}</td>
+                <td>{{us.username}}</td>
+                <td>{{us.first_name}}</td>
+                <td>{{us.last_name}}</td>
+                <td>{{us.email}}</td>
+             <!--   <td>{{us.password}}</td>-->
+<!--                <td>{{us.is_superuser}}</td>-->
+                <td>{{us.is_staff}}</td>
+                <td>{{us.is_active}}</td>
+                <td>{{us.date_joined}}</td>
+                <td><a href="/admin/show_user/{{us.id}}"class="reply">Details</a></td>
+                <td><a href="/admin/edit_user/{{us.id}}"class="reply">Edit</a></td>
+                <td><a href="/admin/delete_user/{{us.id}}"class="reply">Delete</a></td>
+                <td><a href="/admin/admin_user/{{us.id}}"class="reply">Prompte</a></td>
+                {% if us.is_active == True %}
+                    <td><a href="/admin/block_user/{{us.id}}"class="reply">Block</a></td>
+                {% else %}
+                    <td><a href="/admin/block_user/{{us.id}}"class="reply">unBlock</a></td>
+                {% endif%}
+            </tr>
+        {% endif%}
+
+
+	{% endfor%}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+<a href="/admin/add_user" class="reply">new User</a>
+<br>
+{%endblock%}

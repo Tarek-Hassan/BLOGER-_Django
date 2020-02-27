@@ -8,6 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
+from django.contrib.admin.views.decorators import staff_member_required
 # from Bloger.settings import MEDIA_ROOT
 n = 5
 # Create your views here.
@@ -48,6 +49,7 @@ def search(request, slug):
     return render(request, 'blogviews/search.html', {'post_list': posts,
                                                      'categories': cats})
 
+@staff_member_required
 def home(request):
     cats = Category.objects.all()
     posts = Post.objects.all()[n-3:n]
@@ -55,6 +57,7 @@ def home(request):
         subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
     else:
         subs = []
+
     counter = countPgs()
     contents = ShortIntro(posts)
     posts = merge(posts, contents)
@@ -101,7 +104,7 @@ def subscribe(request, category_id):
         cat = Category.objects.get(id = category_id)
         Subscribe.objects.create(subscriber_id = request.user, category_id = cat)
     finally:
-        return HttpResponseRedirect('/blog/home')
+        return HttpResponseRedirect('/blog/')
 
 
 def unsubscribe(request,category_id):
@@ -110,7 +113,7 @@ def unsubscribe(request,category_id):
         sub = Subscribe.objects.get(subscriber_id = request.user, category_id = cat)
         sub.delete()
     finally:
-        return HttpResponseRedirect('/blog/home')
+        return HttpResponseRedirect('/blog/')
 
 # def search(request):
 #     posts = Post.objects.filter(attribute = value).values_list(flat=True)
@@ -391,7 +394,7 @@ def addTag(request):
     return render(request,'blogviews/newTag.html',{'form':form})
 
 def countPgs():
-    counter = math.ceil((Post.objects.all()).count()/3)
+    counter = math.ceil((Post.objects.all()).count()/5)
     print(counter)
     lst = []
     i = 0

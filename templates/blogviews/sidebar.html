@@ -27,16 +27,16 @@
     <div class="category-widget">
       <ul>
         {% for category in categories%}
-        <li>
-            <a href="{% url 'category_posts' category.id %}" style="text-decoration: none; color: black; margin: px;" class="my-1">
-                {{category.category_name}}
-                <span>{{category.blog_posts.count}}</span>
-            </a>
-            {% if category.id in checks %}
-            <button class = "reply"><a href= "{% url 'unsubscribe' category_id=category.id %}" style="text-decoration: none; color: black; margin: px;">subcribed</a></button>
-            {% else %}
-            <button class = "reply"><a href= "{% url 'subscribe' category_id=category.id %}" style="text-decoration: none; color: black; margin: px;">subcribe</a></button>
-            {% endif %}
+        <li class="row">
+            <a href="{% url 'category_posts' category.id %}" class="my-1 col-8">
+                {{category.category_name}}</a>
+                {% if category.id in checks %}
+                <a class ="reply col-4"href= "{% url 'unsubscribe' category_id=category.id %}">Unsubscribe</a>
+                {% else %}
+                <a class="reply col-4" href= "{% url 'subscribe' category_id=category.id %}">Subscribe</a>
+                {% endif %}
+                <!-- <span class="">{{category.blog_posts.count}}</span> -->
+                
         </li>
         {% endfor %}
       </ul>
