@@ -233,12 +233,15 @@ def comment_reply(request, commentId, slug):
 def addPost(request):
     if(request.method=='POST'):
         form = PostForm(request.POST,request.FILES)
-        print(form)
+        # print(form)
 
         if(form.is_valid()):
             post = form.save(commit=False)
             post.author = request.user
             post.slug = slugify(post.title)
+            post.tags.add(post.id)
+            # post.tags =  tags.set(post.id)
+            print(post.tags)
             post.save()
             return HttpResponseRedirect('/blog/allPosts')
         else:
