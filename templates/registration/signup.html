@@ -3,11 +3,10 @@
 <h1>register</h1>
 {% endblock %}
 {% block main %}
-{% load crispy_forms_tags %}
 
 <form method="POST" class="form-group col-9">
     {% csrf_token%}
-    {{form|crispy}}
+    {{form.as_p}}
 
     <button type="submit" class="btn btn-success">register</button>
 </form>

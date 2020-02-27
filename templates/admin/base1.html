@@ -21,12 +21,17 @@
             box-shadow: 0 16px 48px #E3E7EB;
             padding-top: 10px;
         }
+        .card{
+            box-shadow: 0 16px 48px #E3E7EB;
+        }
     </style>
         {% block auth %}
             <div class="alert alert-dark" role="alert">
     <!-- @tarek is_authenticated to check if user is login or not  -->
                 {% if user.is_authenticated %}
                     <p><a href="{% url 'logout' %}">logout</a>
+                    <p><a href="/blog/home">Home</a></p>
+
     <!-- @tarek is_authenticated to check if user is admin or not  -->
                         {% if user.is_staff %}
                             <p><a href="/admin/">admin</a>
@@ -40,10 +45,15 @@
         <div class="alert alert-success" role="alert">
         {% block title %}
 
-        {% endblock %}
+        {% endblock title%}
         </div>
 
         {% block main%}
+
+        {% block sidebar %}
+
+        {% endblock sidebar%}
+
         {%endblock main%}
         {% include 'blogviews/footer.html'%}
 </body>

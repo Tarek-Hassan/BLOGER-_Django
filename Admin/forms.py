@@ -14,8 +14,19 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title','slug','content','image','category',)
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'required': True,
+                'placeholder': 'Write your content ...'
+            }),
+        }
 
-# class CommentForm(forms.ModelForm):
+class TagForm(forms.ModelForm):
+    class Meta:
+         model = Tag
+         fields = ('tag',)
+
+    # class CommentForm(forms.ModelForm):
 #     class Meta:
 #         model = Comment
 #         fields = ('name', 'body')
