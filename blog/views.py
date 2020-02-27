@@ -44,8 +44,9 @@ def search(request, slug):
 
     contents = ShortIntro(posts)
     posts = merge(posts, contents)
-
-    return render(request, 'blogviews/search.html', {'posts': posts})
+    cats = Category.objects.all()
+    return render(request, 'blogviews/search.html', {'post_list': posts,
+                                                     'categories': cats})
 
 def home(request):
     cats = Category.objects.all()
