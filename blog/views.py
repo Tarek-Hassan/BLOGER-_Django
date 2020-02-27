@@ -36,9 +36,6 @@ def search(request, slug):
 
             elif attribute == "content":
                     posts = searchContent(value)
-                    
-            else:
-                posts=Post.objects.all()
 
     # if a GET (or any other method) we'll create a blank form        
     else:
