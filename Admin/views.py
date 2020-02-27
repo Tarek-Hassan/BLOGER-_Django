@@ -148,6 +148,12 @@ def deletecategory(request, num):
     ct.delete()
     return HttpResponseRedirect('/admin/categories')
 
+def catPosts(request, num):
+    all_posts = Post.objects.filter(category=num)
+    context = {'all_posts': all_posts}
+    return render(request, 'Admin_Views/catpostsTable.html', context)
+
+
 def showwords(request):
     all_words = undesiredWord.objects.all()
     context = {'all_words':  all_words}

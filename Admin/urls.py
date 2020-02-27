@@ -23,6 +23,8 @@ urlpatterns = [
     path('add_category', views.addcategory),
     path('edit_category/<num>', views.editcategory),
     path('delete_category/<num>', views.deletecategory),
+    path('cat_posts/<num>', views.catPosts),
+
 
     path('words', views.showwords),
     path('add_word', views.addword),

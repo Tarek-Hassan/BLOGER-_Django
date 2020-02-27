@@ -47,7 +47,7 @@ class Post(models.Model):
     likes = models.IntegerField(default=0)
     dislikes = models.IntegerField(default=0)
     status = models.IntegerField(choices=STATUS, default=1)
-    tags = models.ManyToManyField(Tag, related_name='tags')
+    #tags = models.ManyToManyField(Tag, related_name='tags')
     # image = models.ImageField(upload_to='img/', null=True)
     image = models.ImageField(upload_to='images/', null=True)
 
