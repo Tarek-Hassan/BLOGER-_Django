@@ -49,14 +49,14 @@ def editUser(request, num):
         form = UserForm(instance=us)
     return render(request, 'Admin_Views/userForm.html', {'form': form})
 
-# def addstaff(request, num):
-#     us = get_object_or_404(User,id=num)
-#     us.is_staff=True
-#     if(us.is_active==False):
-#         us.is_active=True
-#     us.save()
-#     return HttpResponseRedirect('/admin/users')
-#
+def addstaff(request, num):
+    us = get_object_or_404(User,id=num)
+    us.is_staff=True
+    if(us.is_active==False):
+        us.is_active=True
+    us.save()
+    return HttpResponseRedirect('/admin/users')
+
 # def blockUser(request, num):
 #     us = get_object_or_404(User,id=num)
 #     us.is_active=not us.is_active
