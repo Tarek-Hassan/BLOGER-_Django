@@ -6,30 +6,25 @@ STATUS = (
     (0, "Draft"),
     (1, "Publish")
 )
-
-
 class Category(models.Model):
-    category_name = models.CharField(max_length=200)
+    category_name = models.CharField(max_length = 200)
     category_creator = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
-
+    
     class Meta:
         ordering = ['created_on']
-        verbose_name_plural = "categories"
-
+        verbose_name_plural = "categories" 	
+        
     def __str__(self):
         return self.category_name
-
-
+        
 class Subscribe(models.Model):
     category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
     subscriber_id = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
-
     class Meta:
         unique_together = ["category_id", "subscriber_id"]
+    def __str__(self):
+        return '{} subscribe to {}'.format(self.subscriber_id, self.category_id)
 
 
 class Tag(models.Model):
@@ -41,7 +36,8 @@ class Tag(models.Model):
     def __str__(self):
         return self.tag
 
-class Post(models.Model):
+
+class Post(models.Model): 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='blog_posts')
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -91,22 +87,17 @@ class Reply(models.Model):
     def __str__(self):
         return 'Reply {} by {}'.format(self.body, self.name)
 
-
 class Likes(models.Model):
     liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_likes')
-
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='post_likes')
 
 class Dislikes(models.Model):
     disliker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dislikes')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_dislikes')
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='post_dislikes')
 
-
-# model for forbidden words
-class undesiredWord(models.Model):
-    word = models.CharField(max_length=200)
-
+#model for forbidden words
+class undesiredWord (models.Model):
+    word=models.CharField(max_length=200)
     def __str__(self):
         return '{}'.format(self.word)
-
 

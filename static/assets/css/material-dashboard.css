@@ -381,6 +381,8 @@ template {
   }
   thead {
     display: table-header-group;
+    color: black;
+    font-weight: bold;
   }
   tr,
   img {
@@ -564,7 +566,8 @@ sup {
 }
 
 a {
-  color: #9c27b0;
+  color: white;
+  font-weight: bold;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
@@ -8666,9 +8669,11 @@ button.bg-dark:focus {
   color: #fff !important;
 }
 
-.text-primary {
+/* .text-primary {
   color: #2196f3 !important;
-}
+  color: black !important;
+  font-weight: bold;
+} */
 
 a.text-primary:hover,
 a.text-primary:focus {
@@ -13756,7 +13761,9 @@ h2.title {
 }
 
 .text-primary {
-  color: #9c27b0 !important;
+  color: #2196f3 !important;
+  color: black !important;
+  font-weight: bold;
 }
 
 .text-danger {
@@ -14598,7 +14605,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .sidebar .nav li .dropdown-menu a:focus,
 .sidebar .nav li.active>[data-toggle="collapse"] {
   background-color: rgba(200, 200, 200, 0.2);
-  color: #3C4858;
+  color: #ee4266;
   box-shadow: none;
 }
 
@@ -14645,14 +14652,16 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   line-height: 30px;
   width: 30px;
   text-align: center;
-  color: #a9afbb;
+  /* color: #a9afbb; */
+  color: white;
 }
 
 .sidebar .nav li a,
 .sidebar .nav li .dropdown-menu a {
   margin: 10px 15px 0;
   border-radius: 3px;
-  color: #3C4858;
+  /* color: #3C4858; */
+  color: white;
   padding-left: 10px;
   padding-right: 10px;
   text-transform: capitalize;
@@ -14672,6 +14681,10 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   background-position: center center;
 }
 
+nav a {
+  color: white;
+}
+
 .sidebar .sidebar-background:after {
   position: absolute;
   z-index: 3;
@@ -14679,7 +14692,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   height: 100%;
   content: "";
   display: block;
-  background: #FFFFFF;
+  background: #000000;
   opacity: .93;
 }
 
@@ -14689,6 +14702,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   display: block;
   position: relative;
   z-index: 4;
+  color: white;
+  font-weight: bold;
 }
 
 .sidebar .logo:after {
@@ -16310,7 +16325,27 @@ legend {
 }
 
 a {
-  color: #9c27b0;
+  /* color: #9c27b0; */
+  color: white;
+  font-weight: bold;
+}
+
+.reply {
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 5px 13px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #323335;
+  border-radius: 2px;
+  -webkit-transition: 0.2s opacity;
+  transition: 0.2s opacity;
+}
+
+.reply:hover {
+  opacity: 0.9;
+  color: #ee4266;
 }
 
 a:hover,
@@ -16778,7 +16813,8 @@ label {
 .card.bg-primary,
 .card.card-rotate.bg-primary .front,
 .card.card-rotate.bg-primary .back {
-  background: linear-gradient(60deg, #ab47bc, #8e24aa);
+  /* background: linear-gradient(60deg, #ab47bc, #8e24aa); */
+  background-color: #323335;
 }
 
 .card .card-header-info .card-icon,
@@ -16829,7 +16865,8 @@ label {
 .card .card-header-primary .card-icon,
 .card .card-header-primary:not(.card-header-icon):not(.card-header-text),
 .card .card-header-primary .card-text {
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+  /* box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4); */
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(174, 167, 175, 0.4); 
 }
 
 .card .card-header-danger .card-icon,

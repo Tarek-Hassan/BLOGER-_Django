@@ -11,6 +11,7 @@ def index(request):
 
 
 def signup(request):
+   
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():

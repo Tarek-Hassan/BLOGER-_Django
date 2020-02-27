@@ -30,7 +30,7 @@
                       <tbody>
                       {% for us in all_users  %}
         {% if us.is_staff == True %}
-            <tr style="background-color: #e89a9a">
+            <tr style="background-color: #e91e63; color: white; font-weight: bold;">
                 <td>{{us.id}}</td>
                 <td>{{us.username}}</td>
                 <td>{{us.first_name}}</td>
@@ -80,6 +80,6 @@
 
         </div>
 
-<a href="/admin/add_user">new User</a>
+<a href="/admin/add_user" class="reply">new User</a>
 <br>
 {%endblock%}

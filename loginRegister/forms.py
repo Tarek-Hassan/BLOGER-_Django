@@ -13,12 +13,37 @@ class RegisterForm(UserCreationForm):
         fields=('username','first_name','last_name','email','password1','password2', )
 
 class AuthFormCheckStatus(AuthenticationForm):
-    print("***inclass")
+    error_messages = {
+        'invalid_login':(
+            "Please enter a correct username and password. Note that both "
+            "fields may be case-sensitive."
+        ),
+        'inactive':("This account is block.you should contact the admin on admin@admin.com"),
+    }
     
-    def confirm_login_allowed(self,user):
-        print("****user.is_actqwive++",user.is_staff)
-        print("****user.is_actqwive++",user.is_active)
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
 
-        if not user.is_active and not user.is_staff:
-            print("*****active check")
-            raise forms.ValidationError("YourAckjhesdjvmdfvmfdncount",code='inactive',)
+        if username is not None and password:
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                try:
+                    user_temp = User.objects.get(username=username)
+                except:
+                    user_temp = None
+
+                if user_temp is not None :
+                        self.confirm_login_allowed(user_temp)
+                
+                raise self.get_invalid_login_error()
+        return self.cleaned_data
+
+    #!anther way to check if block or not (status column)
+    # def confirm_login_allowed(self,user):
+    #     if not user.profile.status:
+    #         raise forms.ValidationError("your account is blocked contact the admin",code='inactive',)
+            # print("notNione")
+
+        # if user is not None and  user.is_active:
+        # if not user.is_staff:
