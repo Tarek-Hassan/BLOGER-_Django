@@ -21,7 +21,8 @@ class PostForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={
                 'required': True, 
-                'placeholder': 'Write your content ...'
+                'placeholder': 'Write your content ...',
+                'class':'summernote',
             }),
         }
 
