@@ -137,8 +137,8 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-LOGIN_REDIRECT_URL = "/blog/allPosts" #redirect after login
-LOGOUT_REDIRECT_URL = "/blog/allPosts" #redirect after logout
+LOGIN_REDIRECT_URL = "/blog/" #redirect after login
+LOGOUT_REDIRECT_URL = "/blog/allPosts/" #redirect after logout
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'
 INSTALLED_APPS += ('django_summernote', ) #summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'
