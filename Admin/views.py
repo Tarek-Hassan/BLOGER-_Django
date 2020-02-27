@@ -154,15 +154,15 @@ def showwords(request):
     return render(request, 'Admin_Views/wordsTable.html', context)
 
 
-# def addword(request):
-#     form = WordForm()
-#     if request.method == "POST":
-#         form = WordForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/admin/words')
-#     return render(request, 'Admin_Views/wordForm.html', {'form': form})
-#
+def addword(request):
+    form = WordForm()
+    if request.method == "POST":
+        form = WordForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/admin/words')
+    return render(request, 'Admin_Views/wordForm.html', {'form': form})
+
 # def editword(request, num):
 #     ct = get_object_or_404(undesiredWord,id=num)
 #     if request.method == "POST":

@@ -25,6 +25,10 @@ class categoryForm(forms.ModelForm):
         model = Category
         fields = ('category_name',)
 
+class WordForm(forms.ModelForm):
+    class Meta:
+        model = undesiredWord
+        fields = ('word',)
 
 
 
