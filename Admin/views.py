@@ -57,12 +57,12 @@ def addstaff(request, num):
     us.save()
     return HttpResponseRedirect('/admin/users')
 
-# def blockUser(request, num):
-#     us = get_object_or_404(User,id=num)
-#     us.is_active=not us.is_active
-#     us.save()
-#     return HttpResponseRedirect('/admin/users')
-#
+def blockUser(request, num):
+    us = get_object_or_404(User,id=num)
+    us.is_active=not us.is_active
+    us.save()
+    return HttpResponseRedirect('/admin/users')
+
 def deleteUser(request, num):
     us = get_object_or_404(User,id=num)
     us.delete()
