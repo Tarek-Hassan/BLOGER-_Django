@@ -25,8 +25,8 @@
 							<td>{{ct.category_name}}</td>
 							<td>{{ct.category_creator}}</td>
 							<td>{{ct.created_on}}</td>
-							<td><a href="/admin/edit_category/{{ct.id}}">edit</a></td>
-							<td><a href="/admin/delete_category/{{ct.id}}">delete</a></td>
+							<td><a href="/@dmin/edit_category/{{ct.id}}">edit</a></td>
+							<td><a href="/@dmin/delete_category/{{ct.id}}">delete</a></td>
 						</tr>
 						{% endfor%}
                       </tbody>
@@ -38,7 +38,7 @@
 
         </div>
 
-<a href="/admin/add_category" class="reply">new category</a>
+<a href="/@dmin/add_category" class="reply">new category</a>
 <br>
 
 {%endblock%}
