@@ -1,6 +1,6 @@
 from django.contrib import admin
 from blog.models import Post, Comment, Reply, Category, Subscribe, Likes, Dislikes, Tag,undesiredWord
-#from django_summernote.admin import SummernoteModelAdmin
+from django_summernote.admin import SummernoteModelAdmin
 # Register your models here.
 
 # class PostAdmin(admin.ModelAdmin):
@@ -33,8 +33,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('created_on',)
     search_fields = ['category_name']
 
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('tag1', 'tag2', 'tag3', 'tag4', 'tag5')
+# class TagAdmin(admin.ModelAdmin):
+    # list_display = ('tag1', 'tag2', 'tag3', 'tag4', 'tag5')
 
 class LikesAdmin(admin.ModelAdmin):
     list_display = ('liker', 'post')
@@ -51,5 +51,5 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Likes, LikesAdmin)
 admin.site.register(Dislikes, DislikesAdmin)
 admin.site.register(Subscribe)
-admin.site.register(Tag, TagAdmin)
+# admin.site.register(Tag, TagAdmin)
 admin.site.register(undesiredWord, undesiredWordAdmin)
