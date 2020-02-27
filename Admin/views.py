@@ -38,17 +38,17 @@ def addUser(request):
     return render(request, 'Admin_Views/userForm.html', {'form': form})
 
 
-# def editUser(request, num):
-#     us = get_object_or_404(User,id=num)
-#     if request.method == "POST":
-#         form = UserForm(request.POST, instance=us)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/admin/users')
-#     else:
-#         form = UserForm(instance=us)
-#     return render(request, 'Admin_Views/userForm.html', {'form': form})
-#
+def editUser(request, num):
+    us = get_object_or_404(User,id=num)
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=us)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/admin/users')
+    else:
+        form = UserForm(instance=us)
+    return render(request, 'Admin_Views/userForm.html', {'form': form})
+
 # def addstaff(request, num):
 #     us = get_object_or_404(User,id=num)
 #     us.is_staff=True
