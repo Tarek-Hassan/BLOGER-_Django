@@ -16,13 +16,13 @@
             {% endif %}
         </div> -->
 
-        <nav class="navbar navbar-expand-lg navbar-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark" id="menu">
             <a class="navbar-brand" href="/blog/home">Bloggy</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav my-2">
+              <ul class="navbar-nav my-2 mr-auto">
                 <li class="nav-item ">
                   <a class="nav-link" href="/blog/home">Home <span class="sr-only">(current)</span></a>
                 </li>
@@ -44,6 +44,23 @@
                     </li>
                 {% endif %}
               </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <ul>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle reply" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Filter
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </li>
+                </ul>
+                <button class="reply" type="submit">Search</button>
+              </form>
             </div>
           </nav>
 

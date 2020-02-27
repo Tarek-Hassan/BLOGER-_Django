@@ -65,6 +65,25 @@ table td a {
     margin: 2rem 1rem 1rem;
 }
 
+/* #menu .reply {
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 5px 13px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #323335;
+    outline: 1px solid #ee4266;
+    border-radius: 2px;
+    -webkit-transition: 0.2s opacity;
+    transition: 0.2s opacity;
+}
+
+ #menu .reply:hover {
+    opacity: 0.9;
+    color: #ee4266;
+} */
+
 img {
     width: 500px;
     height: 200px;
