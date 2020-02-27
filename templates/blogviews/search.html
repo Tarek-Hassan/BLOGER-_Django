@@ -1,0 +1,85 @@
+{% extends 'admin/base1.html' %}
+{% load static %}
+
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+</style>
+
+{% block main %}
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h2 class=" site-heading my-2 mt-3 text-black"> All Posts </h2>
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+{% if post_list %}
+
+<div class="container">
+    <div class="row main category-page">
+        <div class="col-md-8">
+            {% for post in post_list %}
+          <!-- post content -->
+            <div class="section-row">
+                    <div class="shadow-section px-5 py-5">
+                        <div class="post-image">
+                            <a href="{% url 'post_detail' post.0.slug%}"><img src={{post.0.image.url}} class="img-thumbnail rounded" style="max-width: 100%;"></a>
+                        </div>
+    
+                        <div class="post-category py-2">
+                            <a href="{% url 'category_posts' post.0.category_id %}">{{post.0.category}}</a>
+                        </div>
+                        <h1>{{post.0.title}}</h1>
+                        <ul class="post-meta">
+                            <li><a>{{post.0.author}}</a></li>
+                            <li>{{post.0.created_on}}</li>
+                        </ul>
+                        <p class="text-muted">{{ post.0.likes }} likes | {{ post.0.dislikes }} dislikes</p>
+                        
+                        {% for tag in post.0.tags.all %}
+                            <p>  
+                            <span><b>tags: </b><a href="{% url 'search' tag %}">{{tag}}</a></span> </p>
+                        {% endfor %}
+                        <br>
+
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div>
+        {% else %}
+        <hr>
+        <h2>No posts</h2>
+        {% endif %}
+        </div>
+        <div class="col-md-4 mt-3">
+            {% block sidebar %} 
+                {% include 'blogviews/sidebar.html' with categories=categories %} 
+            {% endblock sidebar%}
+        </div>
+    </div>
+</div>
+{%endblock main%}

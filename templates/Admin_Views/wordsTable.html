@@ -1,0 +1,40 @@
+{% extends 'Admin_Views/layouts/base.html' %}
+{% block main%}
+<div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Words Table</h4>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+						   <th>ID</th>
+							<th>word</th>
+							<th align="center">Edit</th>
+							<th align="center">Delete</th>
+
+                      </thead>
+                      <tbody>
+                    {% for wo in all_words  %}
+						<tr>
+							<td>{{wo.id}}</td>
+							<td>{{wo.word}}</td>
+							<td><a href="/@dmin/edit_word/{{wo.id}}">edit</a></td>
+							<td><a href="/@dmin/delete_word/{{wo.id}}">delete</a></td>
+						</tr>
+						{% endfor%}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+<a href="/@dmin/add_word" class="reply">add word</a>
+<br>
+
+{%endblock%}

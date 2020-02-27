@@ -1,0 +1,37 @@
+{% extends 'admin/base1.html'%}
+{% block title%}
+<h1 class="page-title">New Post</h1>
+{%endblock%}
+{% block main%}
+<form method="POST" class="form-group col-9" enctype="multipart/form-data">
+    <!-- {{form.as_p}} -->
+    <table>
+        <tr>
+            <td><label>Category</label></td>
+            <td>{{form.category}}</td>
+            <td><a href="/blog/newCategory">+</a></td>
+        </tr>
+        <tr>
+            <td><label>Title</label></td>
+            <td>{{form.title}}</td>
+        </tr>
+        <tr>
+            <td><label>Content</label></td>
+            <td>{{form.content}}</td>
+        </tr>
+        <tr>
+            <td><label>Image</label></td>
+            <td>{{form.image}}</td>
+        </tr>
+        <tr>
+            <td><label>Tags</label></td>
+            <td>{{form.tags}}
+            <a href="/blog/newTag" style="color: green; text-decoration: none; font-weight: bold; font-size: 20px;">+</a></td>
+        </tr>
+        {% csrf_token %}
+        <tr>
+            <td><button type="submit" class="reply">Add Post</button></td>
+        </tr>
+    </table>
+</form>
+{%endblock%}

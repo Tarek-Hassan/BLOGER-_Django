@@ -1,7 +1,89 @@
 
-{% extends 'admin/base.html'%}
+{% extends 'admin/base1.html' %}
+{% load static %}
+
+{%block main%}
+<!-- {% if user.is_authenticated %}
+<h2>{{user.username}}</h2>
+{% endif %} -->
 
 
-{% block main%}
-<h1>home page</h1>
-{%endblock%}
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <hr>
+        <form method="POST" action = "{% url 'search' '?' %}">
+            <input type="text" name="textfield" placeholder="search"/>
+            <select class="btn btn-secondary dropdown-toggle" name="option">
+                <option value = "content">Content</option>
+                <option value = "title">Title</option>
+                <option value = "author">Author</option>
+                <option value = "category">Category</option>
+                <option value = "tags">Tag</option>
+            </select>
+            {% csrf_token %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="container">
+  
+      <!-- <form class="form-inline float-left">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="reply" type="submit">Search</button>
+      </form> -->
+  
+      {% if user.is_authenticated%}
+      <button class="reply mb-5 float-right"><a href="/blog/newPost">Create a Post</a></button>
+      {% endif %}
+      <!-- row -->
+      <div class="row main">
+        <div class="col-md-8">
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row main category-page">
+        <div class="col-md-8">
+            {% for post in post_list %}
+          <!-- post content -->
+            <div class="section-row">
+                    <div class="shadow-section px-5 py-5">
+                        <div class="post-image">
+                            <a href="{% url 'post_detail' post.0.slug%}"><img src={{post.0.image.url}} class="img-thumbnail rounded" style="max-width: 100%;"></a>
+                        </div>
+    
+                        <div class="post-category py-2">
+                            <a href="{% url 'category_posts' post.0.category_id %}">{{post.0.category}}</a>
+                        </div>
+                        <h1>{{post.0.title}}</h1>
+                        <ul class="post-meta">
+                            <li><a>{{post.0.author}}</a></li>
+                            <li>{{post.0.created_on}}</li>
+                        </ul>
+                        <p class="text-muted">{{ post.0.likes }} likes | {{ post.0.dislikes }} dislikes</p>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+    
+        <div class="col-md-4 mt-3">
+            {% block sidebar %} 
+                {% include 'blogviews/sidebar.html' with categories=categories %} 
+            {% endblock sidebar%}
+        </div>
+    </div>
+    </div>
+<div class="text-center">
+    <a href="{% url 'page' 'previous' %}"><button>Previous</button></a></h1>
+    {% for c in count %}
+    <a href="{% url 'page' c %}"><button>{{c}}</button></a></h1>
+    {% endfor %}
+    <a href="{% url 'page' 'next' %}"><button>Next</button></a>
+</div>
+
+{%endblock main %}
+
+

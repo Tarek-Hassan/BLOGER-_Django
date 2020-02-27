@@ -15,8 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as authView
+from loginRegister import views
+from loginRegister import forms
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('@dmin/', include('Admin.urls')),
     path('blog/', include('blog.urls')),
+    path('', authView.LoginView.as_view(authentication_form=forms.AuthFormCheckStatus), name='login'),
+    path('logout/', authView.LogoutView.as_view(), name='logout'),
+    path('signup/', views.signup, name='signup'),
+    path('loginRegister/', include('loginRegister.urls')),
+    path('summernote/', include('django_summernote.urls')),#summernote
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,159 @@
+{% extends 'admin/base1.html' %} {% block main %}
+
+<!-- SECTION -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+
+    <!-- <form class="form-inline float-left">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="reply" type="submit">Search</button>
+    </form> -->
+
+    {% if user.is_authenticated%}
+    <button class="reply mb-5 float-right"><a href="/blog/newPost">Create a Post</a></button>
+    {% endif %}
+    <!-- row -->
+    <div class="row main">
+      <div class="col-md-8">
+
+        <!-- post content -->
+        <div class="section-row">
+          <div class="shadow-section px-5 py-5">
+          <div class="post-image">
+            <img src={{post.image.url}} class="img-thumbnail rounded" style="max-width: 100%;">
+          </div>
+
+          <div class="post-category py-2">
+            <a href="{% url 'category_posts' post.category_id %}">{{post.category}}</a>
+          </div>
+          <h1>{{post.title}}</h1>
+          <ul class="post-meta">
+            <li><a>{{post.author}}</a></li>
+            <li>{{post.created_on}}</li>
+            <li><i class="fa fa-comments"></i> {{post.comments.count}}</li>
+          </ul>
+
+          <p>{{post.content | safe}}</p>
+          <p class="text-muted">{{ post.likes }} likes | {{ post.dislikes }} dislikes</p>
+        
+        {% if user.is_authenticated%}
+        <!-- Logged in user liked this post -->
+          {% if likes %}
+            <button class="reply" disabled style="color: #555">Like</button>
+            <button class="reply"><a href="{% url 'increment_dislikes' post.slug %}">Dislike</a></button>
+          {% elif dislikes %}
+            <button class="reply"><a href="{% url 'increment_likes' post.slug %}">Like</a></button>
+            <button class="reply" disabled style="color: #555">Dislike</button>
+          {% else %}
+            <button class="reply"><a href="{% url 'increment_likes' post.slug %}">Like</a></button>
+            <button class="reply"><a href="{% url 'increment_dislikes' post.slug %}">Dislike</a></button>
+          {% endif %}
+        {% endif %}
+        <!-- </div> -->
+        <!-- /post content -->
+
+        <!-- post tags -->
+        <div class="section-row">
+          <div class="post-tags">
+            <ul>
+              <li>TAGS:</li>
+              <li><a href="#">Social</a></li>
+              <li><a href="#">Lifestyle</a></li>
+              <li><a href="#">Fashion</a></li>
+              <li><a href="#">Health</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- /post tags -->
+        </div>
+        <!-- Shadow section -->
+
+        <!-- post comments -->
+        <div class="section-row shadow-section px-5 pt-5 pb-4 mt-3">
+          <div class="section-title">
+            <h3 class="title">{{post.comments.count}} Comments</h3>
+          </div>
+          <div class="post-comments">
+            <!-- comment -->
+          {% for comment in comments %}
+            <div class="media">
+              <div class="media-body">
+                <div class="media-heading">
+                  <h4>{{comment.name}}</h4>
+                  <span class="time">{{comment.created_on}}</span>
+                </div>
+                <p>{{ comment.body | linebreaks }}</p>
+                {% if user.is_authenticated%}
+                <button style='cursor: pointer;' class="reply mb-4" id="reply{{ comment.id }}">Reply</button>
+                {% endif%}
+                <form method="post" action = "{% url 'comment_reply' post.slug comment.id %}" id="form-reply{{ comment.id }}">
+                  {{ reply_form.as_p }}
+                  {% csrf_token %}
+                  <button type="submit" class="reply" name="replySubmit">Submit</button>
+                </form>
+              </div>
+            </div>
+        <!-- /post comments -->
+
+        <!-- post reply -->
+        {% for reply in replies %}
+        {% if reply.comment_id == comment.id%}
+        <div class="media media-author ml-5 mb-4">
+          <div class="media-body">
+            <div class="media-heading">
+              <h4>{{reply.name}}</h4>
+              <span class="time">{{ reply.created_on }}</span>
+            </div>
+            <p>{{ reply.body | linebreaks }}</p>
+            <!-- <a href="#" class="reply">Submit</a> -->
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        <!-- /post reply -->
+
+        <!-- leave comment-->
+					<div class="section-row">
+						<div class="section-title">
+							<h3 class="title">Leave a Comment</h3>
+						</div>
+						                
+            {% if user.is_authenticated%}
+            <form method="post" class="post-reply" style="margin-top: 1.3em;">
+                {{ comment_form.as_p }}
+                {% csrf_token %}
+              <button type="submit" class="reply" name="commentSubmit">Submit</button>
+            </form>
+            {% else %}
+            <p>You must log in to comment <a href="{% url 'login' %}">Login</a></p>
+            {% endif %}
+          </div>
+					</div>
+					<!-- /leave comment -->
+      </div>
+      </div>
+      </div>
+    <div class="col-md-4">
+      {% block sidebar %} 
+          {% include 'blogviews/sidebar.html' with categories=categories %} 
+      {% endblock sidebar%}
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /SECTION -->
+
+<script>
+  const replyBtns = document.querySelectorAll('[id ^= "reply"]');
+
+  replyBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const replyForm = document.querySelector(`[id = "form-${btn.getAttribute('id')}"]`);
+      replyForm.style.display = 'block';
+    });
+  });
+</script>
+{% endblock main %}
