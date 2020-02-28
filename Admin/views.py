@@ -90,9 +90,25 @@ def addPost(request):
         if form.is_valid():
             newform = form.save(commit=False)
             newform.author = request.user
+            newform.slug = newform.title
             newform.save()
             return HttpResponseRedirect('/@dmin/posts')
     return render(request, 'Admin_Views/postForm.html', {'form': form})
+
+def addTag(request):
+    if(request.method=='POST'):
+        form = TagForm(request.POST)
+
+        if(form.is_valid()):
+            Tag = form.save(commit=False)
+            Tag.save()
+            return HttpResponseRedirect('/@dmin/add_post')
+        else:
+            raise ValidationError(_('Invalid value'), code='invalid')
+    else:
+        form=TagForm()
+
+    return render(request,'Admin_Views/newTag.html',{'form':form})
 
 
 def editPost(request, slug):
@@ -180,3 +196,20 @@ def deleteword(request, num):
     wd = get_object_or_404(undesiredWord,id=num)
     wd.delete()
     return HttpResponseRedirect('/@dmin/words')
+
+def add_categoryfrompost(request):
+    form = categoryForm()
+    if request.method == "POST":
+        form = categoryForm(request.POST)
+        if form.is_valid():
+            category = form.save(commit=False)
+            category.category_creator = request.user
+            category.save()
+            return HttpResponseRedirect('/@dmin/add_post')
+    return render(request, 'Admin_Views/categoryForm.html', {'form': form})
+
+def catPosts(request, num):
+    all_posts = Post.objects.filter(category=num)
+    context = {'all_posts': all_posts}
+    return render(request, 'Admin_Views/catpostsTable.html', context)
+

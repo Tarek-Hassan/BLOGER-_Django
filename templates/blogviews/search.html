@@ -59,10 +59,10 @@
                         </ul>
                         <p class="text-muted">{{ post.0.likes }} likes | {{ post.0.dislikes }} dislikes</p>
                         
-                        {% for tag in post.0.tags.all %}
-                            <p>  
-                            <span><b>tags: </b><a href="{% url 'search' tag %}">{{tag}}</a></span> </p>
-                        {% endfor %}
+                        <p> <b>tags:</b> 
+                            {% for tag in post.0.tags.all %}
+                                <button class = "reply"><a href="{% url 'search' tag %}"><span>  {{tag}} </span></a></button>
+                            {% endfor %}</p>
                         <br>
 
                     </div>

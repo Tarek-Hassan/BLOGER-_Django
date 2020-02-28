@@ -12,14 +12,31 @@ class UserForm(UserCreationForm):
 
 class PostForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ('title','slug','content','image','category',)
+        model=Post
+        fields=('title','content','category','image', 'tags')
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'required': True,
+                'placeholder': 'Write your content ...',
+                'class':'summernote',
+            }),
+            'title': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'category': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'tags': forms.CheckboxSelectMultiple(),
+        }
 
-# class CommentForm(forms.ModelForm):
-#     class Meta:
-#         model = Comment
-#         fields = ('name', 'body')
-#
+class TagForm(forms.ModelForm):
+    class Meta:
+        model= Tag
+        fields= ('tag',)
+        widgets = {
+            'tag' : forms.TextInput(),
+        }
+        
 class categoryForm(forms.ModelForm):
     class Meta:
         model = Category
