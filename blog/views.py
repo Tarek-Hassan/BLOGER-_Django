@@ -51,9 +51,18 @@ def search(request, slug):
 
 def home(request):
     cats = Category.objects.all()
-    # posts = Post.objects.all()[n-3:n]
+    posts = Post.objects.all()[n-5:n]
+    forbWords=undesiredWord.objects.values_list('word',flat=True)
+    for x in posts:
+        for word in forbWords:
+            if(word in x.title.lower()):
+                x.title=x.title.lower()
+                x.title=x.title.replace(word,'*'*len(word))
+            if(word in x.content.lower()):
+                x.content=x.content.lower()
+                x.content=x.content.replace(word,'*'*len(word))
 
-    posts=filterPost()#caal to filterWordsFunction
+    # posts=filterPost()#caal to filterWordsFunction
     if not request.user.is_anonymous:
         subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
     else:
@@ -273,9 +282,10 @@ def addPost(request):
             # post.tags =  tags.set(post.id)
             # print(post.tags)
             post.save()
-            return HttpResponseRedirect('/blog/allPosts')
-        else:
-            raise ValidationError(_('Invalid value'), code='invalid')
+            form.save()
+            return HttpResponseRedirect('/blog/')
+        # else:
+        #     raise ValidationError(_('Invalid value'), code='invalid')
     else:
         form=PostForm()
 
@@ -388,7 +398,7 @@ def increment_dislikes(request, slug):
     dislike.save()
     if(post.dislikes == 10):
         post.delete()
-        return HttpResponseRedirect('/blog/allPosts')
+        return HttpResponseRedirect('/blog/')
     
     url = '/blog/'+ slug
     return HttpResponseRedirect(url)

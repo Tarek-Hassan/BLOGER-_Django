@@ -25,11 +25,12 @@ urlpatterns = [
     path('@dmin/', include('Admin.urls')),
     path('blog/', include('blog.urls')),
     path('', authView.LoginView.as_view(authentication_form=forms.AuthFormCheckStatus), name='login'),
+    path('admin/', authView.LoginView.as_view(authentication_form=forms.AuthFormCheckStatus), name='login'),
     path('logout/', authView.LogoutView.as_view(), name='logout'),
     path('signup/', views.signup, name='signup'),
     path('loginRegister/', include('loginRegister.urls')),
     path('summernote/', include('django_summernote.urls')),#summernote
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -36,7 +36,11 @@
 
           <p>{{post.content | safe}}</p>
           <p class="text-muted">{{ post.likes }} likes | {{ post.dislikes }} dislikes</p>
-        
+          
+          <p> <b>tags:</b> 
+          {% for tag in post.tags.all %}
+          <button class = "reply"><a href="{% url 'search' tag %}"><span>  {{tag}} </span></a></button>
+          {% endfor %}</p>
         {% if user.is_authenticated%}
         <!-- Logged in user liked this post -->
           {% if likes %}

@@ -23,6 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'la#*t^%=&7#7p_u!(w7%=+6dxg(i3igi%%qimge5(rrm)@6oxi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = False
+
+# ALLOWED_HOSTS = ['localhost','127.0.0.1','[::1]']
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -138,7 +141,7 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = "/blog/" #redirect after login
-LOGOUT_REDIRECT_URL = "/blog/allPosts/" #redirect after logout
+LOGOUT_REDIRECT_URL = "/blog/" #redirect after logout
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'
 INSTALLED_APPS += ('django_summernote', ) #summernote
 X_FRAME_OPTIONS = 'SAMEORIGIN'

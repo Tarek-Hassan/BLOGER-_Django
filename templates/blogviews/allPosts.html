@@ -5,22 +5,30 @@
 <!-- {% if user.is_authenticated %}
 <h2>{{user.username}}</h2>
 {% endif %} -->
-<hr>
-<div class="container">
-    <form method="POST" action = "{% url 'search' '?' %}" class="form-inline my-2 my-lg-0">
-        <!-- <input type="text" name="textfield" placeholder="search"/> -->
-        <input type="text" name="textfield" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <select class="btn btn-dark mr-2 dropdown-toggle" name="option">
-            <option value = "content">Content</option>
-            <option value = "title">Title</option>
-            <option value = "author">Author</option>
-            <option value = "category">Category</option>
-            <option value = "tags">Tag</option>
-        </select>
-        {% csrf_token %}
-        <button type="submit" class="reply">Search</button>
-    </form>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark blue lighten-2 mb-4">
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  
+  <h1 class="text-light">{{user.username}}</h1>
+  
+      <form method="POST" action = "{% url 'search' '?' %}" class="form-inline ml-auto">
+              <select class="btn btn btn-dark dropdown-toggle text-light" name="option">
+                  <option value = "content">Content</option>
+                  <option value = "title">Title</option>
+                  <option value = "author">Author</option>
+                  <option value = "category">Category</option>
+                  <option value = "tags">Tag</option>
+              </select>
+        <input class="form-control bg-transparent border-0 text-light" type="text" name="textfield" placeholder="Search">
+              {% csrf_token %}
+        <button class="btn btn-outline-white text-light btn-md my-0 ml-sm-2" type="submit">Search</i></button>
+      </form>
+  
+    </div>
+    <!-- Collapsible content -->
+  
+  </nav>
 
 <!-- SECTION -->
 <div class="section">
@@ -63,6 +71,10 @@
                             <li>{{post.created_on}}</li>
                         </ul>
                         <p class="text-muted">{{ post.likes }} likes | {{ post.dislikes }} dislikes</p>
+                        <p> <b>tags:</b> 
+                            {% for tag in post.tags.all %}
+                                <button class = "reply"><a href="{% url 'search' tag %}"><span>  {{tag}} </span></a></button>
+                            {% endfor %}
                     </div>
             </div>
             {% endfor %}

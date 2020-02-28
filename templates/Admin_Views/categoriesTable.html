@@ -13,7 +13,8 @@
 						   <th>ID</th>
 							<th>name</th>
 							<th>creator</th>
-							<th>created_on</th>
+              <th>created_on</th>
+              <th>posts</th>
 							<th align="center">Edit</th>
 							<th align="center">Delete</th>
 
@@ -24,7 +25,8 @@
 							<td>{{ct.id}}</td>
 							<td>{{ct.category_name}}</td>
 							<td>{{ct.category_creator}}</td>
-							<td>{{ct.created_on}}</td>
+              <td>{{ct.created_on}}</td>
+              <td><a href="/@dmin/cat_posts/{{ct.id}}"  class="reply">view</a></td>
 							<td><a href="/@dmin/edit_category/{{ct.id}}" class="reply">edit</a></td>
 							<td><a href="/@dmin/delete_category/{{ct.id}}" class="reply">delete</a></td>
 						</tr>
