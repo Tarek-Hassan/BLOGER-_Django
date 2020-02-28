@@ -49,11 +49,11 @@ def search(request, slug):
     return render(request, 'blogviews/search.html', {'post_list': posts,
                                                      'categories': cats})
 
-@staff_member_required
 def home(request):
     cats = Category.objects.all()
     # posts = Post.objects.all()[n-3:n]
-    posts = Post.objects.all()
+
+    posts=filterPost()#caal to filterWordsFunction
     if not request.user.is_anonymous:
         subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
     else:
@@ -129,9 +129,15 @@ def unsubscribe(request,category_id):
 def post_list(request):
     template_name = 'blogviews/allPosts.html'
     posts=filterPost()#caal to filterWordsFunction
+    if not request.user.is_anonymous:
+        subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
+    else:
+        subs = []
     categories = Category.objects.all()
 
-    context = {'post_list': posts, 'categories': categories,}
+    checks = Check(categories, subs)
+
+    context = {'post_list': posts, 'categories': categories, 'checks': checks}
 
     return render(request, template_name, context)
 
@@ -305,8 +311,19 @@ def category_posts(request, category_id):
     try:
         categories = Category.objects.all()
         posts = Post.objects.filter(category_id=category_id)
+        if not request.user.is_anonymous:
+            subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
+        else:
+            subs = []
+        forbWords=undesiredWord.objects.values_list('word',flat=True)
+        for x in posts:
+            for word in forbWords:
+                if(word in x.title.lower()):
+                    x.title=x.title.lower()
+                    x.title=x.title.replace(word,'*'*len(word))
         category = Category.objects.get(id=category_id)
-        context = {'post_list': posts, 'categories': categories, 'category': category}
+        checks = Check(categories, subs)
+        context = {'post_list': posts, 'categories': categories, 'category': category, 'checks': checks}
     except:
         context = {'categories': categories}
     finally:

@@ -9,10 +9,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav my-2 mr-auto">
+                <li class="nav-item ">
+                  <a class="nav-link" href="/blog/">Home <span class="sr-only">(current)</span></a>
+                </li>
                 {% if user.is_authenticated %}
-                  <li class="nav-item ">
-                    <a class="nav-link" href="/blog/">Home <span class="sr-only">(current)</span></a>
-                  </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>

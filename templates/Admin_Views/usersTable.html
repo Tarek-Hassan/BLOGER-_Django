@@ -62,9 +62,9 @@
                 <td><a href="/@dmin/delete_user/{{us.id}}" class="reply">Delete</a></td>
                 <td><a href="/@dmin/admin_user/{{us.id}}" class="reply">Prompte</a></td>
                 {% if us.is_active == True %}
-                    <td><a href="/@dmin/block_user/{{us.id}}">Block</a></td>
+                    <td><a href="/@dmin/block_user/{{us.id}}"class ="reply">Block</a></td>
                 {% else %}
-                    <td><a href="/@dmin/block_user/{{us.id}}">unBlock</a></td>
+                    <td><a href="/@dmin/block_user/{{us.id}}" class="reply">unBlock</a></td>
                 {% endif%}
             </tr>
         {% endif%}
