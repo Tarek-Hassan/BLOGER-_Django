@@ -18,15 +18,18 @@ urlpatterns = [
     path('add_post', views.addPost),
     path('edit_post/<slug>', views.editPost),
     path('delete_post/<slug>', views.deletePost),
+    path('add_categoryfrompost',views.add_categoryfrompost),
 
     path('categories', views.showcategory),
     path('add_category', views.addcategory),
     path('edit_category/<num>', views.editcategory),
     path('delete_category/<num>', views.deletecategory),
+    path('cat_posts/<num>', views.catPosts),
+
 
     path('words', views.showwords),
     path('add_word', views.addword),
     path('edit_word/<num>', views.editword),
     path('delete_word/<num>', views.deleteword),
-
+      path('newTag/', views.addTag),
 ]

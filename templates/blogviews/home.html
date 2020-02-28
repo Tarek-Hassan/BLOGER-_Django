@@ -7,41 +7,35 @@
 <h2>{{user.username}}</h2>
 {% endif %} -->
 
+<!-- <nav class="navbar navbar-expand-lg mb-4"> -->
 
-<!-- SECTION -->
+  <!-- Collapsible content -->
+  <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
+
+<!-- <h1 class="text-light">{{user.username}}</h1> -->
+
 <div class="section">
-    <!-- container -->
     <div class="container">
-        <hr>
-        <form method="POST" action = "{% url 'search' '?' %}" class="form-inline my-2 my-lg-0">
-            <!-- <input type="text" name="textfield" placeholder="search"/> -->
-            <input type="text" name="textfield" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <select class="btn btn-dark mr-2 dropdown-toggle" name="option">
-                <option value = "content">Content</option>
-                <option value = "title">Title</option>
-                <option value = "author">Author</option>
-                <option value = "category">Category</option>
-                <option value = "tags">Tag</option>
-            </select>
-            {% csrf_token %}
-            <button type="submit" class="reply">Search</button>
-        </form>
-    </div>
-    <div class="container">
-  
-      <!-- <form class="form-inline float-left">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="reply" type="submit">Search</button>
-      </form> -->
-  
-      {% if user.is_authenticated%}
-      <button class="reply mb-5 float-right"><a href="/blog/newPost">Create a Post</a></button>
-      {% endif %}
-      <!-- row -->
-      <div class="row main">
-        <div class="col-md-8">
+        <div class="row justify-content-between">
+            <form method="POST" action = "{% url 'search' '?' %}" class="form-inline float-left mb-5">
+                <select class="btn btn btn-dark dropdown-toggle text-light mr-3" name="option">
+                    <option value = "content">Content</option>
+                    <option value = "title">Title</option>
+                    <option value = "author">Author</option>
+                    <option value = "category">Category</option>
+                    <option value = "tags">Tag</option>
+                </select>
+                <input class="form-control bg-transparent border-0 text-dark mr-3" type="text" name="textfield" placeholder="Search">
+                        {% csrf_token %}
+                <button class="reply" type="submit">Search</i></button>
+            </form>
+        
+            <!-- <div class="container"> -->
+            {% if user.is_authenticated%}
+            <button class="reply float-right mb-5"><a href="/blog/newPost">Create a Post</a></button>
+            {% endif %}
+            <!-- </div> -->
         </div>
-      </div>
     </div>
 </div>
 
@@ -65,13 +59,19 @@
                             <li>{{post.0.created_on}}</li>
                         </ul>
                         <p class="text-muted">{{ post.0.likes }} likes | {{ post.0.dislikes }} dislikes</p>
+<p> <b>tags:</b> 
+                        {% for tag in post.0.tags.all %}
+                            <button class = "reply"><a href="{% url 'search' tag %}"><span>  {{tag}} </span></a></button>
+                        {% endfor %}</p>
+                        <br>
+                        <!-- <p>{{post.1}}</p> -->
                     </div>
             </div>
             {% endfor %}
         </div>
     
         <div class="col-md-4 mt-3">
-            {% block sidebar %} 
+            {% block sidebar %}  
                 {% include 'blogviews/sidebar.html' with categories=categories %} 
             {% endblock sidebar%}
         </div>
