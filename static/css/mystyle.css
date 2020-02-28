@@ -3,6 +3,10 @@ body {
     height: 100vh;
 }
 
+input[name $= "earch"] {
+    width: 20% !important;
+}
+
 .reply {
     text-transform: uppercase;
     display: inline-block;

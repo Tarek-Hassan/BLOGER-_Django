@@ -52,7 +52,8 @@ def search(request, slug):
 @staff_member_required
 def home(request):
     cats = Category.objects.all()
-    posts = Post.objects.all()[n-3:n]
+    # posts = Post.objects.all()[n-3:n]
+    posts = Post.objects.all()
     if not request.user.is_anonymous:
         subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
     else:
@@ -83,7 +84,7 @@ def page(request, slug):
         n=5
         if n>= counter or n<counter: 
             n*=int(slug)
-    return HttpResponseRedirect('/blog/home')
+    return HttpResponseRedirect('/blog/')
 
 # def next(request):
 #     global n
@@ -130,7 +131,7 @@ def post_list(request):
     posts=filterPost()#caal to filterWordsFunction
     categories = Category.objects.all()
 
-    context = {'post_list': posts, 'categories': categories}
+    context = {'post_list': posts, 'categories': categories,}
 
     return render(request, template_name, context)
 
@@ -154,6 +155,12 @@ def post_detail(request, slug):
     comments = post.comments.filter(active=True)
     replies = Reply.objects.all()
     categories = Category.objects.all()
+    if not request.user.is_anonymous:
+        subs = Subscribe.objects.filter(subscriber_id = request.user).values_list('category_id', flat=True)
+    else:
+        subs = []
+
+    checks = Check(categories, subs)
 #start filterComment&&replies&&postdetails
     #values_list('word') -> this to covert the result to tupe 
     #values_list('word', flat=True) -> afetr add(flat=True) it conver to string  
@@ -211,7 +218,8 @@ def post_detail(request, slug):
                                                 'reply_form': reply_form,
                                                 'categories': categories,
                                                 'likes': likes,
-                                                'dislikes': dislikes})
+                                                'dislikes': dislikes,
+                                                'checks': checks})
     else:
         return render(request, template_name, {'post': post,
                                                 'comments': comments,

@@ -18,7 +18,11 @@
             </form>-->
             <ul class="navbar-nav">
 
-              <li class="nav-item dropdown">
+              <li>
+                <a href="/blog/" class="reply">Home</a>
+              </li>
+
+              <li class="nav-item dropdown" style="cursor: pointer;">
                 <a class="nav-link" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">person</i>
                   <p class="d-lg-none d-md-block">
@@ -26,7 +30,7 @@
                   </p>
                 </a>
                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="/blog/home/">Home</a>
+                  <a class="dropdown-item" href="/blog/">Home</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'logout' %}" >Log out</a>
                 </div>
