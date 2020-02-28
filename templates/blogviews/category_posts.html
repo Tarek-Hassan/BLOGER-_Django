@@ -3,31 +3,35 @@
 
 {% block main %}
 
-<!-- SECTION -->
 <div class="section">
-    <!-- container -->
     <div class="container">
-  
-      <!-- <form class="form-inline float-left">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="reply" type="submit">Search</button>
-      </form> -->
-  
-      {% if user.is_authenticated%}
-      <button class="reply mb-5 float-right"><a href="/blog/newPost">Create a Post</a></button>
-      {% endif %}
-      <!-- row -->
-      <div class="row main">
-        <div class="col-md-8">
-        </div>
-      </div>
+        <div class="row justify-content-end">
+            <!-- <form method="POST" action = "{% url 'search' '?' %}" class="form-inline float-left mb-5">
+                <select class="btn btn btn-dark dropdown-toggle text-light mr-3" name="option">
+                    <option value = "content">Content</option>
+                    <option value = "title">Title</option>
+                    <option value = "author">Author</option>
+                    <option value = "category">Category</option>
+                    <option value = "tags">Tag</option>
+                </select>
+                <input class="form-control bg-transparent border-0 text-dark mr-3" type="text" name="textfield" placeholder="Search">
+                        {% csrf_token %}
+                <button class="reply" type="submit">Search</i></button>
+            </form> -->
+        
+            <!-- <div class="container"> -->
+            {% if user.is_authenticated%}
+            <button class="reply mb-5"><a href="/blog/newPost">Create a Post</a></button>
+            {% endif %}
+            </div>
+        <!-- </div> -->
     </div>
 </div>
 
 
 <header class="masthead">
     <div class="overlay"></div>
-    <div class="container">
+    <div class="container clear-fix">
         <div class="row">
             <div class="col-md-8 col-md-10">
                 <div class="site-heading">

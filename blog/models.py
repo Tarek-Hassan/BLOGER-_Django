@@ -55,7 +55,10 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
+    #AJAX
+    # @classmethod
+    # def filter_by_top_likes(cls):
+    #     return cls.objects.filter(likes__gt=10).order_by('-created_on')
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')

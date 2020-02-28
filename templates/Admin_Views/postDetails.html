@@ -1,32 +1,77 @@
 {% extends 'Admin_Views/layouts/base.html' %}
-{% block main %}
+ {% block main %}
 
-<div>
-        <h1>{{ post.title }}</h1>
-        <img src="{{post.image.url}}" height="300" width="500">
-        <p >{{ post.author }} | {{ post.created_on }} | {{post.category}}</p>
-        <div>{{ post.content}}</div>
-        <p>likes:{{post.likes}} |dis likes:{{post.dislikes}}</p>
-        <p>comments:{{ comments.count }}</p>
+<!-- SECTION -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
 
-</div>
-    <div>
-        {% for co in comments %}
-          <p> writeby:{{co.name }}</p>
-          <p>at: {{ co.created_on }}</p>
-          <div>{{ co.body }}</div>
-    </div>
-    <div>
-        {% for rep in replies %}
-          {% if rep.comment_id == comment.id%}
-      <p> writeby: {{ reply.name }}</p>
-      <p>at: {{ reply.created_on }}</p>
-      <div> {{ reply.body}}</div>
+
+    <div class="row main">
+      <div class="col-md-8">
+
+        <!-- post content -->
+        <div class="section-row">
+          <div class="shadow-section px-5 py-5">
+          <div class="post-image">
+            <img src={{post.image.url}} class="img-thumbnail rounded" style="max-width: 100%;">
           </div>
-          {% endif %}
+
+          <div class="post-category py-2">
+            <a href="{% url 'category_posts' post.category_id %}">{{post.category}}</a>
+          </div>
+          <h1>{{post.title}}</h1>
+          <ul class="post-meta">
+            <li><a>{{post.author}}</a></li>
+            <li>{{post.created_on}}</li>
+            <li><i class="fa fa-comments"></i> {{post.comments.count}}</li>
+          </ul>
+
+          <p>{{post.content | safe}}</p>
+          <p class="text-muted">{{ post.likes }} likes | {{ post.dislikes }} dislikes</p>
+
+
+
+        <!-- post comments -->
+        <div class="section-row shadow-section px-5 pt-5 pb-4 mt-3">
+          <div class="section-title">
+            <h3 class="title">{{post.comments.count}} Comments</h3>
+          </div>
+          <div class="post-comments">
+            <!-- comment -->
+          {% for comment in comments %}
+            <div class="media">
+              <div class="media-body">
+                <div class="media-heading">
+                  <h4>{{comment.name}}</h4>
+                  <span class="time">{{comment.created_on}}</span>
+                </div>
+                <p>{{ comment.body | linebreaks }}</p>
+    {% for reply in replies %}
+        {% if reply.comment_id == comment.id%}
+        <div class="media media-author ml-5 mb-4">
+          <div class="media-body">
+            <div class="media-heading">
+              <h4>{{reply.name}}</h4>
+              <span class="time">{{ reply.created_on }}</span>
+            </div>
+            <p>{{ reply.body | linebreaks }}</p>
+            <!-- <a href="#" class="reply">Submit</a> -->
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
         {% endfor %}
 
-        {% endfor %}
-
+    <div class="col-md-4">
+      {% block sidebar %}
+          {% include 'blogviews/sidebar.html' with categories=categories %}
+      {% endblock sidebar%}
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /SECTION -->
 
 {% endblock main %}
