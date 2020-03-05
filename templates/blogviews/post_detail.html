@@ -44,16 +44,47 @@
         {% if user.is_authenticated%}
         <!-- Logged in user liked this post -->
           {% if likes %}
-            <button class="reply" disabled style="color: #555">Like</button>
-            <button class="reply"><a href="{% url 'increment_dislikes' post.slug %}">Dislike</a></button>
+            <button class="reply"  id="like" disabled style="color: #555">Like</button>
+            <button class="reply" id="dislike">Dislike</button>
           {% elif dislikes %}
-            <button class="reply"><a href="{% url 'increment_likes' post.slug %}">Like</a></button>
-            <button class="reply" disabled style="color: #555">Dislike</button>
+            <button class="reply" id="like">Like</button>
+            <button class="reply " id="dislike" disabled style="color: #555">Dislike</button>
           {% else %}
-            <button class="reply"><a href="{% url 'increment_likes' post.slug %}">Like</a></button>
-            <button class="reply"><a href="{% url 'increment_dislikes' post.slug %}">Dislike</a></button>
+            <button class="reply" id="like">Like</button>
+            <button class="reply" id="dislike">Dislike</button>
           {% endif %}
         {% endif %}
+        {%block javascript%}
+       
+       <script>
+  //this script to handel ajax in like and dislike
+         $("#like").click(function(e){
+          e.preventDefault();
+          $.ajax({
+            url:"{% url 'increment_likes' post.slug %}",
+            success:function(){
+              console.log("like");
+              // window.location="";
+              location.reload(false);
+            },
+            error:function(){}
+          })
+         })
+         $("#dislike").click(function(e){
+          e.preventDefault();
+          $.ajax({
+            url:"{% url 'increment_dislikes' post.slug %}",
+            success:function(){
+              console.log("dislike");
+              // window.location="";
+              location.reload(false);
+            },
+            error:function(){}
+          })
+
+         })
+       </script>
+         {%endblock%}
         <!-- </div> -->
         <!-- /post content -->
 

@@ -30,6 +30,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('loginRegister/', include('loginRegister.urls')),
     path('summernote/', include('django_summernote.urls')),#summernote
+     path('jsonblog/', include('jsonblog.urls')),
 ]
 
 

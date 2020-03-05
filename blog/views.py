@@ -8,7 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
-from django.contrib.admin.views.decorators import staff_member_required
+# from django.contrib.admin.views.decorators import staff_member_required
 # from Bloger.settings import MEDIA_ROOT
 n = 5
 # Create your views here.

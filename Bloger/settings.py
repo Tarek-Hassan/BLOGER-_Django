@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'blog',
     'loginRegister',
     'Admin',
+    'jsonblog',
 ]
 
 MIDDLEWARE = [
